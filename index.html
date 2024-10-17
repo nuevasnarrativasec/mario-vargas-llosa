@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiral</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'Founders Grotesk X-Condensed';
+            src: url('./fonts/FoundersGroteskXCond-Bold.woff2') format('woff2'),
+                 url('./fonts/FoundersGroteskXCond-Bold.woff') format('woff');
+            font-weight: bold;            
+        }
+
+        body, html {
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-style: normal;
+            font-display: swap;
+        }
+        .main-intro{    
+            transition: opacity 1s ease-out;
+        }
+            .box-pantalla-inicio{
+                background: #000;
+                background-size: cover;
+                height: 100vh;       
+                position: relative;              
+                width: 100%;  
+            }
+                .box-pantalla-inicio h1{
+                    color: #fff;
+                    font: 90px / 1.2 'Founders Grotesk X-Condensed';
+                    left: 50%;
+                    text-align: center;
+                    text-transform: uppercase;
+                    transform: translate(-50%, -50%);                
+                    position: absolute;
+                    top: 50%;
+                }
+                    .box-pantalla-inicio h1 span{
+                        display: block;
+                        font-family: "Cormorant Garamond", serif;
+                        font-size: 35px;
+                        font-style: italic;
+                        font-weight: 500;
+                        text-transform: none;
+                    }
+                .box-pantalla-inicio img{
+                    bottom: 30px;
+                    cursor: pointer;
+                    left: 50%;
+                    margin-left: -50px;
+                    max-width: 70px;
+                    position: absolute;
+                }
+            .box-texto-intro{
+                padding-top: 100px;
+            }
+                .box-texto-intro p{
+                    color: #fff;
+                    font: 24px/1.5 "Cormorant Garamond", serif;
+                    font-weight: 400;
+                    font-style: italic;
+                    margin: 0 auto 40px;
+                    max-width: 460px;
+                }
+                    .box-texto-intro p.capitular::first-letter{
+                        font-size: 125px;
+                        float: left;
+                        line-height: 105px;          
+                        margin-right: 0.1em;                                     
+                    }
+                .box-texto-intro a{
+                    background-color: #fff;
+                    border: 1px solid #fff;
+                    border-radius: 5px;
+                    box-sizing: border-box;
+                    color: #000;
+                    display: block;
+                    font: 24px/1.4 'Founders Grotesk X-Condensed';
+                    letter-spacing: 0.5px;
+                    margin: 60px auto 40px;
+                    max-width: 250px;
+                    padding: 10px 20px 0 20px;
+                    text-align: center;
+                    text-decoration: none;
+                    text-transform: uppercase;
+                }
+                    .box-texto-intro a:hover{
+                        background-color: #000;
+                        color: #fff;
+                    }
+        .main{
+            display: none;
+        }
+        .hidden {
+            display: none;
+        }
+        #spiral-container {
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        .image-title {
+            position: fixed;
+            top: 80%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .fixed-image {
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background-image: url('./img/bg-centro.png'); 
+            background-size: cover;
+            z-index: 1;
+        }
+
+        @media only screen and (max-width: 640px) {
+
+            .box-pantalla-inicio h1{
+                font-size: 4.5rem;
+                line-height: 0.9;
+                width: 95%;
+            }
+            .box-pantalla-inicio h1 span{
+                font-size: 30px;
+                line-height: 2;
+            }
+            .box-texto-intro p{
+                padding: 0 20px;
+            }
+
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main-intro">
+        <div class="box-pantalla-inicio">
+            <h1>
+                <span>Mario Vargas Llosa</span>
+               El escritor universal
+            </h1>
+            <img class="flecha" src="./img/flecha-bajar.png" alt="" width="100%">
+        </div>
+        <div class="box-texto-intro">
+            <p class="capitular">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat exercitation ullamco.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat exercitation ullamco.
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat exercitation ullamco.
+            </p>
+            <a href="./index-contenido.html">nuestro homenaje</a>
+        </div>
+    </div>
+    
+    <script>
+        document.querySelector(".flecha").addEventListener("click", function() {
+            const target = document.querySelector(".box-texto-intro");
+            window.scrollTo({
+                top: target.offsetTop,
+                behavior: "smooth"
+            });
+        });
+
+    </script>
+
+
+</body>
+</html>
