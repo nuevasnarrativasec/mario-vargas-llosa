@@ -138,8 +138,30 @@
                 opacity: 0;
                 pointer-events: none; 
             }
+        #indicacion-desktop{
+            display: block;
+        }
+        #indicacion-movil{
+            display: none;
+        }
+            #indicacion-movil img{
+                max-width: 30px;
+            }
 
         @media only screen and (max-width: 640px) {
+
+            body,
+            html{
+                height: 100vh;
+            }
+
+            #indicacion-desktop{
+                display: none;
+            }
+            #indicacion-movil{
+                display: block;
+            }
+
 
             .box-pantalla-inicio h1{
                 font-size: 4.5rem;
@@ -149,7 +171,7 @@
             .box-pantalla-inicio h1 span{
                 font-size: 30px;
                 line-height: 2;
-            }
+            }            
 
         }
 
@@ -159,13 +181,22 @@
 <body>
     
     <div class="main-indicacion">
-        <div class="box-ctn-indicacion">
+        <div class="box-ctn-indicacion" id="indicacion-desktop">
             <img src="./img/scroll-icon.png" alt="" width="100%">
             <p>
                 Haz scroll hacia abajo para cambiar de imagen
             </p>
         </div>
+
+        <div class="box-ctn-indicacion" id="indicacion-movil">
+            <img src="./img/scroll-icon-movil.png" alt="" width="100%">
+            <p>
+                Haz scroll hacia los lados para cambiar de imagen
+            </p>
+        </div>
     </div>
+
+
     <div class="main">
         <div id="spiral-container"></div>
         <div class="image-title" id="image-title"></div> 
