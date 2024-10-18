@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spiral</title>
+    <title>MVLL</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -242,21 +242,28 @@
             const group = new THREE.Group()
             scene.add(group)
 
-            camera.position.set(0, 1, 8)
+            camera.position.set(0, 0, 8)
             camera.lookAt(0, 0, 0)
 
             // Cargar imágenes en espiral con enlaces correspondientes y títulos
             const images = [
-                { url: './img/bg-centro-2.png', link: 'https://www.example.com/page1', title: '' },
-                { url: './img/bg-2.jpg', link: 'https://www.example.com/page2', title: '' },
-                { url: './img/bg-3.jpg', link: 'https://www.example.com/page3', title: '' },
-                { url: './img/bg-4.jpg', link: 'https://www.example.com/page4', title: '' },
-                { url: './img/bg-5.jpg', link: 'https://www.example.com/page5', title: '' },
-                { url: './img/bg-5.jpg', link: 'https://www.example.com/page5', title: '' }
+                { url: './img/bg-centro-2.png', link: '', title: '' },
+                { url: './img/bg-2.jpg', link: 'https://www.example.com/page1', title: '' },
+                { url: './img/bg-3.jpg', link: 'https://www.example.com/page2', title: '' },
+                { url: './img/bg-4.jpg', link: 'https://www.example.com/page3', title: ''  },
+                { url: './img/bg-5.jpg', link: 'https://www.example.com/page4', title: '' },
+                { url: './img/bg-5.jpg', link: 'https://www.example.com/page5', title: ''  },
+                { url: './img/bg-1.jpg', link: 'https://www.example.com/page6', title: ''  },
+                { url: './img/bg-2.jpg', link: 'https://www.example.com/page7', title: '' },
+                { url: './img/bg-3.jpg', link: 'https://www.example.com/page8', title: ''  },
+                { url: './img/bg-4.jpg', link: 'https://www.example.com/page9', title: '' },
+                { url: './img/bg-5.jpg', link: 'https://www.example.com/page10', title: '' },
+                { url: './img/bg-1.jpg', link: 'https://www.example.com/page11', title: ''  },
+                { url: './img/bg-2.jpg', link: 'https://www.example.com/page12', title: ''  }
             ]
 
             const loader = new THREE.TextureLoader()
-            const radius = 3
+            const radius = 3.3
             const verticalSpacing = 0.05
             const totalRotation = Math.PI * 2
             const startAngle = Math.PI / 2
@@ -327,103 +334,103 @@
             })
 
             // Manejo del scroll o swipe para controlar la rotación continua
-let rotationSpeed = 0; // Variable para manejar la velocidad de rotación
+                let rotationSpeed = 0; // Variable para manejar la velocidad de rotación
 
-window.addEventListener('wheel', (event) => {
-    const scrollAmount = event.deltaY * 0.0008; // Reducción del factor de scroll para rotación más lenta
-    rotationSpeed += scrollAmount; // Ajusta la rotación basada en el scroll
+                window.addEventListener('wheel', (event) => {
+                    const scrollAmount = event.deltaY * 0.0008; // Reducción del factor de scroll para rotación más lenta
+                    rotationSpeed += scrollAmount; // Ajusta la rotación basada en el scroll
 
-    // Rotación infinita: ajuste de la rotación sin límites
-    group.rotation.y += rotationSpeed; 
+                    // Rotación infinita: ajuste de la rotación sin límites
+                    group.rotation.y += rotationSpeed; 
 
-    // Mostrar el título solo cuando la imagen está centrada
-    let closestImageIndex = -1;
-    let minAngleDifference = Infinity;
+                    // Mostrar el título solo cuando la imagen está centrada
+                    let closestImageIndex = -1;
+                    let minAngleDifference = Infinity;
 
-    group.children.forEach((plane, index) => {
-        const planeAngle = (index / images.length) * Math.PI * 2;
-        const groupRotation = group.rotation.y % (Math.PI * 2); // Módulo para permitir rotación infinita
-        const angleDifference = Math.abs(groupRotation - planeAngle);
+                    group.children.forEach((plane, index) => {
+                        const planeAngle = (index / images.length) * Math.PI * 2;
+                        const groupRotation = group.rotation.y % (Math.PI * 2); // Módulo para permitir rotación infinita
+                        const angleDifference = Math.abs(groupRotation - planeAngle);
 
-        if (angleDifference < minAngleDifference) {
-            minAngleDifference = angleDifference;
-            closestImageIndex = index;
-        }
-    });
+                        if (angleDifference < minAngleDifference) {
+                            minAngleDifference = angleDifference;
+                            closestImageIndex = index;
+                        }
+                    });
 
-    // Si la imagen más cercana cambia, actualizamos el título
-    if (closestImageIndex !== currentImageIndex) {
-        currentImageIndex = closestImageIndex;
-        const currentImage = group.children[currentImageIndex].userData;
+                    // Si la imagen más cercana cambia, actualizamos el título
+                    if (closestImageIndex !== currentImageIndex) {
+                        currentImageIndex = closestImageIndex;
+                        const currentImage = group.children[currentImageIndex].userData;
 
-        // Mostrar el título en el HTML
-        titleElement.innerText = currentImage.title;
-        titleElement.style.opacity = 1;
-        console.log(`La imagen que está al frente es: ${currentImage.title}`);
-    }
-});
+                        // Mostrar el título en el HTML
+                        titleElement.innerText = currentImage.title;
+                        titleElement.style.opacity = 1;
+                        console.log(`La imagen que está al frente es: ${currentImage.title}`);
+                    }
+                });
 
-// Funcionalidad de "swipe" y arrastre para escritorio
-let isDragging = false;
-let previousMousePosition = { x: 0, y: 0 };
+                // Funcionalidad de "swipe" y arrastre para escritorio
+                let isDragging = false;
+                let previousMousePosition = { x: 0, y: 0 };
 
-window.addEventListener('mousedown', (event) => {
-    isDragging = true;
-    previousMousePosition.x = event.clientX;
-});
+                window.addEventListener('mousedown', (event) => {
+                    isDragging = true;
+                    previousMousePosition.x = event.clientX;
+                });
 
-window.addEventListener('mousemove', (event) => {
-    if (isDragging) {
-        const deltaX = event.clientX - previousMousePosition.x;
-        rotationSpeed = deltaX * 0.002; // Reducción del factor de arrastre para rotación más lenta
-        group.rotation.y += rotationSpeed; // Rotar el grupo en función del arrastre
-        previousMousePosition.x = event.clientX;
-    }
-});
+                window.addEventListener('mousemove', (event) => {
+                    if (isDragging) {
+                        const deltaX = event.clientX - previousMousePosition.x;
+                        rotationSpeed = deltaX * 0.002; // Reducción del factor de arrastre para rotación más lenta
+                        group.rotation.y += rotationSpeed; // Rotar el grupo en función del arrastre
+                        previousMousePosition.x = event.clientX;
+                    }
+                });
 
-window.addEventListener('mouseup', () => {
-    isDragging = false;
-});
+                window.addEventListener('mouseup', () => {
+                    isDragging = false;
+                });
 
-// Funcionalidad de "swipe" y arrastre para dispositivos móviles (touch)
-let isTouching = false;
-let previousTouchPosition = { x: 0, y: 0 };
+                // Funcionalidad de "swipe" y arrastre para dispositivos móviles (touch)
+                let isTouching = false;
+                let previousTouchPosition = { x: 0, y: 0 };
 
-window.addEventListener('touchstart', (event) => {
-    isTouching = true;
-    previousTouchPosition.x = event.touches[0].clientX; // Capturamos la posición inicial del toque
-});
+                window.addEventListener('touchstart', (event) => {
+                    isTouching = true;
+                    previousTouchPosition.x = event.touches[0].clientX; // Capturamos la posición inicial del toque
+                });
 
-window.addEventListener('touchmove', (event) => {
-    if (isTouching) {
-        const deltaX = event.touches[0].clientX - previousTouchPosition.x;
-        rotationSpeed = deltaX * 0.002; // Reducción del factor para la rotación lenta en móviles
-        group.rotation.y += rotationSpeed; // Rotación basada en el desplazamiento táctil
-        previousTouchPosition.x = event.touches[0].clientX;
-    }
-});
+                window.addEventListener('touchmove', (event) => {
+                    if (isTouching) {
+                        const deltaX = event.touches[0].clientX - previousTouchPosition.x;
+                        rotationSpeed = deltaX * 0.002; // Reducción del factor para la rotación lenta en móviles
+                        group.rotation.y += rotationSpeed; // Rotación basada en el desplazamiento táctil
+                        previousTouchPosition.x = event.touches[0].clientX;
+                    }
+                });
 
-window.addEventListener('touchend', () => {
-    isTouching = false;
-});
+                window.addEventListener('touchend', () => {
+                    isTouching = false;
+                });
 
-// Animación de la escena
-const animate = () => {
-    rotationSpeed *= 0.95; // Reducir gradualmente la velocidad de rotación
-    group.rotation.y += rotationSpeed; // Rotación continua
+                // Animación de la escena
+                const animate = () => {
+                    rotationSpeed *= 0.95; // Reducir gradualmente la velocidad de rotación
+                    group.rotation.y += rotationSpeed; // Rotación continua
 
-    requestAnimationFrame(animate);
-    composer.render();
-};
-animate();
+                    requestAnimationFrame(animate);
+                    composer.render();
+                };
+                animate();
 
-// Manejo de redimensionamiento
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    composer.setSize(window.innerWidth, window.innerHeight);
-});
+                // Manejo de redimensionamiento
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                    composer.setSize(window.innerWidth, window.innerHeight);
+                });
 
 
     </script>
