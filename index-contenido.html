@@ -250,8 +250,8 @@
             // Cargar imágenes en espiral con enlaces correspondientes y títulos
             const images = [
                 { url: './img/bg-centro-2.png', link: '', title: '' },
-                { url: './img/bg-2.jpg', link: 'https://www.example.com/page1', title: '' },
-                { url: './img/bg-3.jpg', link: 'https://www.example.com/page2', title: '' },
+                { url: './img/maquina.png', link: 'https://www.example.com/page1', title: '' },
+                { url: './img/libro.png', link: 'https://www.example.com/page2', title: '' },
                 { url: './img/bg-4.jpg', link: 'https://www.example.com/page3', title: ''  },
                 { url: './img/bg-5.jpg', link: 'https://www.example.com/page4', title: '' },
                 { url: './img/bg-5.jpg', link: 'https://www.example.com/page5', title: ''  },
@@ -287,7 +287,26 @@
                     transparent: true,  // Habilitar la transparencia para PNG
                     side: THREE.DoubleSide,
                 })
-            } else {
+            } 
+            else if (index === 1) {
+                // Segunda imagen: PNG con transparencia y geometría personalizada
+                geometry = new THREE.PlaneGeometry(1.0, 1.0, 1.0, 2.0) // Cambia las dimensiones si es necesario
+                material = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    transparent: true,  // Habilitar la transparencia para PNG
+                    side: THREE.DoubleSide,
+                })
+            }   
+            else if (index === 2) {
+                // Segunda imagen: PNG con transparencia y geometría personalizada
+                geometry = new THREE.PlaneGeometry(1.0, 1.0, 1.0, 2.0) // Cambia las dimensiones si es necesario
+                material = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    transparent: true,  // Habilitar la transparencia para PNG
+                    side: THREE.DoubleSide,
+                })
+            }  
+            else {
                 // Otras imágenes con proporción 16:9
                 geometry = new THREE.PlaneGeometry(1.6, 0.9, 1, 1) // Relación 16:9
                 material = new THREE.MeshBasicMaterial({
