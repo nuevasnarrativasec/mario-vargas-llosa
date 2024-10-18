@@ -242,8 +242,10 @@
             const group = new THREE.Group()
             scene.add(group)
 
-            camera.position.set(0, 0, 8)
+            camera.position.set(0, -0.5, 8)
             camera.lookAt(0, 0, 0)
+
+            group.position.y += 0.2; // Mueve el grupo hacia arriba
 
             // Cargar imágenes en espiral con enlaces correspondientes y títulos
             const images = [
@@ -264,8 +266,8 @@
 
             const loader = new THREE.TextureLoader()
             const radius = 3.3
-            const verticalSpacing = 0.05
-            const totalRotation = Math.PI * 2
+            const verticalSpacing = 0.11
+            const totalRotation = Math.PI * 2.3
             const startAngle = Math.PI / 2
             let currentImageIndex = -1
             const titleElement = document.getElementById('image-title')
@@ -279,7 +281,7 @@
 
             if (index === 0) {
                 // Primera imagen: PNG con transparencia y geometría personalizada
-                geometry = new THREE.PlaneGeometry(2.4, 2.4, 2.4, 2.4) // Cambia las dimensiones si es necesario
+                geometry = new THREE.PlaneGeometry(2.0, 2.0, 2.0, 2.0) // Cambia las dimensiones si es necesario
                 material = new THREE.MeshBasicMaterial({
                     map: texture,
                     transparent: true,  // Habilitar la transparencia para PNG
@@ -337,7 +339,7 @@
                 let rotationSpeed = 0; // Variable para manejar la velocidad de rotación
 
                 window.addEventListener('wheel', (event) => {
-                    const scrollAmount = event.deltaY * 0.0008; // Reducción del factor de scroll para rotación más lenta
+                    const scrollAmount = event.deltaY * 0.0001; // Reducción del factor de scroll para rotación más lenta
                     rotationSpeed += scrollAmount; // Ajusta la rotación basada en el scroll
 
                     // Rotación infinita: ajuste de la rotación sin límites
@@ -382,7 +384,7 @@
                 window.addEventListener('mousemove', (event) => {
                     if (isDragging) {
                         const deltaX = event.clientX - previousMousePosition.x;
-                        rotationSpeed = deltaX * 0.002; // Reducción del factor de arrastre para rotación más lenta
+                        rotationSpeed = deltaX * 0.001; // Reducción del factor de arrastre para rotación más lenta
                         group.rotation.y += rotationSpeed; // Rotar el grupo en función del arrastre
                         previousMousePosition.x = event.clientX;
                     }
