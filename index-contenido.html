@@ -323,7 +323,13 @@
             const z = Math.sin(angle) * radius
             const height = -index * verticalSpacing
 
-            plane.position.set(x, height, z)
+            // Posicionar la primera imagen PNG más arriba en el eje Y
+            if (index === 0) {
+                plane.position.set(x, height + 0.2, z); // Ajusta +0.5 o más para subir
+            } else {
+                plane.position.set(x, height, z);
+            }
+
             plane.lookAt(0, plane.position.y, 0)
 
             const normalizedAngle = (angle + Math.PI) / (Math.PI * 2)
