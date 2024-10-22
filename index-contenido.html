@@ -227,7 +227,7 @@
         // Configuración de la escena
             const container = document.getElementById('spiral-container')
             const scene = new THREE.Scene()
-            const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1000)
+            const camera = new THREE.PerspectiveCamera(37, window.innerWidth / window.innerHeight, 0.1, 1000)
             const renderer = new THREE.WebGLRenderer({ antialias: true })
 
             renderer.setClearColor(0x000000, 1);  // Fondo negro
@@ -523,8 +523,6 @@
                         titleElement.style.opacity = 1;
                         console.log(`La imagen que está al frente es: ${currentImage.title}`);
                     }
-
-
                 });
 
                 window.addEventListener('touchend', () => {
