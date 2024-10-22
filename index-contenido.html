@@ -147,6 +147,11 @@
             #indicacion-movil img{
                 max-width: 30px;
             }
+        #image-title {
+            opacity: 0; 
+            transition: opacity 0.5s ease;             
+        }
+
 
         @media only screen and (max-width: 640px) {
 
@@ -253,20 +258,20 @@
                 { url: './img/maquina.png', link: 'https://www.example.com/page1', title: '' },
                 { url: './img/libro.png', link: 'https://www.example.com/page2', title: '' },
                 { url: './img/bg-4.png', link: 'https://www.example.com/page3', title: ''  },
-                { url: './img/bg-5.jpg', link: 'https://www.example.com/page4', title: 'test 4' },
-                { url: './img/bg-5.jpg', link: 'https://www.example.com/page5', title: ''  },
-                { url: './img/bg-1.jpg', link: 'https://www.example.com/page6', title: ''  },
-                { url: './img/bg-2.jpg', link: 'https://www.example.com/page7', title: '' },
-                { url: './img/bg-3.jpg', link: 'https://www.example.com/page8', title: ''  },
-                { url: './img/bg-4.jpg', link: 'https://www.example.com/page9', title: '' },
-                { url: './img/bg-5.jpg', link: 'https://www.example.com/page10', title: '' },
-                { url: './img/bg-1.jpg', link: 'https://www.example.com/page11', title: ''  },
-                { url: './img/bg-2.jpg', link: 'https://www.example.com/page12', title: ''  }
+                { url: './img/bg-5.jpg', link: 'https://www.example.com/page4', title: 'título 4' },
+                { url: './img/bg-5.jpg', link: 'https://www.example.com/page5', title: 'título 5'  },
+                { url: './img/bg-1.jpg', link: 'https://www.example.com/page6', title: 'título 6'  },
+                { url: './img/bg-2.jpg', link: 'https://www.example.com/page7', title: 'título 7' },
+                { url: './img/bg-3.jpg', link: 'https://www.example.com/page8', title: 'título 8'  },
+                { url: './img/bg-4.jpg', link: 'https://www.example.com/page9', title: 'título 9' },
+                { url: './img/bg-5.jpg', link: 'https://www.example.com/page10', title: 'título 10' },
+                { url: './img/bg-1.jpg', link: 'https://www.example.com/page11', title: 'título 11'  },
+                { url: './img/bg-2.jpg', link: 'https://www.example.com/page12', title: 'título 12'  }
             ]
 
             // Cargar imagen de fondo
             const loader = new THREE.TextureLoader();
-            const backgroundTexture = loader.load('./img/bg-test-2.jpg'); // Cambia la ruta por tu imagen de fondo
+            const backgroundTexture = loader.load('./img/bg-test-2.jpg'); 
             const radius = 3.3
             const verticalSpacing = 0.125
             const totalRotation = Math.PI * 2.3
@@ -420,11 +425,13 @@
                     });
 
                     if (closestImageIndex !== currentImageIndex) {
-                        currentImageIndex = closestImageIndex;
-                        const currentImage = group.children[currentImageIndex].userData;
-                        titleElement.innerText = currentImage.title;
-                        titleElement.style.opacity = 1;
-                        console.log(`La imagen que está al frente es: ${currentImage.title}`);
+                        titleElement.style.opacity = 0; // Oculta con transición suave
+                        setTimeout(() => {
+                            currentImageIndex = closestImageIndex;
+                            const currentImage = group.children[closestImageIndex].userData;
+                            titleElement.innerText = currentImage.title;
+                            titleElement.style.opacity = 1; 
+                        }, 500); 
                     }
                 });                                
 
