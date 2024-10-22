@@ -230,15 +230,15 @@
             const camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1000)
             const renderer = new THREE.WebGLRenderer({ antialias: true })
 
-            renderer.setClearColor(0x000000, 1);  // Color blanco con opacidad completa (1)
+            renderer.setClearColor(0x000000, 1);  // Fondo negro
             renderer.setSize(window.innerWidth, window.innerHeight)
-            container.appendChild(renderer.domElement)
+            container.appendChild(renderer.domElement)  
 
             // Crear EffectComposer y RenderPass
             const composer = new THREE.EffectComposer(renderer)
             const renderPass = new THREE.RenderPass(scene, camera)
             composer.addPass(renderPass)
-
+            
             const group = new THREE.Group()
             scene.add(group)
 
@@ -252,7 +252,7 @@
                 { url: './img/bg-centro-2.png', link: '', title: '' },
                 { url: './img/maquina.png', link: 'https://www.example.com/page1', title: '' },
                 { url: './img/libro.png', link: 'https://www.example.com/page2', title: '' },
-                { url: './img/bg-4.jpg', link: 'https://www.example.com/page3', title: ''  },
+                { url: './img/bg-4.png', link: 'https://www.example.com/page3', title: ''  },
                 { url: './img/bg-5.jpg', link: 'https://www.example.com/page4', title: '' },
                 { url: './img/bg-5.jpg', link: 'https://www.example.com/page5', title: ''  },
                 { url: './img/bg-1.jpg', link: 'https://www.example.com/page6', title: ''  },
@@ -264,81 +264,112 @@
                 { url: './img/bg-2.jpg', link: 'https://www.example.com/page12', title: ''  }
             ]
 
-            const loader = new THREE.TextureLoader()
+            // Cargar imagen de fondo
+            const loader = new THREE.TextureLoader();
+            const backgroundTexture = loader.load('./img/bg-test.jpg'); // Cambia la ruta por tu imagen de fondo
             const radius = 3.3
             const verticalSpacing = 0.125
             const totalRotation = Math.PI * 2.3
             const startAngle = Math.PI / 2
             let currentImageIndex = -1
+            let currentImageIndex2 = -1
+            let currentImageIndex3 = -1
             const titleElement = document.getElementById('image-title')
 
+            // Crear plano de fondo
+            let backgroundMesh;
+            const createBackground = () => {
+                const aspect = window.innerWidth / window.innerHeight;
+                const geometry = new THREE.PlaneGeometry(10 * aspect, 10); // Ajusta el tamaño del plano según la ventana
+                const material = new THREE.MeshBasicMaterial({ map: backgroundTexture });
+                
+                if (backgroundMesh) {
+                    scene.remove(backgroundMesh); // Elimina el plano anterior si existe
+                }
+                
+                backgroundMesh = new THREE.Mesh(geometry, material);
+                backgroundMesh.position.z = -5;  // Aleja el fondo en el eje Z
+                scene.add(backgroundMesh);
+            };
+
+            createBackground();
+
             images.forEach((imageData, index) => {
-            const texture = loader.load(imageData.url)
-            
-            // Personalizar la geometría y el material de la primera imagen (PNG transparente)
-            let geometry;
-            let material;
+                const texture = loader.load(imageData.url)
+                
+                // Personalizar la geometría y el material de la primera imagen (PNG transparente)
+                let geometry;
+                let material;
 
-            if (index === 0) {
-                // Primera imagen: PNG con transparencia y geometría personalizada
-                geometry = new THREE.PlaneGeometry(2.0, 2.0, 2.0, 2.0) // Cambia las dimensiones si es necesario
-                material = new THREE.MeshBasicMaterial({
-                    map: texture,
-                    transparent: true,  // Habilitar la transparencia para PNG
-                    side: THREE.DoubleSide,
-                })
-            } 
-            else if (index === 1) {
-                // Segunda imagen: PNG con transparencia y geometría personalizada
-                geometry = new THREE.PlaneGeometry(1.0, 1.0, 1.0, 2.0) // Cambia las dimensiones si es necesario
-                material = new THREE.MeshBasicMaterial({
-                    map: texture,
-                    transparent: true,  // Habilitar la transparencia para PNG
-                    side: THREE.DoubleSide,
-                })
-            }   
-            else if (index === 2) {
-                // Tercera imagen: PNG con transparencia y geometría personalizada
-                geometry = new THREE.PlaneGeometry(1.0, 1.0, 1.0, 2.0) // Cambia las dimensiones si es necesario
-                material = new THREE.MeshBasicMaterial({
-                    map: texture,
-                    transparent: true,  // Habilitar la transparencia para PNG
-                    side: THREE.DoubleSide,
-                })
-            }  
-            else {
-                // Otras imágenes con proporción 16:9
-                geometry = new THREE.PlaneGeometry(1.6, 0.9, 1, 1) // Relación 16:9
-                material = new THREE.MeshBasicMaterial({
-                    map: texture,
-                    side: THREE.DoubleSide,
-                })
-            }
+                if (index === 0) {
+                    // Primera imagen: PNG con transparencia y geometría personalizada
+                    geometry = new THREE.PlaneGeometry(2.0, 2.0, 2.0, 2.0) // Cambia las dimensiones si es necesario
+                    material = new THREE.MeshBasicMaterial({
+                        map: texture,
+                        transparent: true,  // Habilitar la transparencia para PNG
+                        side: THREE.DoubleSide,
+                    })
+                } 
+                else if (index === 1) {
+                    // Segunda imagen: PNG con transparencia y geometría personalizada
+                    geometry = new THREE.PlaneGeometry(1.0, 1.0, 1.0, 2.0) // Cambia las dimensiones si es necesario
+                    material = new THREE.MeshBasicMaterial({
+                        map: texture,
+                        transparent: true,  // Habilitar la transparencia para PNG
+                        side: THREE.DoubleSide,
+                    })
+                }   
+                else if (index === 2) {
+                    // Tercera imagen: PNG con transparencia y geometría personalizada
+                    geometry = new THREE.PlaneGeometry(1.0, 1.0, 1.0, 2.0) // Cambia las dimensiones si es necesario
+                    material = new THREE.MeshBasicMaterial({
+                        map: texture,
+                        transparent: true,  // Habilitar la transparencia para PNG
+                        side: THREE.DoubleSide,
+                    })
+                }  
+                else if (index === 3) {
+                    // Cuarta imagen: PNG con transparencia y geometría personalizada
+                    geometry = new THREE.PlaneGeometry(1.2, 0.9, 1, 1) // Cambia las dimensiones si es necesario
+                    material = new THREE.MeshBasicMaterial({
+                        map: texture,
+                        transparent: true,  // Habilitar la transparencia para PNG
+                        side: THREE.DoubleSide,
+                    })
+                }  
+                else {
+                    // Otras imágenes con proporción 16:9
+                    geometry = new THREE.PlaneGeometry(1.6, 0.9, 1, 1) // Relación 16:9
+                    material = new THREE.MeshBasicMaterial({
+                        map: texture,
+                        side: THREE.DoubleSide,
+                    })
+                }
 
-            const plane = new THREE.Mesh(geometry, material)
+                const plane = new THREE.Mesh(geometry, material)
 
-            // Cálculo de posiciones en espiral
-            const angle = startAngle + (index / images.length) * totalRotation
-            const x = Math.cos(angle) * radius
-            const z = Math.sin(angle) * radius
-            const height = -index * verticalSpacing
+                // Cálculo de posiciones en espiral
+                const angle = startAngle + (index / images.length) * totalRotation
+                const x = Math.cos(angle) * radius
+                const z = Math.sin(angle) * radius
+                const height = -index * verticalSpacing
 
-            // Posicionar la primera imagen PNG más arriba en el eje Y
-            if (index === 0) {
-                plane.position.set(x, height + 0.2, z); // Ajusta +0.5 o más para subir
-            } else {
-                plane.position.set(x, height, z);
-            }
+                // Posicionar la primera imagen PNG más arriba en el eje Y
+                if (index === 0) {
+                    plane.position.set(x, height + 0.2, z); // Ajusta +0.5 o más para subir
+                } else {
+                    plane.position.set(x, height, z);
+                }
 
-            plane.lookAt(0, plane.position.y, 0)
+                plane.lookAt(0, plane.position.y, 0)
 
-            const normalizedAngle = (angle + Math.PI) / (Math.PI * 2)
-            const scale = 0.8 + 0.2 * (1 - Math.abs(Math.sin(normalizedAngle * Math.PI)))
-            plane.scale.set(scale, scale, 1)
+                const normalizedAngle = (angle + Math.PI) / (Math.PI * 2)
+                const scale = 0.8 + 0.2 * (1 - Math.abs(Math.sin(normalizedAngle * Math.PI)))
+                plane.scale.set(scale, scale, 1)
 
-            plane.userData = { link: imageData.link, title: imageData.title }
+                plane.userData = { link: imageData.link, title: imageData.title }
 
-            group.add(plane)
+                group.add(plane)
             })
 
             // Detectar clics en las imágenes
@@ -346,56 +377,56 @@
             const mouse = new THREE.Vector2()
 
             window.addEventListener('click', (event) => {
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
 
-            raycaster.setFromCamera(mouse, camera)
-            const intersects = raycaster.intersectObjects(group.children)
+                raycaster.setFromCamera(mouse, camera)
+                const intersects = raycaster.intersectObjects(group.children)
 
-            if (intersects.length > 0) {
-                const intersectedObject = intersects[0].object
-                if (intersectedObject.userData.link) {
-                window.location.href = intersectedObject.userData.link
+                if (intersects.length > 0) {
+                    const intersectedObject = intersects[0].object
+                    if (intersectedObject.userData.link) {
+                    window.location.href = intersectedObject.userData.link
+                    }
                 }
-            }
             })
 
             // Manejo del scroll o swipe para controlar la rotación continua
                 let rotationSpeed = 0; // Variable para manejar la velocidad de rotación
 
                 window.addEventListener('wheel', (event) => {
-                    const scrollAmount = event.deltaY * 0.0001; // Reducción del factor de scroll para rotación más lenta
-                    rotationSpeed += scrollAmount; // Ajusta la rotación basada en el scroll
+                    const scrollAmount = event.deltaY * 0.0001;
+                    rotationSpeed += scrollAmount;
+                    group.rotation.y += rotationSpeed;
 
-                    // Rotación infinita: ajuste de la rotación sin límites
-                    group.rotation.y += rotationSpeed; 
-
-                    // Mostrar el título solo cuando la imagen está centrada
                     let closestImageIndex = -1;
                     let minAngleDifference = Infinity;
 
                     group.children.forEach((plane, index) => {
                         const planeAngle = (index / images.length) * Math.PI * 2;
-                        const groupRotation = group.rotation.y % (Math.PI * 2); // Módulo para permitir rotación infinita
+                        const groupRotation = group.rotation.y % (Math.PI * 2);
                         const angleDifference = Math.abs(groupRotation - planeAngle);
 
                         if (angleDifference < minAngleDifference) {
                             minAngleDifference = angleDifference;
                             closestImageIndex = index;
                         }
+
+                        // Ajustar la opacidad en función de la distancia angular al frente
+                        const normalizedDifference = Math.abs(groupRotation - planeAngle) / Math.PI;
+                        const opacity = Math.max(0.2, 1 - normalizedDifference); // Opacidad mínima de 0.2
+                        plane.material.opacity = opacity;
+                        plane.material.transparent = true; // Asegurarse de que la transparencia esté activada
                     });
 
-                    // Si la imagen más cercana cambia, actualizamos el título
                     if (closestImageIndex !== currentImageIndex) {
                         currentImageIndex = closestImageIndex;
                         const currentImage = group.children[currentImageIndex].userData;
-
-                        // Mostrar el título en el HTML
                         titleElement.innerText = currentImage.title;
                         titleElement.style.opacity = 1;
                         console.log(`La imagen que está al frente es: ${currentImage.title}`);
                     }
-                });
+                });                                
 
                 // Funcionalidad de "swipe" y arrastre para escritorio
                 let isDragging = false;
@@ -413,6 +444,35 @@
                         group.rotation.y += rotationSpeed; // Rotar el grupo en función del arrastre
                         previousMousePosition.x = event.clientX;
                     }
+
+                    let closestImageIndex2 = -1;
+                    let minAngleDifference2 = Infinity;
+
+                    group.children.forEach((plane, index) => {
+                        const planeAngle = (index / images.length) * Math.PI * 2;
+                        const groupRotation = group.rotation.y % (Math.PI * 2);
+                        const angleDifference = Math.abs(groupRotation - planeAngle);
+
+                        if (angleDifference < minAngleDifference2) {
+                            minAngleDifference2 = angleDifference;
+                            closestImageIndex2 = index;
+                        }
+
+                        // Ajustar la opacidad en función de la distancia angular al frente
+                        const normalizedDifference = Math.abs(groupRotation - planeAngle) / Math.PI;
+                        const opacity = Math.max(0.2, 1 - normalizedDifference); // Opacidad mínima de 0.2
+                        plane.material.opacity = opacity;
+                        plane.material.transparent = true; // Asegurarse de que la transparencia esté activada
+                    });
+
+                    if (closestImageIndex2 !== currentImageIndex2) {
+                        currentImageIndex2 = closestImageIndex2;
+                        const currentImage = group.children[currentImageIndex2].userData;
+                        titleElement.innerText = currentImage.title;
+                        titleElement.style.opacity = 1;
+                        console.log(`La imagen que está al frente es: ${currentImage.title}`);
+                    }
+                    
                 });
 
                 window.addEventListener('mouseup', () => {
@@ -435,6 +495,36 @@
                         group.rotation.y += rotationSpeed; // Rotación basada en el desplazamiento táctil
                         previousTouchPosition.x = event.touches[0].clientX;
                     }
+
+                    let closestImageIndex3 = -1;
+                    let minAngleDifference3 = Infinity;
+
+                    group.children.forEach((plane, index) => {
+                        const planeAngle = (index / images.length) * Math.PI * 2;
+                        const groupRotation = group.rotation.y % (Math.PI * 2);
+                        const angleDifference = Math.abs(groupRotation - planeAngle);
+
+                        if (angleDifference < minAngleDifference3) {
+                            minAngleDifference3 = angleDifference;
+                            closestImageIndex3 = index;
+                        }
+
+                        // Ajustar la opacidad en función de la distancia angular al frente
+                        const normalizedDifference = Math.abs(groupRotation - planeAngle) / Math.PI;
+                        const opacity = Math.max(0.2, 1 - normalizedDifference); // Opacidad mínima de 0.2
+                        plane.material.opacity = opacity;
+                        plane.material.transparent = true; // Asegurarse de que la transparencia esté activada
+                    });
+
+                    if (closestImageIndex3 !== currentImageIndex3) {
+                        currentImageIndex3 = closestImageIndex3;
+                        const currentImage = group.children[currentImageIndex3].userData;
+                        titleElement.innerText = currentImage.title;
+                        titleElement.style.opacity = 1;
+                        console.log(`La imagen que está al frente es: ${currentImage.title}`);
+                    }
+
+
                 });
 
                 window.addEventListener('touchend', () => {
