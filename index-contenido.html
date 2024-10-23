@@ -90,7 +90,7 @@
             transform: translateX(-50%);
             font-size: 24px;
             font-family: Arial, sans-serif;
-            color: #fff;
+            color: #000;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -247,7 +247,7 @@
             const group = new THREE.Group()
             scene.add(group)
 
-            camera.position.set(0, -0.5, 8)
+            camera.position.set(0, -0.5, 8.5)
             camera.lookAt(0, 0, 0)
 
             group.position.y += 0.2; // Mueve el grupo hacia arriba
@@ -257,7 +257,7 @@
                 { url: './img/bg-centro-2.png', link: '', title: '' },
                 { url: './img/maquina.png', link: 'https://www.example.com/page1', title: '' },
                 { url: './img/libro.png', link: 'https://www.example.com/page2', title: '' },
-                { url: './img/bg-4.png', link: 'https://www.example.com/page3', title: ''  },
+                { url: './img/bg-4-2.png', link: 'https://www.example.com/page3', title: ''  },
                 { url: './img/bg-5.jpg', link: 'https://www.example.com/page4', title: 'título 4' },
                 { url: './img/bg-5.jpg', link: 'https://www.example.com/page5', title: 'título 5'  },
                 { url: './img/bg-1.jpg', link: 'https://www.example.com/page6', title: 'título 6'  },
@@ -271,7 +271,7 @@
 
             // Cargar imagen de fondo
             const loader = new THREE.TextureLoader();
-            const backgroundTexture = loader.load('./img/bg-test-2.jpg'); 
+            const backgroundTexture = loader.load('./img/bg-test-3.jpg'); 
             const radius = 3.3
             const verticalSpacing = 0.125
             const totalRotation = Math.PI * 2.3
