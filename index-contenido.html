@@ -228,171 +228,168 @@
     <!-- carrusel -->
     <script>
         // Configuración de la escena
-            const container = document.getElementById('spiral-container')
-            const scene = new THREE.Scene()
-            const camera = new THREE.PerspectiveCamera(37, window.innerWidth / window.innerHeight, 0.1, 1000)
-            const renderer = new THREE.WebGLRenderer({ antialias: true })
+        const container = document.getElementById('spiral-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(37, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
 
-            renderer.setClearColor(0x000000, 1);  // Fondo negro
-            renderer.setSize(window.innerWidth, window.innerHeight)
-            container.appendChild(renderer.domElement)  
+        renderer.setClearColor(0x000000, 1); // Fondo negro
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
 
-            // Crear EffectComposer y RenderPass
-            const composer = new THREE.EffectComposer(renderer)
-            const renderPass = new THREE.RenderPass(scene, camera)
-            composer.addPass(renderPass)
+        // Crear EffectComposer y RenderPass
+        const composer = new THREE.EffectComposer(renderer);
+        const renderPass = new THREE.RenderPass(scene, camera);
+        composer.addPass(renderPass);
+
+        const group = new THREE.Group();
+        scene.add(group);
+
+        camera.position.set(0, -0.5, 8.5);
+        camera.lookAt(0, 0, 0);
+
+        group.position.y += 0.2; // Mueve el grupo hacia arriba
+
+        // Cargar imágenes en espiral con enlaces correspondientes y títulos
+        const mediaItems = [
+            { url: './img/bg-centro-2.png', link: '', title: '', type: 'image' },
+            { url: './videos/video-1.mp4', link: 'https://www.example.com/page1', title: '', type: 'video' },
+            { url: './img/bg-2.jpg', link: 'https://www.example.com/page2', title: '', type: 'image' },
+            { url: './img/bg-4-2.png', link: 'https://www.example.com/page3', title: '', type: 'image' },
+            { url: './img/bg-5.jpg', link: 'https://www.example.com/page4', title: '', type: 'image' },
+            { url: './img/bg-5.jpg', link: 'https://www.example.com/page5', title: '', type: 'image' },
+            { url: './img/bg-1.jpg', link: 'https://www.example.com/page6', title: '', type: 'image' },
+            { url: './img/bg-2.jpg', link: 'https://www.example.com/page7', title: '', type: 'image' },
+            { url: './img/bg-3.jpg', link: 'https://www.example.com/page8', title: '', type: 'image' },
+            { url: './img/bg-4.jpg', link: 'https://www.example.com/page9', title: '', type: 'image' },
+            { url: './img/bg-5.jpg', link: 'https://www.example.com/page10', title: '', type: 'image' },
+            { url: './img/bg-1.jpg', link: 'https://www.example.com/page11', title: '', type: 'image' },
+            { url: './img/bg-2.jpg', link: 'https://www.example.com/page12', title: '', type: 'image' }
+        ];        
+
+        // Cargar la textura de fondo
+        const loader = new THREE.TextureLoader();
+        const backgroundTexture = loader.load('./img/bg-test-4.jpg');
+
+        // Configuraciones para la espiral
+        const radius = 3.3;
+        const verticalSpacing = 0.125;
+        const totalRotation = Math.PI * 2.3;
+        const startAngle = Math.PI / 2;
+
+        // Función para crear un material de textura a partir de un archivo GIF
+        function createGifTexture(url) {
+            const video = document.createElement('video');
+            video.src = url;
+            video.loop = true; // Asegúrate de que el GIF se repita
+            video.muted = true; // Si no se quiere sonido, silenciar
+            video.play(); // Inicia la reproducción del video
+
+            const texture = new THREE.VideoTexture(video);
+            return texture;
+        }
+
+        // Renderizar mediaItems en lugar de images
+        mediaItems.forEach((mediaData, index) => {
+            let texture;
+
+            if (mediaData.type === 'video') {
+                texture = createGifTexture(mediaData.url); // Usar la función para GIFs
+            } else {
+                texture = loader.load(mediaData.url);
+            }
+
+            let geometry;
+            let material;
+
+            /*if (index === 0) {
+                geometry = new THREE.PlaneGeometry(2.0, 2.0, 2.0, 2.0);
+                material = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    transparent: true,
+                    side: THREE.DoubleSide,
+                });
+            } else {
+                geometry = new THREE.PlaneGeometry(1.3, 0.9, 1, 1);
+                material = new THREE.MeshBasicMaterial({
+                    map: texture,
+                    transparent: true,
+                    side: THREE.DoubleSide,
+                });
+            }*/
+
+
+    if (index === 0) {
+        geometry = new THREE.PlaneGeometry(2.0, 2.0, 2.0, 2.0);
+    } else {
+        geometry = new THREE.PlaneGeometry(1.3, 0.9, 1, 1);
+    }
+
+    material = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        side: THREE.DoubleSide,
+    });
+
+            const plane = new THREE.Mesh(geometry, material);
+
+            const angle = startAngle + (index / mediaItems.length) * totalRotation;
+            const x = Math.cos(angle) * radius;
+            const z = Math.sin(angle) * radius;
+            const height = -index * verticalSpacing;
+
+            plane.position.set(x, height, z);
+            plane.lookAt(0, plane.position.y, 0);
+
+            const normalizedAngle = (angle + Math.PI) / (Math.PI * 2);
+            const scale = 0.8 + 0.2 * (1 - Math.abs(Math.sin(normalizedAngle * Math.PI)));
+            plane.scale.set(scale, scale, 1);
+
+            plane.userData = { link: mediaData.link, title: mediaData.title };
+            group.add(plane);
+        });
+
+        // Crear plano de fondo
+        let backgroundMesh;
+        const createBackground = () => {
+            const aspect = window.innerWidth / window.innerHeight;
+            const geometry = new THREE.PlaneGeometry(10 * aspect, 10); // Ajusta el tamaño del plano según la ventana
+            const material = new THREE.MeshBasicMaterial({ map: backgroundTexture });
             
-            const group = new THREE.Group()
-            scene.add(group)
+            if (backgroundMesh) {
+                scene.remove(backgroundMesh); // Elimina el plano anterior si existe
+            }
+            
+            backgroundMesh = new THREE.Mesh(geometry, material);
+            backgroundMesh.position.z = -5;  // Aleja el fondo en el eje Z
+            scene.add(backgroundMesh);
+        };
 
-            camera.position.set(0, -0.5, 8.5)
-            camera.lookAt(0, 0, 0)
+        createBackground();
 
-            group.position.y += 0.2; // Mueve el grupo hacia arriba
+        // Detectar clics en las imágenes
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
 
-            // Cargar imágenes en espiral con enlaces correspondientes y títulos
-            const images = [
-                { url: './img/bg-centro-2.png', link: '', title: '' },
-                { url: './img/bg-1.jpg', link: 'https://www.example.com/page1', title: '' },
-                { url: './img/bg-2.jpg', link: 'https://www.example.com/page2', title: '' },
-                { url: './img/bg-4-2.png', link: 'https://www.example.com/page3', title: ''  },
-                { url: './img/bg-5.jpg', link: 'https://www.example.com/page4', title: '' },
-                { url: './img/bg-5.jpg', link: 'https://www.example.com/page5', title: ''  },
-                { url: './img/bg-1.jpg', link: 'https://www.example.com/page6', title: ''  },
-                { url: './img/bg-2.jpg', link: 'https://www.example.com/page7', title: '' },
-                { url: './img/bg-3.jpg', link: 'https://www.example.com/page8', title: ''  },
-                { url: './img/bg-4.jpg', link: 'https://www.example.com/page9', title: '' },
-                { url: './img/bg-5.jpg', link: 'https://www.example.com/page10', title: '' },
-                { url: './img/bg-1.jpg', link: 'https://www.example.com/page11', title: ''  },
-                { url: './img/bg-2.jpg', link: 'https://www.example.com/page12', title: ''  }
-            ]
+        window.addEventListener('click', (event) => {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-            // Cargar imagen de fondo
-            const loader = new THREE.TextureLoader();
-            const backgroundTexture = loader.load('./img/bg-test-4.jpg'); 
-            const radius = 3.3
-            const verticalSpacing = 0.125
-            const totalRotation = Math.PI * 2.3
-            const startAngle = Math.PI / 2
-            let currentImageIndex = -1
-            let currentImageIndex2 = -1
-            let currentImageIndex3 = -1
-            const titleElement = document.getElementById('image-title')
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(group.children);
 
-            // Crear plano de fondo
-            let backgroundMesh;
-            const createBackground = () => {
-                const aspect = window.innerWidth / window.innerHeight;
-                const geometry = new THREE.PlaneGeometry(10 * aspect, 10); // Ajusta el tamaño del plano según la ventana
-                const material = new THREE.MeshBasicMaterial({ map: backgroundTexture });
-                
-                if (backgroundMesh) {
-                    scene.remove(backgroundMesh); // Elimina el plano anterior si existe
+            if (intersects.length > 0) {
+                const intersectedObject = intersects[0].object;
+                if (intersectedObject.userData.link) {
+                    window.location.href = intersectedObject.userData.link;
                 }
-                
-                backgroundMesh = new THREE.Mesh(geometry, material);
-                backgroundMesh.position.z = -5;  // Aleja el fondo en el eje Z
-                scene.add(backgroundMesh);
-            };
+            }
+        });
 
-            createBackground();
+        let currentImageIndex = -1; // Para la rueda de desplazamiento (wheel)
+        let currentImageIndex2 = -1; // Para el arrastre con el mouse (mousedown, mousemove, mouseup)
+        let currentImageIndex3 = -1; // Para el toque en dispositivos móviles (touchstart, touchmove)
 
-            images.forEach((imageData, index) => {
-                const texture = loader.load(imageData.url)
-                
-                // Personalizar la geometría y el material de la primera imagen (PNG transparente)
-                let geometry;
-                let material;
-
-                if (index === 0) {
-                    // Primera imagen: PNG con transparencia y geometría personalizada
-                    geometry = new THREE.PlaneGeometry(2.0, 2.0, 2.0, 2.0) // Cambia las dimensiones si es necesario
-                    material = new THREE.MeshBasicMaterial({
-                        map: texture,
-                        transparent: true,  // Habilitar la transparencia para PNG
-                        side: THREE.DoubleSide,
-                    })
-                } 
-                else if (index === 1) {
-                    // Segunda imagen: PNG con transparencia y geometría personalizada
-                    geometry = new THREE.PlaneGeometry(1.3, 0.9, 1, 1) // Relación 16:9
-                    material = new THREE.MeshBasicMaterial({
-                        map: texture,
-                        transparent: true,  // Habilitar la transparencia para PNG
-                        side: THREE.DoubleSide,
-                    })
-                }   
-                else if (index === 2) {
-                    // Tercera imagen: PNG con transparencia y geometría personalizada
-                    geometry = new THREE.PlaneGeometry(1.3, 0.9, 1, 1) // Relación 16:9
-                    material = new THREE.MeshBasicMaterial({
-                        map: texture,
-                        transparent: true,  // Habilitar la transparencia para PNG
-                        side: THREE.DoubleSide,
-                    })
-                }  
-                else if (index === 3) {
-                    // Cuarta imagen: PNG con transparencia y geometría personalizada
-                    geometry = new THREE.PlaneGeometry(1.3, 0.9, 1, 1) // Relación 16:9
-                    material = new THREE.MeshBasicMaterial({
-                        map: texture,
-                        transparent: true,  // Habilitar la transparencia para PNG
-                        side: THREE.DoubleSide,
-                    })
-                }  
-                else {
-                    // Otras imágenes con proporción 16:9
-                    geometry = new THREE.PlaneGeometry(1.3, 0.9, 1, 1) // Relación 16:9
-                    material = new THREE.MeshBasicMaterial({
-                        map: texture,
-                        side: THREE.DoubleSide,
-                    })
-                }
-
-                const plane = new THREE.Mesh(geometry, material)
-
-                // Cálculo de posiciones en espiral
-                const angle = startAngle + (index / images.length) * totalRotation
-                const x = Math.cos(angle) * radius
-                const z = Math.sin(angle) * radius
-                const height = -index * verticalSpacing
-
-                // Posicionar la primera imagen PNG más arriba en el eje Y
-                if (index === 0) {
-                    plane.position.set(x, height + 0.2, z); // Ajusta +0.5 o más para subir
-                } else {
-                    plane.position.set(x, height, z);
-                }
-
-                plane.lookAt(0, plane.position.y, 0)
-
-                const normalizedAngle = (angle + Math.PI) / (Math.PI * 2)
-                const scale = 0.8 + 0.2 * (1 - Math.abs(Math.sin(normalizedAngle * Math.PI)))
-                plane.scale.set(scale, scale, 1)
-
-                plane.userData = { link: imageData.link, title: imageData.title }
-
-                group.add(plane)
-            })
-
-            // Detectar clics en las imágenes
-            const raycaster = new THREE.Raycaster()
-            const mouse = new THREE.Vector2()
-
-            window.addEventListener('click', (event) => {
-                mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
-
-                raycaster.setFromCamera(mouse, camera)
-                const intersects = raycaster.intersectObjects(group.children)
-
-                if (intersects.length > 0) {
-                    const intersectedObject = intersects[0].object
-                    if (intersectedObject.userData.link) {
-                    window.location.href = intersectedObject.userData.link
-                    }
-                }
-            })
 
             // Manejo del scroll o swipe para controlar la rotación continua
                 let rotationSpeed = 0; // Variable para manejar la velocidad de rotación
@@ -406,7 +403,7 @@
                     let minAngleDifference = Infinity;
 
                     group.children.forEach((plane, index) => {
-                        const planeAngle = (index / images.length) * Math.PI * 2;
+                        const planeAngle = (index / mediaItems.length) * Math.PI * 2;
                         const groupRotation = group.rotation.y % (Math.PI * 2);
                         const angleDifference = Math.abs(groupRotation - planeAngle);
 
@@ -423,17 +420,15 @@
                     });
 
                     if (closestImageIndex !== currentImageIndex) {
-                        titleElement.style.opacity = 0; // Oculta con transición suave
-                        setTimeout(() => {
-                            currentImageIndex = closestImageIndex;
-                            const currentImage = group.children[closestImageIndex].userData;
-                            titleElement.innerText = currentImage.title;
-                            titleElement.style.opacity = 1; 
-                        }, 500); 
+                        currentImageIndex = closestImageIndex;
+                        const currentImage = group.children[currentImageIndex].userData;
+                        /*titleElement.innerText = currentImage.title;
+                        titleElement.style.opacity = 1;*/
+                        console.log(`La imagen que está al frente es: ${currentImage.title}`);
                     }
-                });                                
+                });
 
-                // Funcionalidad de "swipe" y arrastre para escritorio
+                // Funcionalidad de arrastre para escritorio
                 let isDragging = false;
                 let previousMousePosition = { x: 0, y: 0 };
 
@@ -454,7 +449,7 @@
                     let minAngleDifference2 = Infinity;
 
                     group.children.forEach((plane, index) => {
-                        const planeAngle = (index / images.length) * Math.PI * 2;
+                        const planeAngle = (index / mediaItems.length) * Math.PI * 2;
                         const groupRotation = group.rotation.y % (Math.PI * 2);
                         const angleDifference = Math.abs(groupRotation - planeAngle);
 
@@ -472,12 +467,11 @@
 
                     if (closestImageIndex2 !== currentImageIndex2) {
                         currentImageIndex2 = closestImageIndex2;
-                        const currentImage = group.children[currentImageIndex2].userData;
-                        titleElement.innerText = currentImage.title;
-                        titleElement.style.opacity = 1;
-                        console.log(`La imagen que está al frente es: ${currentImage.title}`);
+                        const currentImage2 = group.children[currentImageIndex2].userData;
+                        /*titleElement.innerText = currentImage2.title;
+                        titleElement.style.opacity = 1;*/
+                        console.log(`La imagen que está al frente es: ${currentImage2.title}`);
                     }
-                    
                 });
 
                 window.addEventListener('mouseup', () => {
@@ -505,7 +499,7 @@
                     let minAngleDifference3 = Infinity;
 
                     group.children.forEach((plane, index) => {
-                        const planeAngle = (index / images.length) * Math.PI * 2;
+                        const planeAngle = (index / mediaItems.length) * Math.PI * 2;
                         const groupRotation = group.rotation.y % (Math.PI * 2);
                         const angleDifference = Math.abs(groupRotation - planeAngle);
 
@@ -523,10 +517,10 @@
 
                     if (closestImageIndex3 !== currentImageIndex3) {
                         currentImageIndex3 = closestImageIndex3;
-                        const currentImage = group.children[currentImageIndex3].userData;
-                        titleElement.innerText = currentImage.title;
-                        titleElement.style.opacity = 1;
-                        console.log(`La imagen que está al frente es: ${currentImage.title}`);
+                        const currentImage3 = group.children[currentImageIndex3].userData;
+                        /*titleElement.innerText = currentImage3.title;
+                        titleElement.style.opacity = 1;*/
+                        console.log(`La imagen que está al frente es: ${currentImage3.title}`);
                     }
                 });
 
