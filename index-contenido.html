@@ -152,6 +152,31 @@
             transition: opacity 0.5s ease;             
         }
 
+        .box-titular-interior{
+            position: fixed;
+            top: 10px;
+            width: 100%;
+            z-index: 10;
+        }
+            .box-titular-interior h4{
+                color: #000;
+                font: 40px / 0.7 'Founders Grotesk X-Condensed';
+                letter-spacing: 1px;
+                margin: 0 auto;
+                text-align: center;
+                text-transform: uppercase;
+            }
+            .box-titular-interior h4 span {
+                    display: block;
+                    font-family: "Cormorant Garamond", serif;
+                    font-size: 27px;
+                    font-style: italic;
+                    font-weight: 500;
+                    letter-spacing: -1px;
+                    line-height: 50px;
+                    text-transform: none;
+                }
+
 
         @media only screen and (max-width: 640px) {
 
@@ -182,6 +207,13 @@
     </style>
 </head>
 <body>
+
+    <div class="box-titular-interior">
+        <h4>
+            <span>El escritor universial</span>            
+            mario vargas llosa
+        </h4>
+    </div>
     
     <div class="main-indicacion">
         <div class="box-ctn-indicacion" id="indicacion-desktop">
