@@ -486,7 +486,7 @@ body, html {
             
         }
     .box-obra-derecha{
-
+        position: relative;
     }
         .box-obra-derecha .box-info-obra{
             padding: 20px 40px 0 0;
@@ -540,6 +540,7 @@ body, html {
         font-size: 3rem;        
     }
     .header-interior p{
+        font-size: 1.5rem;
         margin-bottom: 20px;
     }
     span.separador{
@@ -550,6 +551,39 @@ body, html {
     }
     .timeline ul li .right_content p{
         font-size: 21px;
+    }
+    .box-portada{
+        display: block;
+        margin-bottom: 40px;
+        max-width: 100%;
+        padding: 0 20px;
+    }
+        .box-portada h4{
+            font-size: 2rem;
+        }
+    .box-info-obra,
+    .box-obra-derecha .box-info-obra{
+        padding: 20px;
+    }   
+        .box-info-obra p{
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            max-width: 100%;
+        }
+
+    .box-obra-derecha .box-info-obra   {
+        margin-top: 350px;
+    }         
+    .box-obra-derecha .box-portada{
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+    .box-portada img{
+        max-width: 50%;
+    }
+    .box-separador h3{
+        padding: 0 20px;
     }
 
 }
