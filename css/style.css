@@ -642,9 +642,26 @@ body, html {
     .box-portada img{
         max-width: 50%;
     }
-    .box-separador h3{
+    .box-separador h3,
+    .box-main-galeria{
         padding: 0 20px;
     }
+    .box-doble{
+        margin: 30px 0 30px;
+        max-width: 100%;
+    }
+    .box-foto p{
+        font-size: 17px;
+    }
+    #foto-3{
+        max-width: 100%;
+    }
+    #foto-7,
+    #foto-8{
+        margin: 0 auto 30px;
+        max-width: 100%;
+    }
+    
 
 }
   
