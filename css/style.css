@@ -583,7 +583,7 @@ body, html {
     .box-personaje img{
         display: inline-block;
         max-width: 300px;
-        vertical-align: top;
+        vertical-align: bottom;
     }
     .box-texto-personaje{
         display: inline-block;
@@ -632,6 +632,17 @@ body, html {
         #personaje-2 img{
             margin: 0 auto 20px;       
             max-width: 400px;
+        }
+    #personaje-3{
+
+    }
+        #personaje-3 img{
+            display: block;
+            margin: 0 auto 20px;       
+            max-width: 550px;
+        }
+        #personaje-3 .box-texto-personaje{
+            max-width: 420px;
         }
 
 @media only screen and (max-width: 640px) {
