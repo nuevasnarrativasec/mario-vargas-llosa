@@ -578,7 +578,7 @@ body, html {
         vertical-align: top;
     }
 .box-personaje{
-    margin: 0 auto 60px;
+    margin: 0 auto 20px;
 }
     .box-personaje img{
         display: inline-block;
@@ -647,7 +647,7 @@ body, html {
     #personaje-4,
     #personaje-5{
         display: inline-block;
-        margin: 0 20px;
+        margin: 0 40px;
         max-width: 350px;        
         vertical-align: top;  
     }
@@ -661,6 +661,18 @@ body, html {
         #personaje-5 .box-texto-personaje{
             max-width: 420px;
         }
+    .separador-personaje{
+        background-color: #000;
+        height: 1px;
+        margin: 40px auto;
+        max-width: 500px;
+    }
+    .box-main-personajes .separador-vertical{
+        display: inline-block;
+        height: 500px;        
+        vertical-align: top;
+        width: 1px;
+    }
 
 @media only screen and (max-width: 640px) {
 
