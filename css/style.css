@@ -272,6 +272,9 @@ body, html {
     .header-interior-capitulo-4{
         background-color: #98832B;
     }
+    .header-interior-capitulo-5{
+        background-color: #98402B;
+    }
         .header-interior-capitulo-2 p{
             color: #000;
         }
@@ -674,6 +677,31 @@ body, html {
         width: 1px;
     }
 
+.box-main-textos-largos{
+    margin: 50px auto;
+    max-width: 700px;
+}
+    .box-main-textos-largos p{
+        font: 15px/1.4 'founders_groteskregular';
+        margin: 0 auto 20px;
+        max-width: 400px;
+    }
+    .box-main-textos-largos h3{
+        color: #98832B;
+        font: 1.8rem/1.1 "Cormorant Garamond", serif;
+        font-style: italic;
+        margin: 30px auto;
+        max-width: 450px;
+        text-align: center;
+    }
+    .box-foto-textos{
+        margin: 60px auto 20px;
+    }
+        .box-foto-textos p{
+            margin: 5px auto;
+            max-width: 100%;
+        }
+
 @media only screen and (max-width: 640px) {
 
     body,
@@ -789,7 +817,12 @@ body, html {
         max-width: 90%;
         width: 90%;
     }
-
+    .box-main-textos-largos{
+        padding: 0 20px;
+    }
+        .box-main-textos-largos p{
+            font-size: 1.1rem;
+        }
 }
   
 @media (max-width: 1000px){
