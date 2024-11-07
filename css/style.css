@@ -582,8 +582,8 @@ body, html {
 }
     .box-personaje img{
         display: inline-block;
-        max-width: 300px;
-        vertical-align: bottom;
+        max-width: 290px;
+        vertical-align: top;
     }
     .box-texto-personaje{
         display: inline-block;
@@ -642,6 +642,23 @@ body, html {
             max-width: 550px;
         }
         #personaje-3 .box-texto-personaje{
+            max-width: 420px;
+        }
+    #personaje-4,
+    #personaje-5{
+        display: inline-block;
+        margin: 0 20px;
+        max-width: 350px;        
+        vertical-align: top;  
+    }
+        #personaje-4 img,
+        #personaje-5 img{
+            display: block;
+            margin: 0 auto 20px;       
+            max-width: 400px;
+        }
+        #personaje-4 .box-texto-personaje,
+        #personaje-5 .box-texto-personaje{
             max-width: 420px;
         }
 
