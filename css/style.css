@@ -216,7 +216,9 @@ body, html {
 .menu {
     background-color: #333;
     display: flex;
+    position: relative;
     width: 100%;    
+    z-index: 10;
 }      
     .menu-button {
         color: white;
@@ -526,7 +528,7 @@ body, html {
 .box-main-galeria,
 .box-main-personajes{
     margin: 80px auto 0;
-    max-width: 900px;
+    max-width: 1024px;
     text-align: center;
 }
     .box-foto{
@@ -590,7 +592,7 @@ body, html {
     }
     .box-texto-personaje{
         display: inline-block;
-        max-width: 320px;
+        max-width: 420px;
         text-align: left;
         vertical-align: top;
     }
@@ -615,7 +617,7 @@ body, html {
                 font-style: italic;
             }
         .box-texto-personaje p{
-            font: 15px/1.4 'founders_groteskregular';
+            font: 17px/1.4 'founders_groteskregular';
         }
     .box-ilustracion-personaje{
         display: inline-block;
@@ -624,44 +626,54 @@ body, html {
         vertical-align: top;
     }
     #personaje-1{
-        max-width: 800px;
+        max-width: 900px;
     }
-        #personaje-1 img{
+        #personaje-1 img,
+        #personaje-6 img{
             margin: 0 30px;       
         }
     #personaje-2{
 
     }
-        #personaje-2 img{
+        #personaje-2 img,
+        #personaje-7 img{
             margin: 0 auto 20px;       
             max-width: 400px;
         }
     #personaje-3{
 
     }
-        #personaje-3 img{
+        #personaje-3 img,
+        #personaje-8 img{
             display: block;
             margin: 0 auto 20px;       
             max-width: 550px;
         }
-        #personaje-3 .box-texto-personaje{
+        #personaje-3 .box-texto-personaje,
+        #personaje-8 .box-texto-personaje{
             max-width: 420px;
         }
     #personaje-4,
-    #personaje-5{
+    #personaje-5,
+    #personaje-9,
+    #personaje-10{
         display: inline-block;
         margin: 0 40px;
         max-width: 350px;        
         vertical-align: top;  
     }
         #personaje-4 img,
-        #personaje-5 img{
+        #personaje-5 img,
+        #personaje-9 img,
+        #personaje-10 img{
             display: block;
             margin: 0 auto 20px;       
             max-width: 400px;
         }
         #personaje-4 .box-texto-personaje,
-        #personaje-5 .box-texto-personaje{
+        #personaje-5 .box-texto-personaje,
+        #personaje-9 .box-texto-personaje,
+        #personaje-10 .box-texto-personaje{
             max-width: 420px;
         }
     .separador-personaje{
@@ -798,7 +810,7 @@ body, html {
         max-width: 100%;
     }
     .box-texto-personaje p{
-        font-size: 17px;
+        font-size: 21px;
     }
     .separador-personaje{
         max-width: 90%;
@@ -816,6 +828,9 @@ body, html {
         height: 1px;
         max-width: 90%;
         width: 90%;
+    }
+    .box-texto-personaje{
+        margin: 0 20px;
     }
     .box-main-textos-largos{
         padding: 0 20px;
@@ -872,4 +887,9 @@ body, html {
     #foto-8{
         max-width: 340px;
     }
+}
+
+
+#dynamic-content {
+    transition: opacity 0.3s ease-in-out;
 }
