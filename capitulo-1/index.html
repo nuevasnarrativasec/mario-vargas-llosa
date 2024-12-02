@@ -115,6 +115,18 @@
         </div>
     </div>
 
+    <script>        
+        document.querySelector('.inicio').addEventListener('click', function() {            
+            document.getElementById('menu').classList.remove('height');
+            
+            document.getElementById('main-content').classList.remove('fade-out-home');
+            
+            const mainIndicacion = document.querySelector('.main-indicacion');
+            if (mainIndicacion) {
+                mainIndicacion.style.display = 'none';
+            }
+        });
+    </script>
 
 </body>
 </html>

@@ -694,10 +694,14 @@ body, html {
     max-width: 700px;
 }
     .box-main-textos-largos p{
-        font: 15px/1.4 'founders_groteskregular';
+        font: 16px/1.4 'founders_groteskregular';
         margin: 0 auto 20px;
         max-width: 400px;
     }
+        .box-main-textos-largos p b{
+            font-family: 'founders_groteskmedium';
+            font-weight: normal;
+        }
     .box-main-textos-largos h3{
         color: #98832B;
         font: 1.8rem/1.1 "Cormorant Garamond", serif;
@@ -892,4 +896,11 @@ body, html {
 
 #dynamic-content {
     transition: opacity 0.3s ease-in-out;
+}
+.fade-out-home{
+    display: none;
+    height: 0;
+}
+.height{
+    height: auto !important;
 }
