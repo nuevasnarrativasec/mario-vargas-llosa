@@ -635,7 +635,10 @@ body, html {
     #personaje-2{
 
     }
-        #personaje-2 img,
+        #personaje-2 img{
+            margin: 0 auto 20px;       
+            max-width: 100px;
+        }        
         #personaje-7 img{
             margin: 0 auto 20px;       
             max-width: 400px;
@@ -643,7 +646,11 @@ body, html {
     #personaje-3{
 
     }
-        #personaje-3 img,
+        #personaje-3 img{
+            display: block;
+            margin: 0 auto 20px;       
+            max-width: 200px;
+        }       
         #personaje-8 img{
             display: block;
             margin: 0 auto 20px;       
@@ -662,13 +669,40 @@ body, html {
         max-width: 350px;        
         vertical-align: top;  
     }
-        #personaje-4 img,
-        #personaje-5 img,
-        #personaje-9 img,
+        #personaje-4 img{
+            display: block;
+            margin: 0 auto 20px;       
+            max-width: 200px;
+        }
+        #personaje-5 img{
+            display: block;
+            margin: 0 auto 20px;       
+            max-width: 120px;
+        }
+        #personaje-6 img{
+            display: inline-block;
+            margin: 0 40px 20px;       
+            max-width: 130px;
+        }
+        #personaje-7 img{
+            display: block;
+            margin: 0 auto 20px;
+            max-width: 195px;
+        }
+        #personaje-8 img{
+            display: inline-block;
+            margin: 0 40px 20px;
+            max-width: 135px;
+        }
+        #personaje-9 img{
+            display: block;
+            margin: 0 auto 20px; 
+            max-width: 135px;
+        }  
         #personaje-10 img{
             display: block;
             margin: 0 auto 20px;       
-            max-width: 400px;
+            max-width: 140px;
         }
         #personaje-4 .box-texto-personaje,
         #personaje-5 .box-texto-personaje,
