@@ -887,7 +887,7 @@ span.separador-amigo{
         width: 90%;
     }
 p.texto-nobel{
-    font: 0.9rem/1.3 'founders_groteskregular';
+    font: 1rem/1.4 'founders_groteskregular';
     margin: 10px auto 20px;
     max-width: 400px;
 }
@@ -895,7 +895,7 @@ p.texto-nobel{
     
 }
     .box-foto-nobel p{
-        font: 0.9rem/1.3 'founders_groteskregular';
+        font: 1rem/1.4 'founders_groteskregular';
         margin: 5px auto;
     }
     .bg-foto-nobel-1{
