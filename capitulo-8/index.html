@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVLL</title>
+
+    <link rel="stylesheet" href="../css/style.css?v9">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+ 
+</head>
+<body id="capitulo">
+
+    <nav class="menu">
+        <div class="menu-button inicio">
+            <a href="../menu/index.html">
+                <img src="../img/flecha-izq.png" alt="" width="100%">
+                Inicio
+            </a>            
+        </div>
+        <div class="menu-button capitulo anterior">
+            <a href="../capitulo-7/index.html">
+                <img src="../img/flecha-izq.png" alt="" width="100%">
+                Capítulo anterior
+            </a>  
+        </div>
+        <div class="menu-button capitulo siguiente">
+            <a href="#">               
+                Capítulo siguiente
+                <img src="../img/flecha-der.png" alt="" width="100%">
+            </a>
+        </div>
+    </nav>
+
+    <div class="header-interior header-interior-capitulo-9">
+        <h5>Capítulo 9</h5>
+        <h1>cronología de obras y premios</h1>
+        <h3>LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT, SED DO EIUSMOD TEMPOR INCIDIDUNT.</h3>    
+    </div>    
+
+    <p class="bajada-cronologia">
+        L orem nim ad minim veniam, quis nostrud exercitation ullamco laborisaliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+    </p> 
+
+    <span class="selecciona">
+        Selecciona una década
+    </span>
+
+    <ul class="decadas">
+        <li>
+            1950 - 1960
+        </li>
+        <li>
+            1960 - 1970
+        </li>
+        <li>
+            1970 - 1980
+        </li>
+        <li>
+            1980 - 1990
+        </li>
+        <li>
+            1990 - 2000
+        </li>
+        <li>
+            2000 - 2010
+        </li>
+    </ul>
+
+    <div class="box-timeline">
+        <h4 style="margin-bottom: 40px;">
+            1950 - 1960
+        </h4>
+
+        <h5 class="year" id="year-1">
+            1952
+        </h5>
+        <img src="../img/lapiz.png" alt="" width="100%" class="lapiz">
+        <div class="box-item-timeline">
+            <div class="box-texto-obra">
+                <h5>Obra teatral</h5>
+                <h6>La huida del Inca</h6>
+            </div>
+        </div>
+        <div class="box-item-timeline item-derecha">
+            <div class="box-texto-obra">
+                <h5>Segundo lugar</h5>
+                <p>Segundo premio del III Concurso de Teatro Escolar y Radioteatro Infantil del Ministerio de Educación Pública por su obra de teatro no publicada La huida del Inca</p>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <h5 class="year">
+            1957
+        </h5>
+        <div class="box-item-timeline opacity">
+            <div class="box-texto-obra">
+                <h5>Obra teatral</h5>
+                <h6>La huida del Inca</h6>
+            </div>
+        </div>
+        <div class="box-item-timeline item-derecha">
+            <div class="box-texto-obra">
+                <h5>Premio/Primer lugar</h5>
+                <p>Premio de la Revue Française por su relato 'El desafío'.</p>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <h5 class="year">
+            1959
+        </h5>
+        <div class="box-item-timeline">
+            <img src="../img/bg-timeline-1.jpg" alt="" width="100%">
+            <div class="box-texto-obra">
+                <h5>Cuento/Relato</h5>
+                <h6>Los jefes</h6>
+            </div>
+        </div>
+        <div class="box-item-timeline item-derecha">
+            <div class="box-texto-obra">
+                <h5>Premio/Primer lugar</h5>
+                <p>Premio Leopoldo Alas por su colección de cuentos Los jefes (España)</p>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <h4>
+            1960 - 1970
+        </h4>
+
+    </div>
+      
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>   
+    <script src="https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales/el-metro-interminable-ecpm/js/ScrollMagic.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var controller = new ScrollMagic.Controller();
+
+            var scene = new ScrollMagic.Scene({
+                triggerElement: "#year-1",
+                triggerHook: 0.2, 
+                reverse: true 
+            })
+            .setClassToggle(".lapiz", "show") 
+            .addTo(controller);
+        });
+    </script>
+
+</body>
+</html>
