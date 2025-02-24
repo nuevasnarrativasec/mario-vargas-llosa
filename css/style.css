@@ -991,7 +991,7 @@ ul.decadas{
         }
 .box-timeline{
     margin: 0 auto;
-    max-width: 700px;    
+    max-width: 870px;    
     position: relative;
 }
     .box-timeline:before {
@@ -1030,23 +1030,31 @@ ul.decadas{
     .box-item-timeline{
         clear: both;
         float: left;
-        max-width: 43%;
+        max-width: 39%;
     }   
         .box-item-timeline img{
             display: inline-block;
             max-width: 60px;
         }
+    .box-obra-timeline{
+        margin-bottom: 10px;
+    }
     .item-derecha{
         float: right;
         margin-bottom: 30px;
         margin-top: -70px;
+        width: 39%;
     }
     .opacity{
         opacity: 0;
     }
+    .margin-top-150{
+        margin-top: -150px;
+    }
         .box-texto-obra{
             display: inline-block;
             margin-bottom: 30px;
+            max-width: 295px;
             vertical-align: bottom;
         }
             .box-texto-obra h5{
@@ -1074,7 +1082,7 @@ ul.decadas{
         position: fixed;
         transition: opacity 0.1s ease-out;
         transform: translate(-50%, 50%);
-        top: 0;
+        top: 20%;
         z-index: 1;        
     }
         .lapiz.show {
