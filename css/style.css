@@ -1051,10 +1051,16 @@ ul.decadas{
     .margin-top-150{
         margin-top: -150px;
     }
+    .margin-top-230{
+        margin-top: -230px;
+    }
+    .margin-top-305{
+        margin-top: -305px;
+    }
         .box-texto-obra{
             display: inline-block;
             margin-bottom: 30px;
-            max-width: 295px;
+            max-width: 270px;
             vertical-align: bottom;
         }
             .box-texto-obra h5{
