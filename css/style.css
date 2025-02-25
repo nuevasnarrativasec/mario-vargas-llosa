@@ -981,7 +981,8 @@ ul.decadas{
         ul.decadas li:nth-child(3),
         ul.decadas li:nth-child(4),
         ul.decadas li:nth-child(5),
-        ul.decadas li:nth-child(6){
+        ul.decadas li:nth-child(6),
+        ul.decadas li:nth-child(7){
             border-left: none;
         }
         ul.decadas li.decada-activa,
@@ -1094,6 +1095,22 @@ ul.decadas{
         .lapiz.show {
             opacity: 1;
         }
+    .box-nobel{
+        max-width: 340px;
+    }  
+        .box-texto-nobel{
+            display: inline-block;
+            max-width: 269px;
+            vertical-align: top;
+        }
+            .box-texto-nobel h5{
+                font-size: 28px;
+            }
+            .box-texto-nobel p:nth-child(2){
+                font: 1.6rem / 1 "Cormorant Garamond", serif;
+                font-style: italic;
+                font-weight: 800;
+            }
 
 @media only screen and (max-width: 640px) {
 
@@ -1266,6 +1283,14 @@ ul.decadas{
             gap: 0; 
             padding: 0 20px;
             scrollbar-width: none; 
+        }
+
+    .item-derecha{
+        max-width: 45%;
+        width: 45%;
+    }
+        .item-derecha h5{
+            font-size: 21px;
         }
     
 }
