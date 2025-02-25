@@ -121,6 +121,16 @@
 
         // Cargar la textura de fondo
         const loader = new THREE.TextureLoader();
+        loader.load(
+            '../img/bg-test-5.jpg',
+            (texture) => {
+                console.log("Imagen cargada correctamente");
+                backgroundMesh.material.map = texture;
+                backgroundMesh.material.needsUpdate = true;
+            },
+            undefined,
+            (err) => console.error("Error cargando imagen:", err)
+        );
         const backgroundTexture = loader.load('../img/bg-test-5.jpg');
 
         // Configuraciones para la espiral
@@ -135,6 +145,8 @@
             video.src = url;
             video.loop = true; 
             video.muted = true; 
+            video.playsInline = true; // Importante para iOS
+            video.setAttribute('playsinline', ''); // Redundancia para iOS
             video.play(); 
 
             const texture = new THREE.VideoTexture(video);
