@@ -982,7 +982,8 @@ ul.decadas{
         ul.decadas li:nth-child(4),
         ul.decadas li:nth-child(5),
         ul.decadas li:nth-child(6),
-        ul.decadas li:nth-child(7){
+        ul.decadas li:nth-child(7),
+        ul.decadas li:nth-child(8){
             border-left: none;
         }
         ul.decadas li.decada-activa,
@@ -999,7 +1000,7 @@ ul.decadas{
         background: #000;
         content: '';
         position: absolute;
-        height: 100%;
+        height: 120%;
         left: 50%;
         top: 125px;
         width: 1px;
