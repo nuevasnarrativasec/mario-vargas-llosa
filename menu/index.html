@@ -93,9 +93,20 @@
 
         group.position.y += 0.2; // Mueve el grupo hacia arriba
 
+        // Definir las tres imágenes centrales que se alternarán
+        const centralImages = [
+            '../img/bg-centro-2.png',
+            '../img/bg-centro-3.png',    
+            '../img/bg-centro-4.png'     
+        ];
+
+        let currentCentralImageIndex = 0;
+        let lastRotationThreshold = 0;
+        const rotationThreshold = Math.PI / 2; // Cambia de imagen cada 90 grados (ajustable)
+
         // Cargar imágenes en espiral con enlaces correspondientes y títulos
         const mediaItems = [
-            { url: '../img/bg-centro-2.png', link: '', title: '', type: 'image' },
+            // Ya no incluimos la imagen central en este array
             { url: '../videos/video-vargas-2.mp4', link: '../capitulo-1/index.html', title: '', type: 'video' },
             { url: '../videos/video-vargas-2.mp4', link: '../capitulo-2/index.html', title: '', type: 'video' },
             { url: '../videos/video-vargas-2.mp4', link: '../capitulo-3/index.html', title: '', type: 'video' },
@@ -130,42 +141,70 @@
             return texture;
         }
 
-        // Renderizar mediaItems en lugar de images
+        // Crear un plano central fijo (fuera del grupo que gira)
+        let centralPlane;
+        function createCentralPlane() {
+            const texture = loader.load(centralImages[0]);
+            const geometry = new THREE.PlaneGeometry(3.0, 3.0);
+            const material = new THREE.MeshBasicMaterial({
+                map: texture,
+                transparent: true,
+                side: THREE.DoubleSide
+            });
+            
+            centralPlane = new THREE.Mesh(geometry, material);
+            // Posicionar en el centro de la escena
+            centralPlane.position.set(0, 0, 0);
+            // Añadir a la escena principal, NO al grupo (para que no gire)
+            scene.add(centralPlane);
+        }
+
+        // Función para cambiar la imagen central con transición suave
+        function updateCentralImage(newImageIndex) {
+            // Cargar la nueva textura
+            const newTexture = loader.load(centralImages[newImageIndex]);
+            
+            // Animar la transición (fade-out/fade-in)
+            let opacity = 1;
+            const fadeOut = setInterval(() => {
+                opacity -= 0.05;
+                if (opacity <= 0) {
+                    clearInterval(fadeOut);
+                    // Cambiar la textura cuando está totalmente transparente
+                    centralPlane.material.map = newTexture;
+                    centralPlane.material.needsUpdate = true;
+                    
+                    // Iniciar fade-in
+                    const fadeIn = setInterval(() => {
+                        opacity += 0.05;
+                        if (opacity >= 1) {
+                            opacity = 1;
+                            clearInterval(fadeIn);
+                        }
+                        centralPlane.material.opacity = opacity;
+                    }, 30);
+                }
+                centralPlane.material.opacity = Math.max(0, opacity);
+            }, 30);
+            
+            currentCentralImageIndex = newImageIndex;
+        }
+
+        // Crear el plano central fijo primero
+        createCentralPlane();
+
+        // Renderizar mediaItems en espiral
         mediaItems.forEach((mediaData, index) => {
             let texture;
 
             if (mediaData.type === 'video') {
-                texture = createGifTexture(mediaData.url); // Usar la función para GIFs
+                texture = createGifTexture(mediaData.url);
             } else {
                 texture = loader.load(mediaData.url);
             }
 
-            let geometry;
-            let material;
-
-            /*if (index === 0) {
-                geometry = new THREE.PlaneGeometry(2.0, 2.0, 2.0, 2.0);
-                material = new THREE.MeshBasicMaterial({
-                    map: texture,
-                    transparent: true,
-                    side: THREE.DoubleSide,
-                });
-            } else {
-                geometry = new THREE.PlaneGeometry(1.3, 0.9, 1, 1);
-                material = new THREE.MeshBasicMaterial({
-                    map: texture,
-                    transparent: true,
-                    side: THREE.DoubleSide,
-                });
-            }*/
-
-            if (index === 0) {
-                geometry = new THREE.PlaneGeometry(2.0, 2.0, 2.0, 2.0);
-            } else {
-                geometry = new THREE.PlaneGeometry(1.3, 1.1, 1, 1);
-            }
-
-            material = new THREE.MeshBasicMaterial({
+            const geometry = new THREE.PlaneGeometry(1.3, 1.1, 1, 1);
+            const material = new THREE.MeshBasicMaterial({
                 map: texture,
                 transparent: true,
                 side: THREE.DoubleSide,
@@ -173,6 +212,7 @@
 
             const plane = new THREE.Mesh(geometry, material);
 
+            // Calculamos el ángulo considerando que ahora hay un elemento menos
             const angle = startAngle + (index / mediaItems.length) * totalRotation;
             const x = Math.cos(angle) * radius;
             const z = Math.sin(angle) * radius;
@@ -216,13 +256,21 @@
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
             raycaster.setFromCamera(mouse, camera);
+            
+            // Verificar clic en elementos del grupo (las imágenes de la espiral)
             const intersects = raycaster.intersectObjects(group.children);
-
             if (intersects.length > 0) {
                 const intersectedObject = intersects[0].object;
                 if (intersectedObject.userData.link) {
                     window.location.href = intersectedObject.userData.link;
                 }
+            }
+            
+            // También verificar clic en la imagen central
+            const centralIntersects = raycaster.intersectObject(centralPlane);
+            if (centralIntersects.length > 0) {
+                // Si hay un enlace asociado a la imagen central, podrías añadir una acción aquí
+                console.log("Clic en la imagen central");
             }
         });
 
@@ -230,162 +278,199 @@
         let currentImageIndex2 = -1; // Para el arrastre con el mouse (mousedown, mousemove, mouseup)
         let currentImageIndex3 = -1; // Para el toque en dispositivos móviles (touchstart, touchmove)
 
+        // Función para verificar si se debe cambiar la imagen central
+        function checkCentralImageRotation(totalRotation) {
+            // Normalizar la rotación total para que esté entre 0 y 2π
+            const normalizedRotation = Math.abs(totalRotation % (Math.PI * 2));
+            
+            // Verificar si hemos girado lo suficiente para cambiar la imagen
+            if (Math.abs(normalizedRotation - lastRotationThreshold) >= rotationThreshold) {
+                // Actualizar el umbral de rotación
+                lastRotationThreshold = normalizedRotation;
+                
+                // Calcular el nuevo índice de imagen
+                const nextImageIndex = (currentCentralImageIndex + 1) % centralImages.length;
+                
+                // Actualizar la imagen central
+                updateCentralImage(nextImageIndex);
+                
+                console.log(`Cambiando imagen central a: ${nextImageIndex + 1}`);
+            }
+        }
 
-            // Manejo del scroll o swipe para controlar la rotación continua
-                let rotationSpeed = 0; // Variable para manejar la velocidad de rotación
+        // Manejo del scroll o swipe para controlar la rotación continua
+        let rotationSpeed = 0; // Variable para manejar la velocidad de rotación
+        let totalRotationAmount = 0; // Seguimiento de cuánto ha girado en total
 
-                window.addEventListener('wheel', (event) => {
-                    const scrollAmount = event.deltaY * 0.0001;
-                    rotationSpeed += scrollAmount;
-                    group.rotation.y += rotationSpeed;
+        window.addEventListener('wheel', (event) => {
+            const scrollAmount = event.deltaY * 0.0001;
+            rotationSpeed += scrollAmount;
+            group.rotation.y += rotationSpeed;
+            totalRotationAmount += rotationSpeed;
+            
+            // Verificar si se debe cambiar la imagen central
+            checkCentralImageRotation(totalRotationAmount);
 
-                    let closestImageIndex = -1;
-                    let minAngleDifference = Infinity;
+            let closestImageIndex = -1;
+            let minAngleDifference = Infinity;
 
-                    group.children.forEach((plane, index) => {
-                        const planeAngle = (index / mediaItems.length) * Math.PI * 2;
-                        const groupRotation = group.rotation.y % (Math.PI * 2);
-                        const angleDifference = Math.abs(groupRotation - planeAngle);
+            group.children.forEach((plane, index) => {
+                const planeAngle = (index / mediaItems.length) * Math.PI * 2;
+                const groupRotation = group.rotation.y % (Math.PI * 2);
+                const angleDifference = Math.abs(groupRotation - planeAngle);
 
-                        if (angleDifference < minAngleDifference) {
-                            minAngleDifference = angleDifference;
-                            closestImageIndex = index;
-                        }
+                if (angleDifference < minAngleDifference) {
+                    minAngleDifference = angleDifference;
+                    closestImageIndex = index;
+                }
 
-                        // Ajustar la opacidad en función de la distancia angular al frente
-                        const normalizedDifference = Math.abs(groupRotation - planeAngle) / Math.PI;
-                        const opacity = Math.max(0.2, 1 - normalizedDifference); // Opacidad mínima de 0.2
-                        plane.material.opacity = opacity;
-                        plane.material.transparent = true; // Asegurarse de que la transparencia esté activada
-                    });
+                // Ajustar la opacidad en función de la distancia angular al frente
+                const normalizedDifference = Math.abs(groupRotation - planeAngle) / Math.PI;
+                const opacity = Math.max(0.2, 1 - normalizedDifference); // Opacidad mínima de 0.2
+                plane.material.opacity = opacity;
+                plane.material.transparent = true; // Asegurarse de que la transparencia esté activada
+            });
 
-                    if (closestImageIndex !== currentImageIndex) {
-                        currentImageIndex = closestImageIndex;
-                        const currentImage = group.children[currentImageIndex].userData;
-                        /*titleElement.innerText = currentImage.title;
-                        titleElement.style.opacity = 1;*/
-                        console.log(`La imagen que está al frente es: ${currentImage.title}`);
-                    }
-                });
+            if (closestImageIndex !== currentImageIndex) {
+                currentImageIndex = closestImageIndex;
+                const currentImage = group.children[currentImageIndex].userData;
+                /*titleElement.innerText = currentImage.title;
+                titleElement.style.opacity = 1;*/
+                console.log(`La imagen que está al frente es: ${currentImage.title}`);
+            }
+        });
 
-                // Funcionalidad de arrastre para escritorio
-                let isDragging = false;
-                let previousMousePosition = { x: 0, y: 0 };
+        // Funcionalidad de arrastre para escritorio
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
 
-                window.addEventListener('mousedown', (event) => {
-                    isDragging = true;
-                    previousMousePosition.x = event.clientX;
-                });
+        window.addEventListener('mousedown', (event) => {
+            isDragging = true;
+            previousMousePosition.x = event.clientX;
+        });
 
-                window.addEventListener('mousemove', (event) => {
-                    if (isDragging) {
-                        const deltaX = event.clientX - previousMousePosition.x;
-                        rotationSpeed = deltaX * 0.001; // Reducción del factor de arrastre para rotación más lenta
-                        group.rotation.y += rotationSpeed; // Rotar el grupo en función del arrastre
-                        previousMousePosition.x = event.clientX;
-                    }
+        window.addEventListener('mousemove', (event) => {
+            if (isDragging) {
+                const deltaX = event.clientX - previousMousePosition.x;
+                rotationSpeed = deltaX * 0.001; // Reducción del factor de arrastre para rotación más lenta
+                group.rotation.y += rotationSpeed; // Rotar el grupo en función del arrastre
+                totalRotationAmount += rotationSpeed;
+                
+                // Verificar si se debe cambiar la imagen central
+                checkCentralImageRotation(totalRotationAmount);
+                
+                previousMousePosition.x = event.clientX;
+            }
 
-                    let closestImageIndex2 = -1;
-                    let minAngleDifference2 = Infinity;
+            let closestImageIndex2 = -1;
+            let minAngleDifference2 = Infinity;
 
-                    group.children.forEach((plane, index) => {
-                        const planeAngle = (index / mediaItems.length) * Math.PI * 2;
-                        const groupRotation = group.rotation.y % (Math.PI * 2);
-                        const angleDifference = Math.abs(groupRotation - planeAngle);
+            group.children.forEach((plane, index) => {
+                const planeAngle = (index / mediaItems.length) * Math.PI * 2;
+                const groupRotation = group.rotation.y % (Math.PI * 2);
+                const angleDifference = Math.abs(groupRotation - planeAngle);
 
-                        if (angleDifference < minAngleDifference2) {
-                            minAngleDifference2 = angleDifference;
-                            closestImageIndex2 = index;
-                        }
+                if (angleDifference < minAngleDifference2) {
+                    minAngleDifference2 = angleDifference;
+                    closestImageIndex2 = index;
+                }
 
-                        // Ajustar la opacidad en función de la distancia angular al frente
-                        const normalizedDifference = Math.abs(groupRotation - planeAngle) / Math.PI;
-                        const opacity = Math.max(0.2, 1 - normalizedDifference); // Opacidad mínima de 0.2
-                        plane.material.opacity = opacity;
-                        plane.material.transparent = true; // Asegurarse de que la transparencia esté activada
-                    });
+                // Ajustar la opacidad en función de la distancia angular al frente
+                const normalizedDifference = Math.abs(groupRotation - planeAngle) / Math.PI;
+                const opacity = Math.max(0.2, 1 - normalizedDifference); // Opacidad mínima de 0.2
+                plane.material.opacity = opacity;
+                plane.material.transparent = true; // Asegurarse de que la transparencia esté activada
+            });
 
-                    if (closestImageIndex2 !== currentImageIndex2) {
-                        currentImageIndex2 = closestImageIndex2;
-                        const currentImage2 = group.children[currentImageIndex2].userData;
-                        /*titleElement.innerText = currentImage2.title;
-                        titleElement.style.opacity = 1;*/
-                        console.log(`La imagen que está al frente es: ${currentImage2.title}`);
-                    }
-                });
+            if (closestImageIndex2 !== currentImageIndex2) {
+                currentImageIndex2 = closestImageIndex2;
+                const currentImage2 = group.children[currentImageIndex2].userData;
+                /*titleElement.innerText = currentImage2.title;
+                titleElement.style.opacity = 1;*/
+                console.log(`La imagen que está al frente es: ${currentImage2.title}`);
+            }
+        });
 
-                window.addEventListener('mouseup', () => {
-                    isDragging = false;
-                });
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
 
-                // Funcionalidad de "swipe" y arrastre para dispositivos móviles (touch)
-                let isTouching = false;
-                let previousTouchPosition = { x: 0, y: 0 };
+        // Funcionalidad de "swipe" y arrastre para dispositivos móviles (touch)
+        let isTouching = false;
+        let previousTouchPosition = { x: 0, y: 0 };
 
-                window.addEventListener('touchstart', (event) => {
-                    isTouching = true;
-                    previousTouchPosition.x = event.touches[0].clientX; // Capturamos la posición inicial del toque
-                });
+        window.addEventListener('touchstart', (event) => {
+            isTouching = true;
+            previousTouchPosition.x = event.touches[0].clientX; // Capturamos la posición inicial del toque
+        });
 
-                window.addEventListener('touchmove', (event) => {
-                    if (isTouching) {
-                        const deltaX = event.touches[0].clientX - previousTouchPosition.x;
-                        rotationSpeed = deltaX * 0.002; // Reducción del factor para la rotación lenta en móviles
-                        group.rotation.y += rotationSpeed; // Rotación basada en el desplazamiento táctil
-                        previousTouchPosition.x = event.touches[0].clientX;
-                    }
+        window.addEventListener('touchmove', (event) => {
+            if (isTouching) {
+                const deltaX = event.touches[0].clientX - previousTouchPosition.x;
+                rotationSpeed = deltaX * 0.002; // Reducción del factor para la rotación lenta en móviles
+                group.rotation.y += rotationSpeed; // Rotación basada en el desplazamiento táctil
+                totalRotationAmount += rotationSpeed;
+                
+                // Verificar si se debe cambiar la imagen central
+                checkCentralImageRotation(totalRotationAmount);
+                
+                previousTouchPosition.x = event.touches[0].clientX;
+            }
 
-                    let closestImageIndex3 = -1;
-                    let minAngleDifference3 = Infinity;
+            let closestImageIndex3 = -1;
+            let minAngleDifference3 = Infinity;
 
-                    group.children.forEach((plane, index) => {
-                        const planeAngle = (index / mediaItems.length) * Math.PI * 2;
-                        const groupRotation = group.rotation.y % (Math.PI * 2);
-                        const angleDifference = Math.abs(groupRotation - planeAngle);
+            group.children.forEach((plane, index) => {
+                const planeAngle = (index / mediaItems.length) * Math.PI * 2;
+                const groupRotation = group.rotation.y % (Math.PI * 2);
+                const angleDifference = Math.abs(groupRotation - planeAngle);
 
-                        if (angleDifference < minAngleDifference3) {
-                            minAngleDifference3 = angleDifference;
-                            closestImageIndex3 = index;
-                        }
+                if (angleDifference < minAngleDifference3) {
+                    minAngleDifference3 = angleDifference;
+                    closestImageIndex3 = index;
+                }
 
-                        // Ajustar la opacidad en función de la distancia angular al frente
-                        const normalizedDifference = Math.abs(groupRotation - planeAngle) / Math.PI;
-                        const opacity = Math.max(0.2, 1 - normalizedDifference); // Opacidad mínima de 0.2
-                        plane.material.opacity = opacity;
-                        plane.material.transparent = true; // Asegurarse de que la transparencia esté activada
-                    });
+                // Ajustar la opacidad en función de la distancia angular al frente
+                const normalizedDifference = Math.abs(groupRotation - planeAngle) / Math.PI;
+                const opacity = Math.max(0.2, 1 - normalizedDifference); // Opacidad mínima de 0.2
+                plane.material.opacity = opacity;
+                plane.material.transparent = true; // Asegurarse de que la transparencia esté activada
+            });
 
-                    if (closestImageIndex3 !== currentImageIndex3) {
-                        currentImageIndex3 = closestImageIndex3;
-                        const currentImage3 = group.children[currentImageIndex3].userData;
-                        /*titleElement.innerText = currentImage3.title;
-                        titleElement.style.opacity = 1;*/
-                        console.log(`La imagen que está al frente es: ${currentImage3.title}`);
-                    }
-                });
+            if (closestImageIndex3 !== currentImageIndex3) {
+                currentImageIndex3 = closestImageIndex3;
+                const currentImage3 = group.children[currentImageIndex3].userData;
+                /*titleElement.innerText = currentImage3.title;
+                titleElement.style.opacity = 1;*/
+                console.log(`La imagen que está al frente es: ${currentImage3.title}`);
+            }
+        });
 
-                window.addEventListener('touchend', () => {
-                    isTouching = false;
-                });
+        window.addEventListener('touchend', () => {
+            isTouching = false;
+        });
 
-                // Animación de la escena
-                const animate = () => {
-                    rotationSpeed *= 0.95; // Reducir gradualmente la velocidad de rotación
-                    group.rotation.y += rotationSpeed; // Rotación continua
+        // Animación de la escena
+        const animate = () => {
+            rotationSpeed *= 0.95; // Reducir gradualmente la velocidad de rotación
+            group.rotation.y += rotationSpeed; // Rotación continua
+            totalRotationAmount += rotationSpeed;
+            
+            // Verificar si se debe cambiar la imagen central en cada frame de animación
+            checkCentralImageRotation(totalRotationAmount);
 
-                    requestAnimationFrame(animate);
-                    composer.render();
-                };
-                animate();
+            requestAnimationFrame(animate);
+            composer.render();
+        };
+        animate();
 
-                // Manejo de redimensionamiento
-                window.addEventListener('resize', () => {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                    composer.setSize(window.innerWidth, window.innerHeight);
-                });
-
+        // Manejo de redimensionamiento
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
     </script>
 
     <script>        
