@@ -1051,7 +1051,7 @@ ul.decadas{
         opacity: 0;
     }
     .margin-top-150{
-        margin-top: -150px;
+        margin-top: -200px;
     }
     .margin-top-230{
         margin-top: -230px;
@@ -1081,7 +1081,7 @@ ul.decadas{
                 margin: 0 auto;
             }
             .item-derecha h5{
-                font-size: 24px;
+                font-size: 21px;
             }
     .lapiz{
         left: 50%;
@@ -1141,6 +1141,9 @@ ul.decadas{
     }
     .header-interior h1 {
         font-size: 3rem;        
+    }
+    .header-interior h3{
+        padding: 0 20px;
     }
     .header-interior p{
         font-size: 1.5rem;
@@ -1289,10 +1292,14 @@ ul.decadas{
     .item-derecha{
         max-width: 45%;
         width: 45%;
+        word-break: break-word;
     }
         .item-derecha h5{
             font-size: 21px;
         }
+    .box-timeline h4{
+        font-size: 4rem;
+    }
     
 }
   
