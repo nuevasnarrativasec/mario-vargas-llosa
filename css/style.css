@@ -942,15 +942,72 @@ p.texto-nobel{
                 text-align: left;
                 vertical-align: top;
             }
+
+ul.premios{
+    margin: 10px auto 40px;
+    padding: 0;
+    text-align: center;
+}
+    ul.premios li{  
+        display: inline-block;
+        margin: 10px;
+        max-width: 150px;
+        vertical-align: top;
+    }
+        ul.premios li img{
+            max-width: 60px;
+        }
+        ul.premios li h5{
+            color: #98832B;
+            font: 80px/1 'founders_groteskmedium';
+            margin: 0 auto;
+        }
+            ul.premios li h5 span{
+                display: block;
+                font-size: 18px;
+            }
+.separador-premios{
+    background-color: #c2c2c2;
+    display: inline-block;
+    height: 200px;
+    margin: 0 20px;
+    vertical-align: top;
+    width: 1px;
+}
+p.descripcion-premios{
+    color: #98832B;
+    font: 16px/1 'founders_groteskregular';
+    text-align: center;
+}
+.box-iframe{
+    margin: 80px auto;
+    max-width: 1200px;
+}
+    .box-iframe h4{
+        font: 28px/1.2 'founders_groteskmedium';
+        margin: 0 auto;
+        text-align: center;
+    }
+    .box-iframe p{
+        font: 1rem / 1.4 'founders_groteskregular';
+        margin: 10px auto 40px;
+        text-align: center;
+    }
+
 p.bajada-cronologia{
     color: #613472;
     font: 1.2rem / 1.3 "Cormorant Garamond", serif;
     font-style: italic;
     font-weight: 600;
-    margin: 50px auto;
+    margin: 80px auto;
     max-width: 420px;
     text-align: center;
     vertical-align: top;
+}
+p.texto-premios{
+    font: 1rem / 1.4 'founders_groteskregular';
+    margin: 80px auto 20px;
+    max-width: 400px;
 }
     
 span.selecciona{
