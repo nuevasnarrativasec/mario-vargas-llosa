@@ -894,7 +894,7 @@ span.separador-amigo{
 
 .box-bajada-nobel{
     margin: 20px auto;
-    max-width: 520px;    
+    max-width: 610px;    
 }
     .box-bajada-nobel img{
         display: block;
@@ -903,6 +903,12 @@ span.separador-amigo{
     }
     .box-bajada-nobel h3{
         font: 1.5rem / 1.2 "Cormorant Garamond", serif;
+        text-align: center;
+        font-style: italic;
+    }
+    .box-bajada-nobel h5{
+        font: 1.5rem / 1.2 "Cormorant Garamond", serif;
+        font-weight: 800;
         text-align: center;
         font-style: italic;
     }
@@ -1458,6 +1464,40 @@ ul.decadas{
                     font: 1rem / 1.3 'prelomedium';
                 }
 
+.box-main-autor{
+    margin: 40px auto;
+}   
+    span.separador-autor{
+        background-color: #c2c2c2;
+        display: block;
+        height: 1px;
+        margin: 10px auto;
+        width: 25%;
+    }    
+    .box-autor{
+        margin: 10px auto;
+        text-align: center;
+    }         
+        .box-autor img{
+            display: inline-block;
+            max-width: 50px;
+            vertical-align: top;
+        }
+        .info-autor{
+            display: inline-block;
+            margin: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+            .info-autor h5{
+                font: 15px/1.2 'prelobold';
+                margin: 0 auto;
+            }
+            .info-autor h6{
+                font: 15px/1.2 'prelomedium';
+                margin: 0 auto;
+            }
+
 
 @media only screen and (max-width: 640px) {
 
@@ -1601,6 +1641,9 @@ ul.decadas{
         .box-foto-nobel p{
             font: 1.2rem / 1.4 'founders_groteskregular';
         }
+        p.texto-nobel{
+            padding: 0 20px;
+        }
     .bg-foto-nobel-1,
     .bg-foto-nobel-2{
         margin-bottom: 40px;
@@ -1703,6 +1746,10 @@ ul.decadas{
     .box-columna-der .box-texto-obra h4::before{
         left: -25%;
         width: 15px;
+    }
+
+    span.separador-autor{
+        width: 70%;
     }
     
 }
