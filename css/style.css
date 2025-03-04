@@ -300,7 +300,8 @@ body, html {
         height: 50vh;
     }
         .header-interior-capitulo-1{
-            padding-top: 90px;
+            padding-bottom: 0;
+            padding-top: 160px;    
         }
     .header-interior-capitulo-2{
         background-color: #C79421;
@@ -1545,6 +1546,7 @@ ul.decadas{
     }
         .header-chat{
             margin: 0 auto;
+            margin-top: 80px;
             max-width: 500px;
             text-align: center;
         }
@@ -1582,6 +1584,24 @@ ul.decadas{
             .body-chat iframe{
                 border: none;
             }
+    p.link-columnas{
+        border: 1px solid #BA6F60;
+        border-radius: 15px;
+        margin: 70px auto;
+        max-width: 220px;
+        padding: 20px 30px;
+        text-align: center;
+    }
+        p.link-columnas a{
+            color: #BA6F60;
+            font: 17px/1.1 'Founders Grotesk'; 
+        }   
+        p.link-columnas{
+            font: 17px/1.1 'founders_groteskregular';
+        }
+        p.link-columnas span{
+            font-family: 'Founders Grotesk';
+        }
 
 
 
