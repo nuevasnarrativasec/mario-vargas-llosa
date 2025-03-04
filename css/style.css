@@ -9,6 +9,14 @@
          url('../fonts/foundersgrotesk-medium-webfont.woff') format('woff');
 }
 @font-face {
+    font-family: 'Founders Grotesk';
+    src: url('../fonts/FoundersGrotesk-Bold.woff2') format('woff2'),
+        url('../fonts/FoundersGrotesk-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
     font-family: 'Founders Grotesk X-Condensed';
     src: url('../fonts/FoundersGroteskXCond-Bold.woff2') format('woff2'),
          url('../fonts/FoundersGroteskXCond-Bold.woff') format('woff');
@@ -287,6 +295,13 @@ body, html {
     padding: 40px 0 60px;
     text-align: center;
 }
+    .header-interior-capitulo-1{
+        background-color: #000;
+        height: 50vh;
+    }
+        .header-interior-capitulo-1{
+            padding-top: 90px;
+        }
     .header-interior-capitulo-2{
         background-color: #C79421;
     }
@@ -402,6 +417,11 @@ body, html {
         margin: 0 20px;
         vertical-align: top;
         width: 1px;
+    }
+    .header-interior img{
+        display: block;
+        margin: 10px auto;
+        max-width: 50px;
     }
 
 
@@ -1497,6 +1517,73 @@ ul.decadas{
                 font: 15px/1.2 'prelomedium';
                 margin: 0 auto;
             }
+.box-main-pdt{
+
+}
+    .bg-pdt-1{
+        background: url(../img/bg-pdt-1.jpg) no-repeat center top;
+        background-size: contain;
+        height: 800px;
+    }
+    .box-main-pdt .box-main-autor{
+        margin-top: -165px;
+    }
+    .box-main-pdt h4{
+        font: 34px/1.1 'Founders Grotesk'; 
+        margin: 0 auto;        
+        max-width: 400px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+    p.bajada-pdt{
+        font: 17px/1.3 'founders_groteskregular';
+        margin: 30px auto;
+        max-width: 400px;
+    }
+    .main-chat{
+
+    }
+        .header-chat{
+            margin: 0 auto;
+            max-width: 500px;
+            text-align: center;
+        }
+            .header-chat img{
+                display: inline-block;
+                max-width: 150px;
+                vertical-align: top;
+            }
+            .box-indicaciones-chat{
+                display: inline-block;
+                padding-bottom: 40px;
+                text-align: left;
+                vertical-align: bottom;
+            }
+                .box-indicaciones-chat p{
+                    font: 16px/1.1 'founders_groteskregular';
+                    margin: 7px auto;
+                }
+                    .box-indicaciones-chat p:nth-child(1){
+                        font-weight: bold;
+                    }
+        .body-chat{
+            background-color: #BA6F60;
+            border-radius: 15px;
+            box-sizing: border-box;
+            margin: 0 auto;
+            max-width: 500px;
+            padding: 10px 20px;
+        }
+            .body-chat p{
+                color: #fff;
+                font: 16px/1.3 'founders_groteskregular';
+                margin: 10px auto;
+            }
+            .body-chat iframe{
+                border: none;
+            }
+
+
 
 
 @media only screen and (max-width: 640px) {
