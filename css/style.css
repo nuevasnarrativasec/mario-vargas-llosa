@@ -977,6 +977,7 @@ ul.premios{
 p.descripcion-premios{
     color: #98832B;
     font: 16px/1 'founders_groteskregular';
+    margin: 0 auto 10px;
     text-align: center;
 }
 .box-iframe{
@@ -1311,10 +1312,38 @@ ul.decadas{
     .box-columna-izq .padding-bottom-190{
         padding-bottom: 190px;
     }
+    .box-columna-izq .padding-bottom-250{
+        padding-bottom: 260px;
+    }
     .box-columna-izq .padding-bottom-260{
         padding-bottom: 260px;
     }
+    .box-columna-izq .padding-bottom-355{
+        padding-bottom: 355px;
+    }
+    .box-columna-izq .padding-bottom-410{
+        padding-bottom: 410px;
+    }
+    .box-columna-izq .padding-bottom-1143{
+        padding-bottom: 1143px;
+    }
+    .box-columna-izq .padding-bottom-1660{
+        padding-bottom: 1660px;
+    }
 
+    .box-columna-izq .padding-top-190{
+        padding-top: 190px;
+    }
+
+    .box-columna-der .padding-bottom-220{
+        padding-bottom: 220px;
+    }
+    .box-columna-der .padding-bottom-295{
+        padding-bottom: 295px;
+    }
+    .box-columna-der .padding-bottom-365{
+        padding-bottom: 365px;
+    }
     .box-columna-der .padding-top-620{
         padding-top: 620px;
     }
