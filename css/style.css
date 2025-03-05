@@ -1891,6 +1891,42 @@ ul.decadas{
     span.separador-autor{
         width: 70%;
     }
+
+    .bg-pdt-1{
+        height: 200px;
+    }
+    .box-main-pdt .box-main-autor{
+        margin-top: 0;
+    }
+    .box-main-pdt h4{
+        font-size: 1.7rem;
+        padding: 0 20px;
+    }
+    p.bajada-pdt{
+        padding: 0 20px;
+    }
+    .header-chat img{
+        margin-top: 8px;
+        max-width: 100px;
+    }
+    .box-indicaciones-chat{
+        max-width: 210px;
+        padding-bottom: 0;
+    }
+    .body-chat{
+        margin: 0 10px;
+    }
+    img.bg-pdt-3, 
+    img.bg-pdt-4{
+        display: none;
+    }
+    .info-metodologia{
+        max-width: 90%;
+        width: 90%;
+    }
+    .footer-pdt{
+        margin-top: 0;
+    }
     
 }
   
