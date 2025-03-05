@@ -2034,11 +2034,20 @@ ul.decadas{
         padding-top: 705px;
     }
 
+    .box-columna-izq .padding-bottom-70{
+        padding-bottom: 70px;
+    }
+    .box-columna-izq .padding-bottom-95{
+        padding-bottom: 95px;
+    }
     .box-timeline .box-columna-izq .padding-bottom-100 {
         padding-bottom: 64px;
     }
     .box-columna-izq .padding-bottom-105{
         padding-bottom: 169px;
+    }
+    .box-columna-izq .padding-bottom-110{
+        padding-bottom: 110px;
     }
     .box-columna-izq .padding-bottom-220 {
         padding-bottom: 322px;
@@ -2067,8 +2076,14 @@ ul.decadas{
     .box-columna-izq .padding-bottom-672 {
         padding-bottom: 1086px;
     }
+    .box-columna-izq .padding-bottom-715{
+        padding-bottom: 1092px;
+    }
     .box-columna-izq .padding-bottom-740 {
         padding-bottom: 1193px;
+    }
+    .box-timeline .box-columna-izq .padding-bottom-1039-2{
+        padding-bottom: 1495px;
     }
     .box-columna-izq .padding-bottom-1143 {
         padding-bottom: 1622px;
