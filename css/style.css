@@ -1602,6 +1602,39 @@ ul.decadas{
         p.link-columnas span{
             font-family: 'Founders Grotesk';
         }
+.box-metodologia{
+    background-color: #FFF2E0;
+    box-sizing: border-box;
+    text-align: center;
+}
+    img.bg-pdt-3,
+    img.bg-pdt-4{
+        display: inline-block;
+        max-width: 20%;
+        vertical-align: top;
+    }
+    .info-metodologia{
+        display: inline-block;
+        max-width: 59%;
+        padding-top: 40px;
+        vertical-align: top;
+        width: 59%;
+    }
+        .info-metodologia h5{
+            font: 23px/1.1 'Founders Grotesk'; 
+            margin: 10px auto 30px;
+            text-transform: uppercase;
+        }
+        .info-metodologia p{
+            font: 17px/1.4 'founders_groteskregular';
+            margin: 10px auto;
+            max-width: 500px;
+            text-align: left;
+        }
+.footer-pdt{
+    background-color: transparent;
+    margin-top: -250px;
+}
 
 
 
