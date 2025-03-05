@@ -1674,6 +1674,7 @@ ul.decadas{
     .header-interior p{
         font-size: 1.5rem;
         margin-bottom: 20px;
+        padding: 0 20px;
     }
     span.separador{
         display: none;
@@ -1704,7 +1705,7 @@ ul.decadas{
         }
 
     .box-obra-derecha .box-info-obra   {
-        margin-top: 350px;
+        margin-top: 270px;
     }         
     .box-obra-derecha .box-portada{
         position: absolute;
@@ -1712,7 +1713,7 @@ ul.decadas{
         width: 100%;
     }
     .box-portada img{
-        max-width: 50%;
+        max-width: 40%;
     }
     .box-separador h3,
     .box-main-galeria{
