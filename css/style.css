@@ -1928,6 +1928,25 @@ ul.decadas{
     .footer-pdt{
         margin-top: 0;
     }
+    .box-personaje img{
+        max-width: 200px;
+    }
+    .box-ilustracion-personaje h6,
+    .box-texto-personaje h6{
+        font-size: 1.5rem;
+    }
+    .box-texto-personaje h5{
+        font-size: 28px;
+    }
+    .box-texto-personaje h5 span{
+        font: 1.4rem/1.3 "Cormorant Garamond", serif;
+        font-weight: 700;
+    }
+
+    #personaje-9,
+    #personaje-10{
+        margin: 0;
+    }
     
 }
   
