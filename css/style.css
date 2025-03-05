@@ -1542,7 +1542,7 @@ ul.decadas{
     p.bajada-pdt{
         font: 17px/1.3 'founders_groteskregular';
         margin: 30px auto;
-        max-width: 400px;
+        max-width: 390px;
     }
     .main-chat{
 
@@ -2026,13 +2026,74 @@ ul.decadas{
     .box-timeline .margin-top-159 {
         margin-top: 217px;
     }
-
+    
+    .box-columna-der .padding-bottom-365 {
+        padding-bottom: 241px;
+    }
     .box-columna-der .padding-top-620{
         padding-top: 705px;
     }
 
+    .box-timeline .box-columna-izq .padding-bottom-100 {
+        padding-bottom: 64px;
+    }
+    .box-columna-izq .padding-bottom-105{
+        padding-bottom: 169px;
+    }
+    .box-columna-izq .padding-bottom-220 {
+        padding-bottom: 322px;
+    }
+    .box-columna-izq .padding-bottom-284{
+        padding-bottom: 461px;
+    }
+    .box-columna-izq .padding-bottom-328 {
+        padding-bottom: 566px;
+    }
+    .box-columna-izq .padding-bottom-355{
+        padding-bottom: 535px;
+    }
+    .box-columna-izq .padding-bottom-410{
+        padding-bottom: 651px;
+    }
+    .box-columna-izq .padding-bottom-425 {
+        padding-bottom: 760px;
+    }
+    .box-columna-izq .padding-bottom-505 {
+        padding-bottom: 843px;
+    }
+    .box-columna-izq .padding-bottom-623 {
+        padding-bottom: 999px;
+    }
+    .box-columna-izq .padding-bottom-672 {
+        padding-bottom: 1086px;
+    }
+    .box-columna-izq .padding-bottom-740 {
+        padding-bottom: 1193px;
+    }
+    .box-columna-izq .padding-bottom-1143 {
+        padding-bottom: 1622px;
+    }
+    .box-columna-izq .padding-bottom-1435 {
+        padding-bottom: 2375px;
+    }
+    .box-columna-izq .padding-bottom-1505{
+        padding-bottom: 2250px;
+    }
+    .box-columna-izq .padding-bottom-1660{
+        padding-bottom: 2495px;
+    }
+    .box-columna-izq .padding-bottom-2127 {
+        padding-bottom: 3251px;
+    }
+    .box-timeline .box-columna-izq .padding-bottom-2035-2 {
+        padding-bottom: 3330px;
+    }
     .box-columna-izq .padding-top-190{
+        padding-bottom: 440px;
         padding-top: 288px;
+    }
+    .box-columna-izq .padding-bottom-190-2{
+        padding-bottom: 0;
     }
 
 }
