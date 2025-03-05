@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MVLL</title>
 
-    <link rel="stylesheet" href="../css/style.css?v13">
+    <link rel="stylesheet" href="../css/style.css?5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
@@ -146,6 +146,9 @@
     </p>
 
     <div class="box-timeline">
+
+        <img src="../img/flecha-subir.png" alt="" width="100%" class="flecha-subir">
+
         <h4 id="decada-1">
             1950 - 1960
         </h4>
@@ -1551,11 +1554,11 @@
             var controller = new ScrollMagic.Controller();
 
             var scene = new ScrollMagic.Scene({
-                triggerElement: "#year-1",
-                triggerHook: 0.2, 
+                triggerElement: "#decada-1",
+                triggerHook: 0.5, 
                 reverse: true 
             })
-            .setClassToggle(".lapiz", "show") 
+            .setClassToggle(".flecha-subir", "show") 
             .addTo(controller);
         });
     </script>
@@ -1575,6 +1578,18 @@
             });
         });
 
+    </script>
+
+    <!-- flecha subir -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector(".flecha-subir").addEventListener("click", function () {
+                const targetElement = document.querySelector(".decadas");
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: "smooth" });
+                }
+            });
+        });
     </script>
 
 </body>

@@ -1232,7 +1232,7 @@ ul.decadas{
         top: 20%;
         z-index: 1;        
     }
-        .lapiz.show {
+        .flecha-subir.show {
             opacity: 1;
         }
     .box-columna-der .box-nobel{
@@ -1638,7 +1638,17 @@ ul.decadas{
     background-color: transparent;
     margin-top: -250px;
 }
+.flecha-subir{
+    bottom: 20px;
+    cursor: pointer;
+    max-width: 60px;
+    opacity: 0;
+    position: fixed;
+    right: 20px;
+    z-index: 10;
 
+    filter: drop-shadow(0px 6px 10px #c4c4c4);
+}
 
 
 
