@@ -1987,14 +1987,14 @@ ul.decadas{
     
 }
   
-@media (max-width: 1000px){
+@media only screen and (max-width: 1000px){
     
     .timeline{
         width:100%;
     }
 }
   
-@media (max-width: 768px){
+@media only screen and (max-width: 768px){
     .timeline{
         width:100%;
     }
@@ -2037,7 +2037,7 @@ ul.decadas{
 }
 
 
-@media (max-width: 360px){
+@media only screen and (max-width: 360px){
 
     .box-timeline .margin-top-93 {
         padding-top: 93px;
@@ -2135,7 +2135,7 @@ ul.decadas{
 
 }
 
-@media (min-width: 375px) {
+@media only screen and (max-width: 375px) {
 
     .box-timeline .margin-bottom-112{
         margin-bottom: 154px;
@@ -2230,7 +2230,7 @@ ul.decadas{
 
 }
 
-@media (min-width: 412px) {
+@media only screen and (max-width: 412px) {
 
     .box-timeline .margin-bottom-112{
         margin-bottom: 154px;
