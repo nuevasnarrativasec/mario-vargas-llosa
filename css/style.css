@@ -1077,8 +1077,17 @@ p.bajada-cronologia{
 }
 p.texto-premios{
     font: 1rem / 1.4 'founders_groteskregular';
-    margin: 80px auto 20px;
+    margin: 80px auto 40px;
     max-width: 400px;
+}
+h5.sub-metodologia-mapa{
+    font: 23px / 1.1 'Founders Grotesk';
+    margin: 10px auto 20px;
+    text-align: center;
+    text-transform: uppercase;
+}
+p.texto-metodologia-mapa{
+    margin: 20px auto 80px;
 }
     
 span.selecciona{
