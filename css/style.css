@@ -269,6 +269,10 @@ body, html {
                 max-width: 20px;
                 vertical-align: top;
             }
+            .menu-button a p{
+                display: inline-block;
+                margin: 0 auto;
+            }
         .inicio {
             background-color: #000;
             flex: 1;            
@@ -1725,12 +1729,13 @@ ul.decadas{
         margin-top: 270px;
     }         
     .box-obra-derecha .box-portada{
+        box-sizing: border-box;
         position: absolute;
         top: 0;
         width: 100%;
     }
     .box-portada img{
-        max-width: 40%;
+        max-width: 35%;
     }
     .box-separador h3,
     .box-main-galeria{
@@ -1926,6 +1931,7 @@ ul.decadas{
         padding: 0 20px;
     }
     p.bajada-pdt{
+        margin-top: 0 !important;
         padding: 0 20px;
     }
     .header-chat img{
@@ -1983,6 +1989,10 @@ ul.decadas{
     }
     .flecha-subir{
         max-width: 40px;
+    }
+
+    .menu-button a p{
+        max-width: 95px;
     }
     
 }
