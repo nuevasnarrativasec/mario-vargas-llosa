@@ -999,7 +999,7 @@ h5.sub-nobel{
     
 }
     .box-foto-nobel p{
-        font: 1rem/1.4 'founders_groteskregular';
+        font: 1rem/1.4 'Founders Grotesk light';
         margin: 5px auto;
     }
     .bg-foto-nobel-1{
@@ -2053,6 +2053,10 @@ ul.decadas{
     }
     .last{
         width: 100%;
+    }
+    ul.notas-nobel li{
+        margin: 10px;
+        min-width: 200px;
     }
     
 }
