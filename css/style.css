@@ -924,6 +924,30 @@ span.separador-amigo{
     width: 60%;
 }
 
+ul.notas-nobel{
+    margin: 40px auto 60px;
+    padding: 0;
+    text-align: center;
+}
+    ul.notas-nobel li{
+        border: 1px solid #c2c2c2;
+        border-radius: 10px;
+        display: inline-block;
+        color: #98832B;
+        cursor: pointer;
+        font: 1rem/1.2 'founders_groteskmedium';
+        margin: 0 10px;
+        padding: 10px 40px;
+        text-align: center;
+        vertical-align: top;
+    }
+        ul.notas-nobel li:hover,
+        .active-notas-nobel{
+            background-color: #98832B;
+            color: #fff !important;
+        }
+        
+
 .box-bajada-nobel{
     margin: 20px auto;
     max-width: 610px;    
@@ -934,9 +958,11 @@ span.separador-amigo{
         max-width: 80px;
     }
     .box-bajada-nobel h3{
-        font: 1.5rem / 1.2 "Cormorant Garamond", serif;
-        text-align: center;
+        font: 1.5rem / 1.2 "Cormorant Garamond", serif;        
         font-style: italic;
+        margin: 20px auto;
+        max-width: 400px;        
+        text-align: center;
     }
     .box-bajada-nobel h5{
         font: 1.5rem / 1.2 "Cormorant Garamond", serif;
