@@ -335,7 +335,7 @@
 
                 // Ajustar la opacidad en función de la distancia angular al frente
                 const normalizedDifference = Math.abs(groupRotation - planeAngle) / Math.PI;
-                const opacity = Math.max(0.2, 1 - normalizedDifference); // Opacidad mínima de 0.2
+                const opacity = Math.max(0.8, 1 - normalizedDifference); // Opacidad mínima de 0.2
                 plane.material.opacity = opacity;
                 plane.material.transparent = true; // Asegurarse de que la transparencia esté activada
             });
