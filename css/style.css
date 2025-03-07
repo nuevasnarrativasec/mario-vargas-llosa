@@ -384,7 +384,7 @@ body, html {
         height: 50vh;
     }
         #capitulo .header-interior-capitulo-9 h1{
-            margin-top: 100px;
+            margin-top: 50px;
             max-width: 500px;
         }
     .header-interior h3{
@@ -1718,6 +1718,11 @@ ul.decadas{
     margin: 20px auto;
     max-width: 1200px;
     width: 100%;
+}
+
+.header-interior-capitulo-9 .logo-ecdata{
+    margin: 20px auto;
+    max-width: 150px;
 }
 
 @media only screen and (max-width: 640px) {
