@@ -35,6 +35,7 @@
                 <p>
                     Haz scroll hacia los lados para cambiar de imagen
                 </p>
+                
             </div>
         </div>
     
@@ -149,51 +150,114 @@ const startAngle = Math.PI / 1.6;
 // Arreglo para mantener referencia a todos los videos
 const videoElements = [];
 
+const videoPlaceholders = {};
+
 // Función para crear un material de textura a partir de un archivo de video
 function createGifTexture(url) {
     const video = document.createElement('video');
     video.src = url;
     video.loop = true; 
     video.muted = true; 
-    video.playsInline = true; // Importante para iOS
-    video.setAttribute('playsinline', ''); // Redundancia para iOS
-    video.setAttribute('webkit-playsinline', ''); // Para versiones antiguas de Safari
+    video.playsInline = true; 
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
     video.preload = 'auto';
     video.crossOrigin = 'anonymous';
+    
+    // Extraer el nombre del video para usarlo como clave
+    const videoKey = url.split('/').pop().split('.')[0];
     
     // Guarda el video para iniciar reproducción más tarde
     videoElements.push(video);
     
-    // En iOS, necesitamos un evento de usuario para iniciar la reproducción
-    const texture = new THREE.VideoTexture(video);
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    texture.format = THREE.RGBFormat;
+    // Generar un placeholder basado en la URL del video
+    // Este es el truco: cargar un thumbnail del video en lugar del video mismo
+    const placeholderUrl = `../videos/thumbnails/${videoKey}.jpg`;  // Ajusta esta ruta a tu estructura de carpetas
     
+    // Crea una textura para el placeholder
+    const placeholderTexture = loader.load(placeholderUrl, 
+        // Callback de éxito
+        () => {
+            console.log(`Placeholder cargado para ${videoKey}`);
+        },
+        // Callback de progreso
+        undefined,
+        // Callback de error - si no existe el thumbnail, usar un color sólido
+        () => {
+            console.log(`No se encontró placeholder para ${videoKey}, usando color por defecto`);
+            placeholderTexture.image = generateColorTexture(64, 64, 0x2a3b4c); // Color oscuro azulado
+            placeholderTexture.needsUpdate = true;
+        }
+    );
+    
+    // Guardar referencia al placeholder
+    videoPlaceholders[videoKey] = placeholderTexture;
+    
+    // Crear la textura de video real que se usará después
+    const videoTexture = new THREE.VideoTexture(video);
+    videoTexture.minFilter = THREE.LinearFilter;
+    videoTexture.magFilter = THREE.LinearFilter;
+    videoTexture.format = THREE.RGBFormat;
+    
+    // Inicialmente, devuelve la textura del placeholder
+    return placeholderTexture;
+}
+
+// Función utilitaria para generar una textura de color sólido
+function generateColorTexture(width, height, color) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d');
+    context.fillStyle = '#' + color.toString(16).padStart(6, '0');
+    context.fillRect(0, 0, width, height);
+    
+    const texture = new THREE.Texture(canvas);
+    texture.needsUpdate = true;
     return texture;
 }
 
-// Iniciar reproducción de videos después de interacción del usuario
+// Iniciar reproducción de videos y reemplazar texturas de placeholder con las reales
 function startVideoPlayback() {
-    videoElements.forEach(video => {
-        // Intento de reproducción con manejo de promesa (para Safari moderno)
+    videoElements.forEach((video, index) => {
+        // Intento de reproducción con manejo de promesa
         const playPromise = video.play();
         
         if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                // Auto-play fue prevenido, intentemos de nuevo con interacción del usuario
+            playPromise.then(() => {
+                // La reproducción comenzó con éxito
+                // Obtener la clave del video a partir de la URL
+                const videoKey = video.src.split('/').pop().split('.')[0];
+                
+                // Buscar el plano correspondiente a este video
+                const plane = group.children[index];
+                
+                // Si encontramos el plano, actualizar su textura con la textura de video real
+                if (plane) {
+                    const videoTexture = new THREE.VideoTexture(video);
+                    videoTexture.minFilter = THREE.LinearFilter;
+                    videoTexture.magFilter = THREE.LinearFilter;
+                    
+                    // Reemplazar la textura estática con la textura de video
+                    plane.material.map = videoTexture;
+                    plane.material.needsUpdate = true;
+                    
+                    console.log(`Video ${videoKey} activado con éxito`);
+                }
+            }).catch(error => {
+                // Auto-play fue prevenido
                 console.log("Reproducción automática prevenida:", error);
             });
         }
     });
 }
 
-// Registrar eventos para iniciar reproducción
-['touchstart', 'click', 'mousedown'].forEach(eventType => {
+// Registrar eventos para iniciar reproducción (además del indicador visual)
+['touchstart', 'click', 'mousedown', 'wheel'].forEach(eventType => {
     window.addEventListener(eventType, function onFirstInteraction() {
         startVideoPlayback();
         // Eliminar manejadores después de la primera interacción
-        ['touchstart', 'click', 'mousedown'].forEach(e => 
+        ['touchstart', 'click', 'mousedown', 'wheel'].forEach(e => 
             window.removeEventListener(e, onFirstInteraction));
     }, { once: true });
 });

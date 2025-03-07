@@ -225,6 +225,17 @@ body, html {
     opacity: 0; 
     transition: opacity 0.5s ease;             
 }
+.button-ok{
+    background-color: #000;
+    border-radius: 5px;
+    color: #fff;
+    display: block;
+    font: 1rem/1.4 'Founders Grotesk X-Condensed';
+    margin: 10px auto;
+    max-width: 100px;
+    padding: 10px;
+    text-align: center;
+}
 
 .box-titular-interior{
     position: fixed;
