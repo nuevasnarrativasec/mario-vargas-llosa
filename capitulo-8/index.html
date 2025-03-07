@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
  
 </head>
 <body id="capitulo">
@@ -105,10 +105,14 @@
     <div class="box-iframe">
         <h4>El mundo de Vargas Llosa</h4>
         <p>Los distritos, ciudades y países en los que transcurrieron las historias de sus novelas más célebres, según la crítica.</p>
-        <iframe title="" aria-label="Mapa" id="datawrapper-chart-Xbzp9" src="https://datawrapper.dwcdn.net/Xbzp9/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="294" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();
-        </script>
+        
+        <div id="map"></div>
+
+        <!--<iframe title="" aria-label="Mapa" id="datawrapper-chart-Xbzp9" src="https://datawrapper.dwcdn.net/Xbzp9/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="294" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();
+        </script>-->
     </div>
 
+    
     <h5 class="sub-metodologia-mapa">metodología</h5>
     <p class="texto-premios texto-metodologia-mapa">
         Para el conteo de menciones, se extrajeron nombres de ciudades y países de novelas en PDF mediante conversión de texto, limpieza y análisis con modelos de reconocimiento de entidades como spaCy o IA generativa (GPT Plus). Se validaron los resultados con bases de datos geográficas y se analizaron las menciones para identificar su contexto y frecuencia.
@@ -1557,6 +1561,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>   
     <script src="https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales/el-metro-interminable-ecpm/js/ScrollMagic.min.js"></script>
     
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
     <!-- lapiz timeline -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -1597,6 +1603,104 @@
                 if (targetElement) {
                     targetElement.scrollIntoView({ behavior: "smooth" });
                 }
+            });
+        });
+    </script>
+
+    <!-- mapa -->
+    <script>
+        // Crear el mapa centrado en una ubicación general
+        var map = L.map('map', {
+            center: [-12.0464, -77.0428], // Centro en Lima, Perú
+            zoom: 5,
+            scrollWheelZoom: true, // Evita zoom con scroll en desktop
+            touchZoom: false, // Evita zoom con gestos en móvil
+            zoomControl: false 
+        });
+
+        // Agregar capa base
+        /*L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);*/
+
+        var Stadia_AlidadeSmooth = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}', {
+            minZoom: 0,
+            maxZoom: 20,
+            attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            ext: 'png'
+        }).addTo(map);;
+
+        L.control.zoom({
+            position: "bottomright"
+        }).addTo(map);
+
+        // Datos de los lugares
+        var lugares = [
+            { lat: 18.4801972, lng: -69.942111, lugar: "Santo Domingo", menciones: "61", novela: "La Fiesta del Chivo", radio: 61000 },
+            { lat: 40.7127281, lng: -74.0060152, lugar: "Nueva York", menciones: "93", novela: "La Fiesta del Chivo", radio: 93000 },
+            { lat: 38.8950368, lng: -77.0365427, lugar: "Washington", menciones: "29", novela: "La Fiesta del Chivo", radio: 29000 },
+            { lat: 48.8534951, lng: 2.3483915, lugar: "París", menciones: "2", novela: "La Fiesta del Chivo", radio: 6000 },
+            { lat: 18.4174531, lng: -70.1103346, lugar: "San Cristobal", menciones: "2", novela: "La Fiesta del Chivo", radio: 6000 },
+            { lat: 19.4366635, lng: -71.5703737, lugar: "Dajabón", menciones: "3", novela: "La Fiesta del Chivo", radio: 6000 },
+            { lat: 19.1089256, lng: -70.6781493, lugar: "República Dominicana", menciones: "113", novela: "La Fiesta del Chivo", radio: 113000 },
+            { lat: 19.2518104, lng: -72.2853283, lugar: "Haití", menciones: "5", novela: "La Fiesta del Chivo", radio: 5000 },
+            { lat: 39.3803843, lng: -97.4653468, lugar: "Estados Unidos", menciones: "6", novela: "La Fiesta del Chivo | La guerra del fin del mundo", radio: 6000 },
+            { lat: -12.143959, lng: -77.0202681, lugar: "Barranco", menciones: "12", novela: "La ciudad y los perros", radio: 12000 },
+            { lat: -12.1206214, lng: -77.0294993, lugar: "Miraflores", menciones: "16", novela: "La ciudad y los perros | Conversación en la catedral", radio: 16000 },
+            { lat: -12.0957149, lng: -77.0682243, lugar: "Magdalena del Mar", menciones: "1", novela: "La ciudad y los perros", radio: 1000 },
+            { lat: -12.0641355, lng: -77.0295563, lugar: "La Victoria", menciones: "2", novela: "La ciudad y los perros", radio: 2000 },
+            { lat: -12.0621065, lng: -77.0365256, lugar: "Lima", menciones: "50", novela: "La ciudad y los perros | Conversación en la catedral", radio: 50000 },
+            { lat: -16.3988667, lng: -71.5369607, lugar: "Arequipa", menciones: "11", novela: "La ciudad y los perros | Conversación en la catedral", radio: 11000 },
+            { lat: -5, lng: -80.333333, lugar: "Piura", menciones: "32", novela: "La ciudad y los perros | La casa verde", radio: 32000 },
+            { lat: -6.7716146, lng: -79.8387175, lugar: "Chiclayo", menciones: "32", novela: "La ciudad y los perros", radio: 5000 },
+            { lat: -12.9833481, lng: -72.8779533, lugar: "Perú", menciones: "11", novela: "La ciudad y los perros | Conversación en la catedral", radio: 11000 },
+            { lat: -4.8986276, lng: -77.953714, lugar: "Nieva", menciones: "8", novela: "La casa verde", radio: 8000 },
+            { lat: -4.8480272, lng: -76.8652783, lugar: "Río Marañón", menciones: "7", novela: "La casa verde", radio: 7000 },
+            { lat: -12.1709478, lng: -77.02126, lugar: "Chorrillos", menciones: "1", novela: "Conversación en la catedral", radio: 5000 },
+            { lat: -11.9878157, lng: -77.0982509, lugar: "San Martín de Porres", menciones: "3", novela: "Conversación en la catedral", radio: 6000 },
+            { lat: -11.6965537, lng: -77.1116547, lugar: "Ancón", menciones: "2", novela: "Conversación en la catedral", radio: 6000 },
+            { lat: -12.0266773, lng: -77.0340939, lugar: "Rímac", menciones: "2", novela: "Conversación en la catedral", radio: 6000 },
+            { lat: -12.1141978, lng: -77.0104749, lugar: "Surquillo", menciones: "2", novela: "Conversación en la catedral", radio: 6000 },
+            { lat: -12.1746636, lng: -77.0335499, lugar: "La Herradura", menciones: "1", novela: "Conversación en la catedral", radio: 5000 },
+            { lat: -1.4515326, lng: -48.4606171, lugar: "Canudos", menciones: "50", novela: "La guerra del fin del mundo", radio: 50000 },
+            { lat: -10.3652838, lng: -38.0415825, lugar: "Vaza-Barris", menciones: "2", novela: "La guerra del fin del mundo", radio: 6000 },
+            { lat: -12.285251, lng: -41.9294776, lugar: "Bahía", menciones: "10", novela: "La guerra del fin del mundo", radio: 10000 },
+            { lat: -8.4116316, lng: -37.5919699, lugar: "Pernambuco", menciones: "1", novela: "La guerra del fin del mundo", radio: 5000 },
+            { lat: -5.3264703, lng: -39.7156073, lugar: "Ceará", menciones: "1", novela: "La guerra del fin del mundo", radio: 5000 },
+            { lat: -12.9822499, lng: -38.4812772, lugar: "Salvador", menciones: "2", novela: "La guerra del fin del mundo", radio: 6000 },
+            { lat: -7.3977472, lng: -35.9214813, lugar: "Queimadas", menciones: "3", novela: "La guerra del fin del mundo", radio: 6000 },
+            { lat: -10.4391775, lng: -39.3326972, lugar: "Monte Santo", menciones: "2", novela: "La guerra del fin del mundo", radio: 6000 },
+            { lat: -10.3289386, lng: -37.2079657, lugar: "Cumbe", menciones: "2", novela: "La guerra del fin del mundo", radio: 6000 },
+            { lat: 41.3828939, lng: 2.1774322, lugar: "Barcelona", menciones: "1", novela: "La guerra del fin del mundo", radio: 5000 },
+            { lat: -11.998254, lng: -49.53062216, lugar: "Brasil", menciones: "58", novela: "La guerra del fin del mundo", radio: 58000 },
+            { lat: 39.0394527, lng: 33.101427109, lugar: "España", menciones: "2", novela: "La guerra del fin del mundo", radio: 6000 },
+            { lat: -22.9110137, lng: -43.2093727, lugar: "Turquía", menciones: "1", novela: "La guerra del fin del mundo", radio: 5000 },
+            { lat: 26.42963187, lng: 29.26497676, lugar: "Egipto", menciones: "2", novela: "La guerra del fin del mundo", radio: 5000 }
+        ];
+
+        // Agregar círculos con popups
+        lugares.forEach(function (lugar) {
+            let circle = L.circle([lugar.lat, lugar.lng], {
+                color: "transparent",
+                fillColor: "#6c5182",
+                fillOpacity: 0.4,
+                radius: lugar.radio
+            }).addTo(map)
+
+            let popup = L.popup().setContent(`
+                <strong>Lugar:</strong> ${lugar.lugar} <br>
+                <strong>Menciones:</strong> ${lugar.menciones} <br>
+                <strong>Novela:</strong> ${lugar.novela}
+            `);
+            
+            circle.on("mouseover", function () {
+                this.setStyle({ fillOpacity: 1 }); // Hace el overlay más sólido al pasar el mouse
+                popup.setLatLng(this.getLatLng()).openOn(map); // Muestra el popup
+            });
+
+            circle.on("mouseout", function () {
+                this.setStyle({ fillOpacity: 0.7 }); // Vuelve a su opacidad original
+                map.closePopup(); // Cierra el popup al quitar el mouse
             });
         });
     </script>
