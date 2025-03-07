@@ -1612,7 +1612,7 @@
         // Crear el mapa centrado en una ubicación general
         var map = L.map('map', {
             center: [-12.0464, -77.0428], // Centro en Lima, Perú
-            zoom: 5,
+            zoom: 7,
             scrollWheelZoom: true, // Evita zoom con scroll en desktop
             touchZoom: false, // Evita zoom con gestos en móvil
             zoomControl: false 
@@ -1623,11 +1623,17 @@
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);*/
 
-        var Stadia_AlidadeSmooth = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}', {
+        /*var Stadia_AlidadeSmooth = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.{ext}', {
             minZoom: 0,
             maxZoom: 20,
             attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
             ext: 'png'
+        }).addTo(map);*/
+
+        var Esri_WorldGrayCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+            minZoom: 0,
+            maxZoom: 20,
         }).addTo(map);
 
         L.control.zoom({
