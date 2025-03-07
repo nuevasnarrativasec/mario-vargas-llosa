@@ -71,575 +71,575 @@
     <!-- carrusel -->
     <script>
         // Configuración de la escena
-const container = document.getElementById('spiral-container');
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(37, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+        const container = document.getElementById('spiral-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(37, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
 
-renderer.setClearColor(0x000000, 1); // Color de fondo de escena
-renderer.setSize(window.innerWidth, window.innerHeight);
-container.appendChild(renderer.domElement);
+        renderer.setClearColor(0x000000, 1); // Color de fondo de escena
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
 
-// Crear EffectComposer y RenderPass
-const composer = new THREE.EffectComposer(renderer);
-const renderPass = new THREE.RenderPass(scene, camera);
-composer.addPass(renderPass);
+        // Crear EffectComposer y RenderPass
+        const composer = new THREE.EffectComposer(renderer);
+        const renderPass = new THREE.RenderPass(scene, camera);
+        composer.addPass(renderPass);
 
-const group = new THREE.Group();
-scene.add(group);
+        const group = new THREE.Group();
+        scene.add(group);
 
-camera.position.set(0, -0.5, 8.5);
-camera.lookAt(0, 0, 0);
+        camera.position.set(0, -0.5, 8.5);
+        camera.lookAt(0, 0, 0);
 
-group.position.y += 0.2; // Mueve el grupo hacia arriba
+        group.position.y += 0.2; // Mueve el grupo hacia arriba
 
-// Definir las tres imágenes centrales que se alternarán
-const centralImages = [
-    '../img/bg-centro-2.png',
-    '../img/bg-centro-3.png',    
-    '../img/bg-centro-4.png'     
-];
+        // Definir las tres imágenes centrales que se alternarán
+        const centralImages = [
+            '../img/bg-centro-2.png',
+            '../img/bg-centro-3.png',    
+            '../img/bg-centro-4.png'     
+        ];
 
-let currentCentralImageIndex = 0;
-let lastRotationThreshold = 0;
-const rotationThreshold = Math.PI / 2; // Cambia de imagen cada 90 grados (ajustable)
+        let currentCentralImageIndex = 0;
+        let lastRotationThreshold = 0;
+        const rotationThreshold = Math.PI / 2; // Cambia de imagen cada 90 grados (ajustable)
 
-// Cargar imágenes en espiral con enlaces correspondientes y títulos
-const mediaItems = [
-    // Ya no incluimos la imagen central en este array
-    { url: '../videos/video-vargas-2-2.mp4', link: '../capitulo-1/index.html', title: '', type: 'video' },
-    { url: '../videos/video-vargas-3.mp4', link: '../capitulo-2/index.html', title: '', type: 'video' },
-    { url: '../videos/video-vargas-4.mp4', link: '../capitulo-3/index.html', title: '', type: 'video' },
-    { url: '../videos/video-vargas-5.mp4', link: '../capitulo-4/index.html', title: '', type: 'video' },
-    { url: '../videos/video-vargas-6.mp4', link: '../capitulo-5/index.html', title: '', type: 'video' },
-    { url: '../videos/video-vargas-7.mp4', link: '../capitulo-6/index.html', title: '', type: 'video' },
-    { url: '../videos/video-vargas-8.mp4', link: '../capitulo-7/index.html', title: '', type: 'video' },
-    { url: '../videos/video-vargas-9.mp4', link: '../capitulo-8/index.html', title: '', type: 'video' }
-];        
+        // Cargar imágenes en espiral con enlaces correspondientes y títulos
+        const mediaItems = [
+            // Ya no incluimos la imagen central en este array
+            { url: '../videos/video-vargas-2-2.mp4', link: '../capitulo-1/index.html', title: '', type: 'video' },
+            { url: '../videos/video-vargas-3.mp4', link: '../capitulo-2/index.html', title: '', type: 'video' },
+            { url: '../videos/video-vargas-4.mp4', link: '../capitulo-3/index.html', title: '', type: 'video' },
+            { url: '../videos/video-vargas-5.mp4', link: '../capitulo-4/index.html', title: '', type: 'video' },
+            { url: '../videos/video-vargas-6.mp4', link: '../capitulo-5/index.html', title: '', type: 'video' },
+            { url: '../videos/video-vargas-7.mp4', link: '../capitulo-6/index.html', title: '', type: 'video' },
+            { url: '../videos/video-vargas-8.mp4', link: '../capitulo-7/index.html', title: '', type: 'video' },
+            { url: '../videos/video-vargas-9.mp4', link: '../capitulo-8/index.html', title: '', type: 'video' }
+        ];        
 
-// Cargar la textura de fondo
-const loader = new THREE.TextureLoader();
-// Crear el backgroundMesh primero para evitar errores de referencia
-let backgroundMesh;
-let backgroundTexture;
+        // Cargar la textura de fondo
+        const loader = new THREE.TextureLoader();
+        // Crear el backgroundMesh primero para evitar errores de referencia
+        let backgroundMesh;
+        let backgroundTexture;
 
-// Inicializar backgroundMesh con una geometría temporal
-const tempGeometry = new THREE.PlaneGeometry(1, 1);
-const tempMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
-backgroundMesh = new THREE.Mesh(tempGeometry, tempMaterial);
-backgroundMesh.position.z = -5;
-scene.add(backgroundMesh);
+        // Inicializar backgroundMesh con una geometría temporal
+        const tempGeometry = new THREE.PlaneGeometry(1, 1);
+        const tempMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+        backgroundMesh = new THREE.Mesh(tempGeometry, tempMaterial);
+        backgroundMesh.position.z = -5;
+        scene.add(backgroundMesh);
 
-// Cargar la textura de fondo
-backgroundTexture = loader.load(
-    '../img/bg-test-5.jpg',
-    (texture) => {
-        console.log("Imagen cargada correctamente");
-        createBackground(); // Recrear el fondo cuando la textura esté cargada
-    },
-    undefined,
-    (err) => console.error("Error cargando imagen:", err)
-);
+        // Cargar la textura de fondo
+        backgroundTexture = loader.load(
+            '../img/bg-test-5.jpg',
+            (texture) => {
+                console.log("Imagen cargada correctamente");
+                createBackground(); // Recrear el fondo cuando la textura esté cargada
+            },
+            undefined,
+            (err) => console.error("Error cargando imagen:", err)
+        );
 
-// Configuraciones para la espiral
-const radius = 2.9;
-const verticalSpacing = 0.155;
-const totalRotation = Math.PI * 2.3;
-const startAngle = Math.PI / 1.6;
+        // Configuraciones para la espiral
+        const radius = 2.9;
+        const verticalSpacing = 0.155;
+        const totalRotation = Math.PI * 2.3;
+        const startAngle = Math.PI / 1.6;
 
-// Arreglo para mantener referencia a todos los videos
-const videoElements = [];
+        // Arreglo para mantener referencia a todos los videos
+        const videoElements = [];
 
-const videoPlaceholders = {};
+        const videoPlaceholders = {};
 
-// Función para crear un material de textura a partir de un archivo de video
-function createGifTexture(url) {
-    const video = document.createElement('video');
-    video.src = url;
-    video.loop = true; 
-    video.muted = true; 
-    video.playsInline = true; 
-    video.setAttribute('playsinline', '');
-    video.setAttribute('webkit-playsinline', '');
-    video.preload = 'auto';
-    video.crossOrigin = 'anonymous';
-    
-    // Extraer el nombre del video para usarlo como clave
-    const videoKey = url.split('/').pop().split('.')[0];
-    
-    // Guarda el video para iniciar reproducción más tarde
-    videoElements.push(video);
-    
-    // Generar un placeholder basado en la URL del video
-    // Este es el truco: cargar un thumbnail del video en lugar del video mismo
-    const placeholderUrl = `../videos/thumbnails/${videoKey}.jpg`;  // Ajusta esta ruta a tu estructura de carpetas
-    
-    // Crea una textura para el placeholder
-    const placeholderTexture = loader.load(placeholderUrl, 
-        // Callback de éxito
-        () => {
-            console.log(`Placeholder cargado para ${videoKey}`);
-        },
-        // Callback de progreso
-        undefined,
-        // Callback de error - si no existe el thumbnail, usar un color sólido
-        () => {
-            console.log(`No se encontró placeholder para ${videoKey}, usando color por defecto`);
-            placeholderTexture.image = generateColorTexture(64, 64, 0x2a3b4c); // Color oscuro azulado
-            placeholderTexture.needsUpdate = true;
-        }
-    );
-    
-    // Guardar referencia al placeholder
-    videoPlaceholders[videoKey] = placeholderTexture;
-    
-    // Crear la textura de video real que se usará después
-    const videoTexture = new THREE.VideoTexture(video);
-    videoTexture.minFilter = THREE.LinearFilter;
-    videoTexture.magFilter = THREE.LinearFilter;
-    videoTexture.format = THREE.RGBFormat;
-    
-    // Inicialmente, devuelve la textura del placeholder
-    return placeholderTexture;
-}
-
-// Función utilitaria para generar una textura de color sólido
-function generateColorTexture(width, height, color) {
-    const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-    const context = canvas.getContext('2d');
-    context.fillStyle = '#' + color.toString(16).padStart(6, '0');
-    context.fillRect(0, 0, width, height);
-    
-    const texture = new THREE.Texture(canvas);
-    texture.needsUpdate = true;
-    return texture;
-}
-
-// Iniciar reproducción de videos y reemplazar texturas de placeholder con las reales
-function startVideoPlayback() {
-    videoElements.forEach((video, index) => {
-        // Intento de reproducción con manejo de promesa
-        const playPromise = video.play();
-        
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                // La reproducción comenzó con éxito
-                // Obtener la clave del video a partir de la URL
-                const videoKey = video.src.split('/').pop().split('.')[0];
-                
-                // Buscar el plano correspondiente a este video
-                const plane = group.children[index];
-                
-                // Si encontramos el plano, actualizar su textura con la textura de video real
-                if (plane) {
-                    const videoTexture = new THREE.VideoTexture(video);
-                    videoTexture.minFilter = THREE.LinearFilter;
-                    videoTexture.magFilter = THREE.LinearFilter;
-                    
-                    // Reemplazar la textura estática con la textura de video
-                    plane.material.map = videoTexture;
-                    plane.material.needsUpdate = true;
-                    
-                    console.log(`Video ${videoKey} activado con éxito`);
+        // Función para crear un material de textura a partir de un archivo de video
+        function createGifTexture(url) {
+            const video = document.createElement('video');
+            video.src = url;
+            video.loop = true; 
+            video.muted = true; 
+            video.playsInline = true; 
+            video.setAttribute('playsinline', '');
+            video.setAttribute('webkit-playsinline', '');
+            video.preload = 'auto';
+            video.crossOrigin = 'anonymous';
+            
+            // Extraer el nombre del video para usarlo como clave
+            const videoKey = url.split('/').pop().split('.')[0];
+            
+            // Guarda el video para iniciar reproducción más tarde
+            videoElements.push(video);
+            
+            // Generar un placeholder basado en la URL del video
+            // Este es el truco: cargar un thumbnail del video en lugar del video mismo
+            const placeholderUrl = `../videos/thumbnails/${videoKey}.jpg`;  // Ajusta esta ruta a tu estructura de carpetas
+            
+            // Crea una textura para el placeholder
+            const placeholderTexture = loader.load(placeholderUrl, 
+                // Callback de éxito
+                () => {
+                    console.log(`Placeholder cargado para ${videoKey}`);
+                },
+                // Callback de progreso
+                undefined,
+                // Callback de error - si no existe el thumbnail, usar un color sólido
+                () => {
+                    console.log(`No se encontró placeholder para ${videoKey}, usando color por defecto`);
+                    placeholderTexture.image = generateColorTexture(64, 64, 0x2a3b4c); // Color oscuro azulado
+                    placeholderTexture.needsUpdate = true;
                 }
-            }).catch(error => {
-                // Auto-play fue prevenido
-                console.log("Reproducción automática prevenida:", error);
+            );
+            
+            // Guardar referencia al placeholder
+            videoPlaceholders[videoKey] = placeholderTexture;
+            
+            // Crear la textura de video real que se usará después
+            const videoTexture = new THREE.VideoTexture(video);
+            videoTexture.minFilter = THREE.LinearFilter;
+            videoTexture.magFilter = THREE.LinearFilter;
+            videoTexture.format = THREE.RGBFormat;
+            
+            // Inicialmente, devuelve la textura del placeholder
+            return placeholderTexture;
+        }
+
+        // Función utilitaria para generar una textura de color sólido
+        function generateColorTexture(width, height, color) {
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const context = canvas.getContext('2d');
+            context.fillStyle = '#' + color.toString(16).padStart(6, '0');
+            context.fillRect(0, 0, width, height);
+            
+            const texture = new THREE.Texture(canvas);
+            texture.needsUpdate = true;
+            return texture;
+        }
+
+        // Iniciar reproducción de videos y reemplazar texturas de placeholder con las reales
+        function startVideoPlayback() {
+            videoElements.forEach((video, index) => {
+                // Intento de reproducción con manejo de promesa
+                const playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        // La reproducción comenzó con éxito
+                        // Obtener la clave del video a partir de la URL
+                        const videoKey = video.src.split('/').pop().split('.')[0];
+                        
+                        // Buscar el plano correspondiente a este video
+                        const plane = group.children[index];
+                        
+                        // Si encontramos el plano, actualizar su textura con la textura de video real
+                        if (plane) {
+                            const videoTexture = new THREE.VideoTexture(video);
+                            videoTexture.minFilter = THREE.LinearFilter;
+                            videoTexture.magFilter = THREE.LinearFilter;
+                            
+                            // Reemplazar la textura estática con la textura de video
+                            plane.material.map = videoTexture;
+                            plane.material.needsUpdate = true;
+                            
+                            console.log(`Video ${videoKey} activado con éxito`);
+                        }
+                    }).catch(error => {
+                        // Auto-play fue prevenido
+                        console.log("Reproducción automática prevenida:", error);
+                    });
+                }
             });
         }
-    });
-}
 
-// Registrar eventos para iniciar reproducción (además del indicador visual)
-['touchstart', 'click', 'mousedown', 'wheel'].forEach(eventType => {
-    window.addEventListener(eventType, function onFirstInteraction() {
-        startVideoPlayback();
-        // Eliminar manejadores después de la primera interacción
-        ['touchstart', 'click', 'mousedown', 'wheel'].forEach(e => 
-            window.removeEventListener(e, onFirstInteraction));
-    }, { once: true });
-});
+        // Registrar eventos para iniciar reproducción (además del indicador visual)
+        ['touchstart', 'click', 'mousedown', 'wheel'].forEach(eventType => {
+            window.addEventListener(eventType, function onFirstInteraction() {
+                startVideoPlayback();
+                // Eliminar manejadores después de la primera interacción
+                ['touchstart', 'click', 'mousedown', 'wheel'].forEach(e => 
+                    window.removeEventListener(e, onFirstInteraction));
+            }, { once: true });
+        });
 
-// Crear un plano central fijo (fuera del grupo que gira)
-let centralPlane;
-function createCentralPlane() {
-    const texture = loader.load(centralImages[0]);
-    const geometry = new THREE.PlaneGeometry(3.0, 3.0);
-    const material = new THREE.MeshBasicMaterial({
-        map: texture,
-        transparent: true,
-        side: THREE.DoubleSide
-    });
-    
-    centralPlane = new THREE.Mesh(geometry, material);
-    // Posicionar en el centro de la escena
-    centralPlane.position.set(0, 0, 0);
-    // Añadir a la escena principal, NO al grupo (para que no gire)
-    scene.add(centralPlane);
-}
-
-// Función para cambiar la imagen central con transición suave
-function updateCentralImage(newImageIndex) {
-    // Cargar la nueva textura
-    const newTexture = loader.load(centralImages[newImageIndex]);
-    
-    // Animar la transición (fade-out/fade-in)
-    let opacity = 1;
-    const fadeOut = setInterval(() => {
-        opacity -= 0.05;
-        if (opacity <= 0) {
-            clearInterval(fadeOut);
-            // Cambiar la textura cuando está totalmente transparente
-            centralPlane.material.map = newTexture;
-            centralPlane.material.needsUpdate = true;
+        // Crear un plano central fijo (fuera del grupo que gira)
+        let centralPlane;
+        function createCentralPlane() {
+            const texture = loader.load(centralImages[0]);
+            const geometry = new THREE.PlaneGeometry(3.0, 3.0);
+            const material = new THREE.MeshBasicMaterial({
+                map: texture,
+                transparent: true,
+                side: THREE.DoubleSide
+            });
             
-            // Iniciar fade-in
-            const fadeIn = setInterval(() => {
-                opacity += 0.05;
-                if (opacity >= 1) {
-                    opacity = 1;
-                    clearInterval(fadeIn);
+            centralPlane = new THREE.Mesh(geometry, material);
+            // Posicionar en el centro de la escena
+            centralPlane.position.set(0, 0, 0);
+            // Añadir a la escena principal, NO al grupo (para que no gire)
+            scene.add(centralPlane);
+        }
+
+        // Función para cambiar la imagen central con transición suave
+        function updateCentralImage(newImageIndex) {
+            // Cargar la nueva textura
+            const newTexture = loader.load(centralImages[newImageIndex]);
+            
+            // Animar la transición (fade-out/fade-in)
+            let opacity = 1;
+            const fadeOut = setInterval(() => {
+                opacity -= 0.05;
+                if (opacity <= 0) {
+                    clearInterval(fadeOut);
+                    // Cambiar la textura cuando está totalmente transparente
+                    centralPlane.material.map = newTexture;
+                    centralPlane.material.needsUpdate = true;
+                    
+                    // Iniciar fade-in
+                    const fadeIn = setInterval(() => {
+                        opacity += 0.05;
+                        if (opacity >= 1) {
+                            opacity = 1;
+                            clearInterval(fadeIn);
+                        }
+                        centralPlane.material.opacity = opacity;
+                    }, 30);
                 }
-                centralPlane.material.opacity = opacity;
+                centralPlane.material.opacity = Math.max(0, opacity);
             }, 30);
-        }
-        centralPlane.material.opacity = Math.max(0, opacity);
-    }, 30);
-    
-    currentCentralImageIndex = newImageIndex;
-}
-
-// Crear el plano central fijo primero
-createCentralPlane();
-
-// Renderizar mediaItems en espiral
-mediaItems.forEach((mediaData, index) => {
-    let texture;
-
-    if (mediaData.type === 'video') {
-        texture = createGifTexture(mediaData.url);
-    } else {
-        texture = loader.load(mediaData.url);
-    }
-
-    const geometry = new THREE.PlaneGeometry(1.3, 1.1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({
-        map: texture,
-        transparent: true,
-        side: THREE.DoubleSide,
-    });
-
-    const plane = new THREE.Mesh(geometry, material);
-
-    // Calculamos el ángulo considerando que ahora hay un elemento menos
-    const angle = startAngle + (index / mediaItems.length) * totalRotation;
-    const x = Math.cos(angle) * radius;
-    const z = Math.sin(angle) * radius;
-    const height = -index * verticalSpacing;
-
-    plane.position.set(x, height, z);
-    plane.lookAt(0, plane.position.y, 0);
-
-    const normalizedAngle = (angle + Math.PI) / (Math.PI * 2);
-    const scale = 0.8 + 0.2 * (1 - Math.abs(Math.sin(normalizedAngle * Math.PI)));
-    plane.scale.set(scale, scale, 1);
-
-    plane.userData = { link: mediaData.link, title: mediaData.title };
-    group.add(plane);
-});
-
-// Crear plano de fondo
-const createBackground = () => {
-    const aspect = window.innerWidth / window.innerHeight;
-    const geometry = new THREE.PlaneGeometry(10 * aspect, 10); // Ajusta el tamaño del plano según la ventana
-    const material = new THREE.MeshBasicMaterial({ map: backgroundTexture });
-    
-    scene.remove(backgroundMesh); // Elimina el plano anterior
-    
-    backgroundMesh = new THREE.Mesh(geometry, material);
-    backgroundMesh.position.z = -5;  // Aleja el fondo en el eje Z
-    scene.add(backgroundMesh);
-};
-
-// Detectar clics en las imágenes
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-
-// Variables para controlar el tiempo y distancia del tap
-let touchStartTime = 0;
-let touchStartX = 0;
-let touchStartY = 0;
-const TAP_THRESHOLD = 300; // milisegundos para considerar un tap vs. manipulación
-const MOVE_THRESHOLD = 10; // píxeles de movimiento permitidos para seguir considerándolo un tap
-
-// Función para manejar el inicio del toque
-function handleTouchStart(event) {
-    // Guardar tiempo y posición iniciales
-    touchStartTime = Date.now();
-    touchStartX = event.touches[0].clientX;
-    touchStartY = event.touches[0].clientY;
-}
-
-// Función para manejar el fin del toque
-function handleTouchEnd(event) {
-    // Prevenir el comportamiento predeterminado
-    event.preventDefault();
-    
-    // Calcular duración y distancia del toque
-    const touchDuration = Date.now() - touchStartTime;
-    const touchEndX = event.changedTouches[0].clientX;
-    const touchEndY = event.changedTouches[0].clientY;
-    
-    // Calcular la distancia recorrida
-    const touchDistance = Math.sqrt(
-        Math.pow(touchEndX - touchStartX, 2) + 
-        Math.pow(touchEndY - touchStartY, 2)
-    );
-    
-    // Solo procesar como tap si fue rápido y con poco movimiento
-    if (touchDuration < TAP_THRESHOLD && touchDistance < MOVE_THRESHOLD) {
-        // Continuar con la lógica de detección de tap
-        processTapOrClick(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
-    }
-}
-
-// Función para manejar clics normales
-function handleClick(event) {
-    event.preventDefault();
-    processTapOrClick(event.clientX, event.clientY);
-}
-
-// Función que procesa la acción del tap/clic una vez validado
-function processTapOrClick(clientX, clientY) {
-    // Normalizar las coordenadas para el raycaster
-    mouse.x = (clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(clientY / window.innerHeight) * 2 + 1;
-
-    raycaster.setFromCamera(mouse, camera);
-    
-    // Verificar clic en elementos del grupo (las imágenes de la espiral)
-    const intersects = raycaster.intersectObjects(group.children);
-    if (intersects.length > 0) {
-        const intersectedObject = intersects[0].object;
-        if (intersectedObject.userData.link) {
-            window.location.href = intersectedObject.userData.link;
-        }
-    }
-    
-    // También verificar clic en la imagen central
-    const centralIntersects = raycaster.intersectObject(centralPlane);
-    if (centralIntersects.length > 0) {
-        // Si hay un enlace asociado a la imagen central, podrías añadir una acción aquí
-        console.log("Clic en la imagen central");
-    }
-}
-
-// Asignar los manejadores de eventos
-renderer.domElement.addEventListener('touchstart', handleTouchStart, false);
-renderer.domElement.addEventListener('touchend', handleTouchEnd, false);
-renderer.domElement.addEventListener('click', handleClick, false);
-
-// Añadir eventos para mouseclick y touchend
-/*window.addEventListener('click', handleTapOrClick);
-window.addEventListener('touchend', handleTapOrClick, { passive: false });*/
-
-let currentImageIndex = -1; // Para la rueda de desplazamiento (wheel)
-let currentImageIndex2 = -1; // Para el arrastre con el mouse (mousedown, mousemove, mouseup)
-let currentImageIndex3 = -1; // Para el toque en dispositivos móviles (touchstart, touchmove)
-
-// Función para verificar si se debe cambiar la imagen central
-function checkCentralImageRotation(totalRotation) {
-    // Normalizar la rotación total para que esté entre 0 y 2π
-    const normalizedRotation = Math.abs(totalRotation % (Math.PI * 2));
-    
-    // Verificar si hemos girado lo suficiente para cambiar la imagen
-    if (Math.abs(normalizedRotation - lastRotationThreshold) >= rotationThreshold) {
-        // Actualizar el umbral de rotación
-        lastRotationThreshold = normalizedRotation;
-        
-        // Calcular el nuevo índice de imagen
-        const nextImageIndex = (currentCentralImageIndex + 1) % centralImages.length;
-        
-        // Actualizar la imagen central
-        updateCentralImage(nextImageIndex);
-        
-        console.log(`Cambiando imagen central a: ${nextImageIndex + 1}`);
-    }
-}
-
-// Manejo del scroll o swipe para controlar la rotación continua
-let rotationSpeed = 0; // Variable para manejar la velocidad de rotación
-let totalRotationAmount = 0; // Seguimiento de cuánto ha girado en total
-
-window.addEventListener('wheel', (event) => {
-    const scrollAmount = event.deltaY * 0.0001;
-    rotationSpeed += scrollAmount;
-    group.rotation.y += rotationSpeed;
-    totalRotationAmount += rotationSpeed;
-    
-    // Verificar si se debe cambiar la imagen central
-    checkCentralImageRotation(totalRotationAmount);
-
-    updateClosestImage(group.rotation.y, 1);
-});
-
-// Función para actualizar la imagen más cercana y su opacidad
-function updateClosestImage(currentRotation, indexTarget) {
-    let closestImageIndex = -1;
-    let minAngleDifference = Infinity;
-
-    group.children.forEach((plane, index) => {
-        const planeAngle = (index / mediaItems.length) * Math.PI * 2;
-        const groupRotation = currentRotation % (Math.PI * 2);
-        const angleDifference = Math.abs(groupRotation - planeAngle);
-
-        if (angleDifference < minAngleDifference) {
-            minAngleDifference = angleDifference;
-            closestImageIndex = index;
+            
+            currentCentralImageIndex = newImageIndex;
         }
 
-        // Ajustar la opacidad en función de la distancia angular al frente
-        const normalizedDifference = Math.abs(groupRotation - planeAngle) / Math.PI;
-        const opacity = Math.max(0.3, 1 - normalizedDifference); // Opacidad mínima de 0.3
-        plane.material.opacity = opacity;
-        plane.material.transparent = true; // Asegurarse de que la transparencia esté activada
-    });
+        // Crear el plano central fijo primero
+        createCentralPlane();
 
-    // Actualizar el índice de imagen actual
-    if (indexTarget === 1 && closestImageIndex !== currentImageIndex) {
-        currentImageIndex = closestImageIndex;
-        const currentImage = group.children[currentImageIndex].userData;
-        console.log(`La imagen que está al frente es: ${currentImage.title}`);
-    } else if (indexTarget === 2 && closestImageIndex !== currentImageIndex2) {
-        currentImageIndex2 = closestImageIndex;
-        const currentImage2 = group.children[currentImageIndex2].userData;
-        console.log(`La imagen que está al frente es: ${currentImage2.title}`);
-    } else if (indexTarget === 3 && closestImageIndex !== currentImageIndex3) {
-        currentImageIndex3 = closestImageIndex;
-        const currentImage3 = group.children[currentImageIndex3].userData;
-        console.log(`La imagen que está al frente es: ${currentImage3.title}`);
-    }
-}
+        // Renderizar mediaItems en espiral
+        mediaItems.forEach((mediaData, index) => {
+            let texture;
 
-// Funcionalidad de arrastre para escritorio
-let isDragging = false;
-let previousMousePosition = { x: 0, y: 0 };
+            if (mediaData.type === 'video') {
+                texture = createGifTexture(mediaData.url);
+            } else {
+                texture = loader.load(mediaData.url);
+            }
 
-window.addEventListener('mousedown', (event) => {
-    isDragging = true;
-    previousMousePosition.x = event.clientX;
-});
+            const geometry = new THREE.PlaneGeometry(1.3, 1.1, 1, 1);
+            const material = new THREE.MeshBasicMaterial({
+                map: texture,
+                transparent: true,
+                side: THREE.DoubleSide,
+            });
 
-window.addEventListener('mousemove', (event) => {
-    if (isDragging) {
-        const deltaX = event.clientX - previousMousePosition.x;
-        rotationSpeed = deltaX * 0.001; // Reducción del factor de arrastre para rotación más lenta
-        group.rotation.y += rotationSpeed; // Rotar el grupo en función del arrastre
-        totalRotationAmount += rotationSpeed;
-        
-        // Verificar si se debe cambiar la imagen central
-        checkCentralImageRotation(totalRotationAmount);
-        
-        previousMousePosition.x = event.clientX;
-        
-        // Actualizar la imagen más cercana
-        updateClosestImage(group.rotation.y, 2);
-    }
-});
+            const plane = new THREE.Mesh(geometry, material);
 
-window.addEventListener('mouseup', () => {
-    isDragging = false;
-});
+            // Calculamos el ángulo considerando que ahora hay un elemento menos
+            const angle = startAngle + (index / mediaItems.length) * totalRotation;
+            const x = Math.cos(angle) * radius;
+            const z = Math.sin(angle) * radius;
+            const height = -index * verticalSpacing;
 
-// Funcionalidad de "swipe" y arrastre para dispositivos móviles (touch)
-let isTouching = false;
-let previousTouchPosition = { x: 0, y: 0 };
+            plane.position.set(x, height, z);
+            plane.lookAt(0, plane.position.y, 0);
 
-window.addEventListener('touchstart', (event) => {
-    isTouching = true;
-    previousTouchPosition.x = event.touches[0].clientX; // Capturamos la posición inicial del toque
-    
-    // Iniciar reproducción de videos en el primer toque
-    startVideoPlayback();
-    
-    // Prevenir el comportamiento predeterminado para evitar desplazamiento en iOS
-    event.preventDefault();
-}, { passive: false });
+            const normalizedAngle = (angle + Math.PI) / (Math.PI * 2);
+            const scale = 0.8 + 0.2 * (1 - Math.abs(Math.sin(normalizedAngle * Math.PI)));
+            plane.scale.set(scale, scale, 1);
 
-window.addEventListener('touchmove', (event) => {
-    if (isTouching) {
-        const deltaX = event.touches[0].clientX - previousTouchPosition.x;
-        rotationSpeed = deltaX * 0.002; // Reducción del factor para la rotación lenta en móviles
-        group.rotation.y += rotationSpeed; // Rotación basada en el desplazamiento táctil
-        totalRotationAmount += rotationSpeed;
-        
-        // Verificar si se debe cambiar la imagen central
-        checkCentralImageRotation(totalRotationAmount);
-        
-        previousTouchPosition.x = event.touches[0].clientX;
-        
-        // Actualizar la imagen más cercana
-        updateClosestImage(group.rotation.y, 3);
-    }
-    
-    // Prevenir el comportamiento predeterminado para evitar desplazamiento en iOS
-    event.preventDefault();
-}, { passive: false });
+            plane.userData = { link: mediaData.link, title: mediaData.title };
+            group.add(plane);
+        });
 
-window.addEventListener('touchend', () => {
-    isTouching = false;
-});
+        // Crear plano de fondo
+        const createBackground = () => {
+            const aspect = window.innerWidth / window.innerHeight;
+            const geometry = new THREE.PlaneGeometry(10 * aspect, 10); // Ajusta el tamaño del plano según la ventana
+            const material = new THREE.MeshBasicMaterial({ map: backgroundTexture });
+            
+            scene.remove(backgroundMesh); // Elimina el plano anterior
+            
+            backgroundMesh = new THREE.Mesh(geometry, material);
+            backgroundMesh.position.z = -5;  // Aleja el fondo en el eje Z
+            scene.add(backgroundMesh);
+        };
 
-// Animación de la escena
-const animate = () => {
-    rotationSpeed *= 0.95; // Reducir gradualmente la velocidad de rotación
-    group.rotation.y += rotationSpeed; // Rotación continua
-    totalRotationAmount += rotationSpeed;
-    
-    // Verificar si se debe cambiar la imagen central en cada frame de animación
-    checkCentralImageRotation(totalRotationAmount);
+        // Detectar clics en las imágenes
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2();
 
-    requestAnimationFrame(animate);
-    composer.render();
-};
-animate();
+        // Variables para controlar el tiempo y distancia del tap
+        let touchStartTime = 0;
+        let touchStartX = 0;
+        let touchStartY = 0;
+        const TAP_THRESHOLD = 300; // milisegundos para considerar un tap vs. manipulación
+        const MOVE_THRESHOLD = 10; // píxeles de movimiento permitidos para seguir considerándolo un tap
 
-// Manejo de redimensionamiento
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    composer.setSize(window.innerWidth, window.innerHeight);
-    createBackground(); // Actualizar el plano de fondo al redimensionar
-});
+        // Función para manejar el inicio del toque
+        function handleTouchStart(event) {
+            // Guardar tiempo y posición iniciales
+            touchStartTime = Date.now();
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+        }
 
-// Función de inicialización específica para iOS
-function initIOSFix() {
-    // Detectar si es iOS
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    if (isIOS) {
-        console.log("Dispositivo iOS detectado, aplicando correcciones");
-        
-        // Forzar un repintado completo del canvas
-        setTimeout(() => {
-            renderer.domElement.style.display = 'none';
-            setTimeout(() => {
-                renderer.domElement.style.display = 'block';
+        // Función para manejar el fin del toque
+        function handleTouchEnd(event) {
+            // Prevenir el comportamiento predeterminado
+            event.preventDefault();
+            
+            // Calcular duración y distancia del toque
+            const touchDuration = Date.now() - touchStartTime;
+            const touchEndX = event.changedTouches[0].clientX;
+            const touchEndY = event.changedTouches[0].clientY;
+            
+            // Calcular la distancia recorrida
+            const touchDistance = Math.sqrt(
+                Math.pow(touchEndX - touchStartX, 2) + 
+                Math.pow(touchEndY - touchStartY, 2)
+            );
+            
+            // Solo procesar como tap si fue rápido y con poco movimiento
+            if (touchDuration < TAP_THRESHOLD && touchDistance < MOVE_THRESHOLD) {
+                // Continuar con la lógica de detección de tap
+                processTapOrClick(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
+            }
+        }
+
+        // Función para manejar clics normales
+        function handleClick(event) {
+            event.preventDefault();
+            processTapOrClick(event.clientX, event.clientY);
+        }
+
+        // Función que procesa la acción del tap/clic una vez validado
+        function processTapOrClick(clientX, clientY) {
+            // Normalizar las coordenadas para el raycaster
+            mouse.x = (clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(clientY / window.innerHeight) * 2 + 1;
+
+            raycaster.setFromCamera(mouse, camera);
+            
+            // Verificar clic en elementos del grupo (las imágenes de la espiral)
+            const intersects = raycaster.intersectObjects(group.children);
+            if (intersects.length > 0) {
+                const intersectedObject = intersects[0].object;
+                if (intersectedObject.userData.link) {
+                    window.location.href = intersectedObject.userData.link;
+                }
+            }
+            
+            // También verificar clic en la imagen central
+            const centralIntersects = raycaster.intersectObject(centralPlane);
+            if (centralIntersects.length > 0) {
+                // Si hay un enlace asociado a la imagen central, podrías añadir una acción aquí
+                console.log("Clic en la imagen central");
+            }
+        }
+
+        // Asignar los manejadores de eventos
+        renderer.domElement.addEventListener('touchstart', handleTouchStart, false);
+        renderer.domElement.addEventListener('touchend', handleTouchEnd, false);
+        renderer.domElement.addEventListener('click', handleClick, false);
+
+        // Añadir eventos para mouseclick y touchend
+        /*window.addEventListener('click', handleTapOrClick);
+        window.addEventListener('touchend', handleTapOrClick, { passive: false });*/
+
+        let currentImageIndex = -1; // Para la rueda de desplazamiento (wheel)
+        let currentImageIndex2 = -1; // Para el arrastre con el mouse (mousedown, mousemove, mouseup)
+        let currentImageIndex3 = -1; // Para el toque en dispositivos móviles (touchstart, touchmove)
+
+        // Función para verificar si se debe cambiar la imagen central
+        function checkCentralImageRotation(totalRotation) {
+            // Normalizar la rotación total para que esté entre 0 y 2π
+            const normalizedRotation = Math.abs(totalRotation % (Math.PI * 2));
+            
+            // Verificar si hemos girado lo suficiente para cambiar la imagen
+            if (Math.abs(normalizedRotation - lastRotationThreshold) >= rotationThreshold) {
+                // Actualizar el umbral de rotación
+                lastRotationThreshold = normalizedRotation;
                 
-                // Intentar iniciar la reproducción de videos en iOS
-                document.addEventListener('touchend', function iosTouchHandler() {
-                    startVideoPlayback();
-                    document.removeEventListener('touchend', iosTouchHandler);
-                }, { once: true });
-            }, 10);
-        }, 100);
-    }
-}
+                // Calcular el nuevo índice de imagen
+                const nextImageIndex = (currentCentralImageIndex + 1) % centralImages.length;
+                
+                // Actualizar la imagen central
+                updateCentralImage(nextImageIndex);
+                
+                console.log(`Cambiando imagen central a: ${nextImageIndex + 1}`);
+            }
+        }
 
-// Llamar a la función de inicialización después de que todo esté configurado
-initIOSFix();
+        // Manejo del scroll o swipe para controlar la rotación continua
+        let rotationSpeed = 0; // Variable para manejar la velocidad de rotación
+        let totalRotationAmount = 0; // Seguimiento de cuánto ha girado en total
+
+        window.addEventListener('wheel', (event) => {
+            const scrollAmount = event.deltaY * 0.0001;
+            rotationSpeed += scrollAmount;
+            group.rotation.y += rotationSpeed;
+            totalRotationAmount += rotationSpeed;
+            
+            // Verificar si se debe cambiar la imagen central
+            checkCentralImageRotation(totalRotationAmount);
+
+            updateClosestImage(group.rotation.y, 1);
+        });
+
+        // Función para actualizar la imagen más cercana y su opacidad
+        function updateClosestImage(currentRotation, indexTarget) {
+            let closestImageIndex = -1;
+            let minAngleDifference = Infinity;
+
+            group.children.forEach((plane, index) => {
+                const planeAngle = (index / mediaItems.length) * Math.PI * 2;
+                const groupRotation = currentRotation % (Math.PI * 2);
+                const angleDifference = Math.abs(groupRotation - planeAngle);
+
+                if (angleDifference < minAngleDifference) {
+                    minAngleDifference = angleDifference;
+                    closestImageIndex = index;
+                }
+
+                // Ajustar la opacidad en función de la distancia angular al frente
+                const normalizedDifference = Math.abs(groupRotation - planeAngle) / Math.PI;
+                const opacity = Math.max(1, 1 - normalizedDifference); // Opacidad mínima de 0.3
+                plane.material.opacity = opacity;
+                plane.material.transparent = true; // Asegurarse de que la transparencia esté activada
+            });
+
+            // Actualizar el índice de imagen actual
+            if (indexTarget === 1 && closestImageIndex !== currentImageIndex) {
+                currentImageIndex = closestImageIndex;
+                const currentImage = group.children[currentImageIndex].userData;
+                console.log(`La imagen que está al frente es: ${currentImage.title}`);
+            } else if (indexTarget === 2 && closestImageIndex !== currentImageIndex2) {
+                currentImageIndex2 = closestImageIndex;
+                const currentImage2 = group.children[currentImageIndex2].userData;
+                console.log(`La imagen que está al frente es: ${currentImage2.title}`);
+            } else if (indexTarget === 3 && closestImageIndex !== currentImageIndex3) {
+                currentImageIndex3 = closestImageIndex;
+                const currentImage3 = group.children[currentImageIndex3].userData;
+                console.log(`La imagen que está al frente es: ${currentImage3.title}`);
+            }
+        }
+
+        // Funcionalidad de arrastre para escritorio
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+
+        window.addEventListener('mousedown', (event) => {
+            isDragging = true;
+            previousMousePosition.x = event.clientX;
+        });
+
+        window.addEventListener('mousemove', (event) => {
+            if (isDragging) {
+                const deltaX = event.clientX - previousMousePosition.x;
+                rotationSpeed = deltaX * 0.001; // Reducción del factor de arrastre para rotación más lenta
+                group.rotation.y += rotationSpeed; // Rotar el grupo en función del arrastre
+                totalRotationAmount += rotationSpeed;
+                
+                // Verificar si se debe cambiar la imagen central
+                checkCentralImageRotation(totalRotationAmount);
+                
+                previousMousePosition.x = event.clientX;
+                
+                // Actualizar la imagen más cercana
+                updateClosestImage(group.rotation.y, 2);
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Funcionalidad de "swipe" y arrastre para dispositivos móviles (touch)
+        let isTouching = false;
+        let previousTouchPosition = { x: 0, y: 0 };
+
+        window.addEventListener('touchstart', (event) => {
+            isTouching = true;
+            previousTouchPosition.x = event.touches[0].clientX; // Capturamos la posición inicial del toque
+            
+            // Iniciar reproducción de videos en el primer toque
+            startVideoPlayback();
+            
+            // Prevenir el comportamiento predeterminado para evitar desplazamiento en iOS
+            event.preventDefault();
+        }, { passive: false });
+
+        window.addEventListener('touchmove', (event) => {
+            if (isTouching) {
+                const deltaX = event.touches[0].clientX - previousTouchPosition.x;
+                rotationSpeed = deltaX * 0.002; // Reducción del factor para la rotación lenta en móviles
+                group.rotation.y += rotationSpeed; // Rotación basada en el desplazamiento táctil
+                totalRotationAmount += rotationSpeed;
+                
+                // Verificar si se debe cambiar la imagen central
+                checkCentralImageRotation(totalRotationAmount);
+                
+                previousTouchPosition.x = event.touches[0].clientX;
+                
+                // Actualizar la imagen más cercana
+                updateClosestImage(group.rotation.y, 3);
+            }
+            
+            // Prevenir el comportamiento predeterminado para evitar desplazamiento en iOS
+            event.preventDefault();
+        }, { passive: false });
+
+        window.addEventListener('touchend', () => {
+            isTouching = false;
+        });
+
+        // Animación de la escena
+        const animate = () => {
+            rotationSpeed *= 0.95; // Reducir gradualmente la velocidad de rotación
+            group.rotation.y += rotationSpeed; // Rotación continua
+            totalRotationAmount += rotationSpeed;
+            
+            // Verificar si se debe cambiar la imagen central en cada frame de animación
+            checkCentralImageRotation(totalRotationAmount);
+
+            requestAnimationFrame(animate);
+            composer.render();
+        };
+        animate();
+
+        // Manejo de redimensionamiento
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+            createBackground(); // Actualizar el plano de fondo al redimensionar
+        });
+
+        // Función de inicialización específica para iOS
+        function initIOSFix() {
+            // Detectar si es iOS
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if (isIOS) {
+                console.log("Dispositivo iOS detectado, aplicando correcciones");
+                
+                // Forzar un repintado completo del canvas
+                setTimeout(() => {
+                    renderer.domElement.style.display = 'none';
+                    setTimeout(() => {
+                        renderer.domElement.style.display = 'block';
+                        
+                        // Intentar iniciar la reproducción de videos en iOS
+                        document.addEventListener('touchend', function iosTouchHandler() {
+                            startVideoPlayback();
+                            document.removeEventListener('touchend', iosTouchHandler);
+                        }, { once: true });
+                    }, 10);
+                }, 100);
+            }
+        }
+
+        // Llamar a la función de inicialización después de que todo esté configurado
+        initIOSFix();
     </script>
 
     <script>        
