@@ -1002,7 +1002,8 @@ p.texto-nobel{
     max-width: 400px;
 }
 h5.sub-nobel{
-    font: 1rem / 1.4 'Founders Grotesk';
+    color: #98832B;
+    font: 1.3rem / 1.4 'founders_groteskmedium';
     margin: 10px auto 20px;
     max-width: 400px;
 }
@@ -2079,6 +2080,10 @@ ul.decadas{
     ul.notas-nobel li{
         margin: 10px;
         min-width: 200px;
+    }
+
+    h5.sub-nobel{
+        padding: 0 20px;
     }
     
 }
