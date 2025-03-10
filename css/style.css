@@ -1949,6 +1949,7 @@ ul.decadas{
     }
     p.texto-premios,
     .box-iframe p{
+        font: 1.3rem / 1.4 'founders_groteskregular';
         padding: 0 20px;
     }
 
