@@ -1689,18 +1689,18 @@
             `);
             
             circle.on("mouseover", function () {
-                this.setStyle({ fillOpacity: 1 }); // Hace el overlay más sólido al pasar el mouse
+                //this.setStyle({ fillOpacity: 1 }); // Hace el overlay más sólido al pasar el mouse
                 popup.setLatLng(this.getLatLng()).openOn(map); // Muestra el popup
             });
 
             circle.on("mouseout", function () {
-                this.setStyle({ fillOpacity: 0.7 }); // Vuelve a su opacidad original
+                //this.setStyle({ fillOpacity: 0.7 }); // Vuelve a su opacidad original
                 map.closePopup(); // Cierra el popup al quitar el mouse
             });
 
             // Evento para mostrar el popup en móviles con tap/click
             circle.on("click", function () {
-                this.setStyle({ fillOpacity: 1 });
+                //this.setStyle({ fillOpacity: 1 });
                 popup.setLatLng(this.getLatLng()).openOn(map);
             });
         });
