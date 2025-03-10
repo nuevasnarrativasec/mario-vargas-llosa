@@ -2135,6 +2135,12 @@ ul.decadas{
     #foto-8{
         max-width: 340px;
     }
+
+    .bg-pdt-1{
+        background: url(../img/bg-pdt-1-movil.jpg?v2) no-repeat center top;
+        background-size: contain;
+        height: 300px;
+    }
 }
 
 
