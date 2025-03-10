@@ -1797,7 +1797,7 @@ ul.decadas{
         padding: 20px;
     }   
         .box-info-obra p{
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 20px;
             max-width: 100%;
         }
@@ -1838,7 +1838,7 @@ ul.decadas{
         max-width: 100%;
     }
     .box-texto-personaje p{
-        font-size: 21px;
+        font-size: 1.3rem;
     }
     .separador-personaje{
         max-width: 90%;
@@ -1864,10 +1864,10 @@ ul.decadas{
         padding: 0 20px;
     }
         .box-main-textos-largos p{
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
     .box-parrafo p{
-        font: 1.2rem / 1.3 'founders_groteskregular';
+        font: 1.3rem / 1.3 'founders_groteskregular';
         max-width: 80%;
     }
 
@@ -1879,7 +1879,7 @@ ul.decadas{
         }
         p.texto-nobel,
         .box-foto-nobel p{
-            font: 1.2rem / 1.4 'founders_groteskregular';
+            font: 1.3rem / 1.4 'founders_groteskregular';
         }
         p.texto-nobel{
             padding: 0 20px;
