@@ -857,7 +857,7 @@ body, html {
     max-width: 700px;
 }
     .box-main-textos-largos p{
-        font: 16px/1.4 'founders_groteskregular';
+        font: 17px/1.4 'founders_groteskregular';
         margin: 0 auto 20px;
         max-width: 400px;
     }
@@ -1864,7 +1864,7 @@ ul.decadas{
         padding: 0 20px;
     }
         .box-main-textos-largos p{
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
     .box-parrafo p{
         font: 1.2rem / 1.3 'founders_groteskregular';
@@ -2084,6 +2084,11 @@ ul.decadas{
 
     h5.sub-nobel{
         padding: 0 20px;
+    }
+
+    .header-interior-capitulo-5.header-interior p{
+        font-size: 1.55rem;
+        max-width: 85% !important;
     }
     
 }
