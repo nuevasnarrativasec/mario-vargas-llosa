@@ -9,7 +9,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
  
 </head>
 <body id="capitulo">
@@ -1562,7 +1568,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>   
     <script src="https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales/el-metro-interminable-ecpm/js/ScrollMagic.min.js"></script>
     
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    
+    
+   
 
     <!-- lapiz timeline -->
     <script>
@@ -1610,24 +1619,24 @@
 
     <!-- mapa -->
     <script>
-        // Crear el mapa centrado en una ubicación general
+        // Crear el mapa centrado en Lima, Perú
         var map = L.map('map', {
-            center: [-12.0464, -77.0428], // Centro en Lima, Perú
-            zoom: 7,
-            scrollWheelZoom: true, // Evita zoom con scroll en desktop
-            touchZoom: false, // Evita zoom con gestos en móvil
-            zoomControl: false 
+            center: [-12.0464, -77.0428],
+            zoom: 3,
+            scrollWheelZoom: true,
+            touchZoom: false,
+            zoomControl: false
         });
 
-        var Esri_WorldGrayCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        // Agregar capa base de Esri World Gray Canvas
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
             minZoom: 0,
             maxZoom: 20,
         }).addTo(map);
 
-        L.control.zoom({
-            position: "bottomright"
-        }).addTo(map);
+        // Agregar controles de zoom en la esquina inferior derecha
+        L.control.zoom({ position: "bottomright" }).addTo(map);
 
         // Datos de los lugares
         var lugares = [
@@ -1644,7 +1653,7 @@
             { lat: -12.1206214, lng: -77.0294993, lugar: "Miraflores", menciones: "16", novela: "La ciudad y los perros | Conversación en la catedral", radio: 16000 },
             { lat: -12.0957149, lng: -77.0682243, lugar: "Magdalena del Mar", menciones: "1", novela: "La ciudad y los perros", radio: 1000 },
             { lat: -12.0641355, lng: -77.0295563, lugar: "La Victoria", menciones: "2", novela: "La ciudad y los perros", radio: 2000 },
-            { lat: -12.0621065, lng: -77.0365256, lugar: "Lima", menciones: "50", novela: "La ciudad y los perros | Conversación en la catedral", radio: 50000 },
+            { lat: -12.0621065, lng: -77.0365256, lugar: "Lima", menciones: "50", novela: "La ciudad y los perros | Conversación en la catedral", radio: 10000 },
             { lat: -16.3988667, lng: -71.5369607, lugar: "Arequipa", menciones: "11", novela: "La ciudad y los perros | Conversación en la catedral", radio: 11000 },
             { lat: -5, lng: -80.333333, lugar: "Piura", menciones: "32", novela: "La ciudad y los perros | La casa verde", radio: 32000 },
             { lat: -6.7716146, lng: -79.8387175, lugar: "Chiclayo", menciones: "32", novela: "La ciudad y los perros", radio: 5000 },
@@ -1658,52 +1667,56 @@
             { lat: -12.1141978, lng: -77.0104749, lugar: "Surquillo", menciones: "2", novela: "Conversación en la catedral", radio: 6000 },
             { lat: -12.1746636, lng: -77.0335499, lugar: "La Herradura", menciones: "1", novela: "Conversación en la catedral", radio: 5000 },
             { lat: -1.4515326, lng: -48.4606171, lugar: "Canudos", menciones: "50", novela: "La guerra del fin del mundo", radio: 50000 },
-            { lat: -10.3652838, lng: -38.0415825, lugar: "Vaza-Barris", menciones: "2", novela: "La guerra del fin del mundo", radio: 6000 },
-            { lat: -12.285251, lng: -41.9294776, lugar: "Bahía", menciones: "10", novela: "La guerra del fin del mundo", radio: 10000 },
+            { lat: -10.3652838, lng: -38.0415825, lugar: "Vaza-Barris", menciones: "2", novela: "La guerra del fin del mundo", radio: 10000 },
+            { lat: -12.285251, lng: -41.9294776, lugar: "Bahía", menciones: "10", novela: "La guerra del fin del mundo", radio: 20000 },
             { lat: -8.4116316, lng: -37.5919699, lugar: "Pernambuco", menciones: "1", novela: "La guerra del fin del mundo", radio: 5000 },
             { lat: -5.3264703, lng: -39.7156073, lugar: "Ceará", menciones: "1", novela: "La guerra del fin del mundo", radio: 5000 },
-            { lat: -12.9822499, lng: -38.4812772, lugar: "Salvador", menciones: "2", novela: "La guerra del fin del mundo", radio: 6000 },
+            { lat: -12.9822499, lng: -38.4812772, lugar: "Salvador", menciones: "2", novela: "La guerra del fin del mundo", radio: 10000 },
             { lat: -7.3977472, lng: -35.9214813, lugar: "Queimadas", menciones: "3", novela: "La guerra del fin del mundo", radio: 6000 },
-            { lat: -10.4391775, lng: -39.3326972, lugar: "Monte Santo", menciones: "2", novela: "La guerra del fin del mundo", radio: 6000 },
+            { lat: -10.4391775, lng: -39.3326972, lugar: "Monte Santo", menciones: "2", novela: "La guerra del fin del mundo", radio: 10000 },
             { lat: -10.3289386, lng: -37.2079657, lugar: "Cumbe", menciones: "2", novela: "La guerra del fin del mundo", radio: 6000 },
             { lat: 41.3828939, lng: 2.1774322, lugar: "Barcelona", menciones: "1", novela: "La guerra del fin del mundo", radio: 5000 },
             { lat: -11.998254, lng: -49.53062216, lugar: "Brasil", menciones: "58", novela: "La guerra del fin del mundo", radio: 58000 },
-            { lat: 39.0394527, lng: 33.101427109, lugar: "España", menciones: "2", novela: "La guerra del fin del mundo", radio: 6000 },
-            { lat: -22.9110137, lng: -43.2093727, lugar: "Turquía", menciones: "1", novela: "La guerra del fin del mundo", radio: 5000 },
-            { lat: 26.42963187, lng: 29.26497676, lugar: "Egipto", menciones: "2", novela: "La guerra del fin del mundo", radio: 5000 }
+            { lat: 40.463667, lng: -3.74922, lugar: "España", menciones: "2", novela: "La guerra del fin del mundo", radio: 6000 },
+            { lat: 41.0138397, lng: 28.9496593, lugar: "Turquía", menciones: "1", novela: "La guerra del fin del mundo", radio: 5000 },
+            { lat: 26.42963187, lng: 29.26497676, lugar: "Egipto", menciones: "2", novela: "La guerra del fin del mundo", radio: 10000 }
         ];
 
-        // Agregar círculos con popups
-        lugares.forEach(function (lugar) {
-            let circle = L.circle([lugar.lat, lugar.lng], {
-                color: "transparent",
-                fillColor: "#6c5182",
-                fillOpacity: 0.4,
-                radius: lugar.radio
-            }).addTo(map)
+        // Función para personalizar los clusters
+        var markers = L.markerClusterGroup({
+            iconCreateFunction: function (cluster) {
+                var count = cluster.getChildCount(); // Número de marcadores en el cluster
+                var color = count > 50 ? "#6c5182" : count > 20 ? "#6c5182" : "#6c5182"; // Rojo, Naranja o Azul
 
-            let popup = L.popup().setContent(`
-                <strong>Lugar:</strong> ${lugar.lugar} <br>
-                <strong>Menciones:</strong> ${lugar.menciones} <br>
-                <strong>Novela:</strong> ${lugar.novela}
-            `);
-            
-            circle.on("mouseover", function () {
-                //this.setStyle({ fillOpacity: 1 }); // Hace el overlay más sólido al pasar el mouse
-                popup.setLatLng(this.getLatLng()).openOn(map); // Muestra el popup
-            });
-
-            circle.on("mouseout", function () {
-                //this.setStyle({ fillOpacity: 0.7 }); // Vuelve a su opacidad original
-                map.closePopup(); // Cierra el popup al quitar el mouse
-            });
-
-            // Evento para mostrar el popup en móviles con tap/click
-            circle.on("click", function () {
-                //this.setStyle({ fillOpacity: 1 });
-                popup.setLatLng(this.getLatLng()).openOn(map);
-            });
+                return L.divIcon({
+                    html: `<div style="
+                        background: ${color};
+                        width: 40px; height: 40px;
+                        border-radius: 50%;
+                        display: flex; align-items: center; justify-content: center;
+                        color: white; font-size: 14px; font-weight: bold;">
+                        ${count}</div>`,
+                    className: "custom-cluster",
+                    iconSize: [40, 40]
+                });
+            }
         });
+
+        // Agregar marcadores al grupo
+        lugares.forEach(function (lugar) {
+            let marker = L.marker([lugar.lat, lugar.lng])
+                .bindPopup(`
+                    <strong>Lugar:</strong> ${lugar.lugar} <br>
+                    <strong>Menciones:</strong> ${lugar.menciones} <br>
+                    <strong>Novela:</strong> ${lugar.novela}
+                `);
+
+            markers.addLayer(marker);
+        });
+
+        // Agregar los clusters al mapa
+        map.addLayer(markers);
+
     </script>
 
 </body>
