@@ -63,6 +63,8 @@
         <span class="separador-autor"></span>
     </div>
 
+    <img src="../img/flecha-subir.png" alt="" width="100%" class="flecha-subir">
+
     <div class="box-main-textos-largos">
         <p>
             Desde su génesis, la poiesis de Mario Vargas Llosa, su proyecto narrativo, abordó las políticas del poder. En particular, las del Perú de mediados del siglo XX, donde están ambientados sus primeros cuentos y novelas. De hecho, cuando ganó el Nobel de Literatura, lo hizo por “su cartografía de las estructuras de poder y su mordaz retrato de la resistencia individual, la sublevación y la derrota". En correlato, su biografía evidencia una larga y mutante relación con la herramienta con la que se ejerce el poder: la política, propiamente dicha.
@@ -246,6 +248,35 @@
         </ul>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>   
+    <script src="https://d1ts5g4ys243sh.cloudfront.net/proyectos_especiales_prod/especiales/el-metro-interminable-ecpm/js/ScrollMagic.min.js"></script>
+
+    <!-- lapiz timeline -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var controller = new ScrollMagic.Controller();
+
+            var scene = new ScrollMagic.Scene({
+                triggerElement: ".box-main-autor",
+                triggerHook: 0.5, 
+                reverse: true 
+            })
+            .setClassToggle(".flecha-subir", "show") 
+            .addTo(controller);
+        });
+    </script>
+
+    <!-- flecha subir -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelector(".flecha-subir").addEventListener("click", function () {
+                const targetElement = document.querySelector(".box-main-autor");
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: "smooth" });
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>

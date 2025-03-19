@@ -575,12 +575,12 @@ body, html {
 }
     .box-portada{
         display: inline-block;
-        max-width: 400px;
+        max-width: 300px;
         vertical-align: top;
     }
         .box-portada h4{
             display: inline-block;
-            font: 1.8rem/1 "Cormorant Garamond", serif;
+            font: 1.6rem/1 "Cormorant Garamond", serif;
             font-style: italic;
             font-weight: 700;
             margin: 0 auto;
@@ -590,7 +590,7 @@ body, html {
         .box-portada img{
             box-shadow: 2px 2px 20px #555555;
             display: inline-block;
-            margin: 0 0 0 40px;
+            margin: 20px 0;
             max-width: 200px;
             vertical-align: top;
         }
@@ -616,19 +616,28 @@ body, html {
             max-width: 400px;
             text-align: center;
         }
-        .box-info-obra a {
+        .btn-box-info-obra{
             border: 1px solid #000;
             color: #000;
+            cursor: pointer;
             display: block;
             font: 1.2rem / 40px 'Founders Grotesk X-Condensed';
             height: 35px;
-            margin: 10px auto;
+            margin: 20px auto;
             max-width: 120px;
             text-align: center;
             text-decoration: none;
             text-transform: uppercase;
-            padding: 5px 10px;
-            
+            padding: 5px 10px;            
+        }
+    #info-obra-1{
+        max-width: 550px;
+    }
+        #info-obra-1 p{
+            max-width: 45%;
+        }
+        #info-obra-1 h6{
+            max-width: 420px;
         }
     .box-obra-derecha{
         position: relative;
@@ -637,7 +646,43 @@ body, html {
             padding: 20px 40px 0 0;
         }
         .box-obra-derecha .box-portada img{
-            margin: 0 40px 0 0;
+            margin: 0 0 20px;
+        }
+.box-resumen{
+    background: rgba(255, 255, 255, 0.9);
+    height: 100%;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 50;
+}
+    .ctn-box-resumen{
+        background-color: #fff;
+        border: 2px solid #000;
+        box-sizing: border-box;        
+        left: 50%;
+        max-height: 65vh;
+        max-width: 400px;        
+        overflow-y: scroll;     
+        position: absolute;        
+        top: 20%;
+        transform: translate(-50%, 0%);        
+    }
+        .ctn-box-resumen p{
+            font: 17px/1.5 'founders_groteskregular';
+            margin: 0 auto;
+            padding: 20px 30px;
+        }
+        .ctn-box-resumen .btn-cerrar{
+            background-color: #000;
+            color: #fff;
+            cursor: pointer;
+            float: right;
+            font: 1.2rem / 1.2 'prelobold';
+            padding: 5px 10px;
+            position: sticky;
+            top: 0;
+            width: 15px;            
         }
 .box-separador{
     border-bottom: 1px solid #cfb66e;
@@ -676,40 +721,96 @@ body, html {
         text-align: left;
         vertical-align: top;
     }
-    #foto-1{
+    #foto-1,
+    #foto-9,
+    #foto-17{
         margin-bottom: 30px;
         max-width: 600px;
     }
-    #foto-2{
+    #foto-2,
+    #foto-10,
+    #foto-18{
         max-width: 500px;
     }
-    #foto-3{
+    #foto-3,
+    #foto-11,
+    #foto-21{
         margin-bottom: 30px;
         max-width: 250px;
     }
-    #foto-5{
+    #foto-5,
+    #foto-12{
         display: inline-block;
         margin-bottom: 30px;
         max-width: 410px;
         vertical-align: top;
     }
-    #foto-6{
+    #foto-6,
+    #foto-13{
         display: inline-block;
         margin: 0 30px 30px;
         max-width: 400px;
         vertical-align: top;
     }
-    #foto-7{
+    #foto-7,
+    #foto-14{
         display: inline-block;
-        margin: -150px 30px 30px 0;
+        margin: 30px 30px 30px 0;
         max-width: 330px;
         vertical-align: top;
     }
-    #foto-8{
+    #foto-8,
+    #foto-15,
+    #foto-16{
         display: inline-block;
         margin: 0 30px 30px;
         max-width: 450px;
         vertical-align: top;
+    }
+    #foto-3{
+        max-width: 275px;
+    }
+    #foto-4{
+        margin-bottom: 40px;
+        max-width: 770px;
+    }
+    #foto-6{
+        max-width: 441px;
+    }
+    #foto-7{
+        margin: 0 auto;
+        max-width: 400px;
+    }
+    #foto-10{
+        max-width: 446px;
+    }
+    #foto-11{
+        max-width: 100%;
+    }
+    #foto-14{
+        margin: 0 30px 30px;
+        max-width: 408px;
+    }
+    #foto-15{
+        max-width: 470px;
+        margin: 0 20px 30px; 
+    }
+    #foto-16{
+        max-width: 470px;
+        margin: 0 20px 30px; 
+    }
+    #foto-18,
+    #foto-19{
+        margin: 0 20px 30px;
+        max-width: 470px;
+    }
+    #foto-20{
+        margin: 0 30px 30px;
+        max-width: 400px;
+    }
+    #foto-21{
+        margin: 0 30px 30px;
+        max-width: 390px;
     }
 .box-personaje{
     margin: 0 auto 20px;
@@ -1024,7 +1125,8 @@ h5.sub-nobel{
     }
         .bg-foto-nobel-2{
             display: inline-block;
-            max-width: 550px;
+            margin: 0 20px;
+            max-width: 450px;
             text-align: left;
             vertical-align: top;
         }
@@ -1047,6 +1149,56 @@ h5.sub-nobel{
                 text-align: left;
                 vertical-align: top;
             }
+    .box-fotos-semana-nobel{
+        text-align: center;
+    }  
+        .box-fotos{
+            display: inline-block;
+            max-width: 1000px;
+            vertical-align: top;
+        }
+            .box-fotos img{
+                display: inline-block;
+                margin: 0 20px 20px;
+                width: 45%;
+            }
+            .bg-discurso{
+                padding-top: 23px;
+                vertical-align: top;     
+            }
+            .box-foto-1,
+            .box-foto-2{
+                display: inline-block;
+                vertical-align: top;
+                width: 49%;
+            }
+                .box-foto-1 img{
+                    margin: 0 auto;
+                    width: 100%;
+                }
+                .box-foto-2 img{
+                    margin: 0 auto;
+                    width: 80%;
+                }
+            .box-foto-1 p,
+            .box-foto-2 p{
+                font: 1rem / 1.4 'Founders Grotesk light';
+                margin: 10px auto;
+                padding: 0 15px;
+                text-align: left;    
+            }
+        p.leyenda-semana-nobel{
+            font: 1rem / 1.4 'Founders Grotesk light';
+            margin: 5px auto 40px;
+            max-width: 550px;
+            padding: 0;
+            text-align: left;
+            vertical-align: top;
+        }
+        .bg-premiacion-1{
+            margin-bottom: 30px;
+            max-width: 900px;
+        }
 
 ul.premios{
     margin: 10px auto 40px;
@@ -1791,6 +1943,9 @@ ul.decadas{
     }
         .box-portada h4{
             font-size: 2rem;
+            max-width: 100%;
+            text-align: center;
+            width: 100%;
         }
     .box-info-obra,
     .box-obra-derecha .box-info-obra{
@@ -1803,7 +1958,7 @@ ul.decadas{
         }
 
     .box-obra-derecha .box-info-obra   {
-        margin-top: 270px;
+        margin-top: 360px;
     }         
     .box-obra-derecha .box-portada{
         box-sizing: border-box;
@@ -1812,11 +1967,15 @@ ul.decadas{
         width: 100%;
     }
     .box-portada img{
-        max-width: 35%;
+        display: block;
+        margin: 20px auto !important;
+        max-width: 45%;
     }
     .box-separador h3,
     .box-main-galeria{
-        padding: 0 20px;
+        display: block;
+        margin: 20px auto;
+        max-width: 35%;  
     }
     .box-main-galeria .box-doble{
         margin: 30px 0 30px;
@@ -2091,6 +2250,23 @@ ul.decadas{
         font-size: 1.55rem;
         max-width: 85% !important;
     }
+    #info-obra-1 p {
+        max-width: 100%; 
+    }
+    .box-fotos img{
+        width: 90%;
+    }
+    .bg-discurso{    
+        padding-top: 0;           
+        width: 90% !important;
+    }
+    p.leyenda-semana-nobel{
+        font-size: 1.2rem;
+        padding: 0 20px 0;
+    }
+    .box-main-galeria{
+        max-width: 95%;
+    }
     
 }
   
@@ -2146,6 +2322,9 @@ ul.decadas{
         background: url(../img/bg-pdt-1-movil.jpg?v2) no-repeat center top;
         background-size: contain;
         height: 300px;
+    }
+    .bg-premiacion-1{
+        max-width: 85%;
     }
 }
 
