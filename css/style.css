@@ -126,7 +126,8 @@ body, html {
             margin: 0 auto 40px;
             max-width: 460px;      
         }
-        .box-texto-intro a {
+        .box-texto-intro a,
+        .box-pantalla-inicio a {
             background-color: #fff;
             border: 1px solid #fff;
             border-radius: 5px;
