@@ -90,7 +90,7 @@ body, html {
             left: 50%;
             transform: translate(-50%, -50%);                
             position: absolute;
-            top: 50%;
+            top: 45%;
         }
             .box-pantalla-inicio h1{
                 color: #fff;
@@ -108,7 +108,7 @@ body, html {
                     text-transform: none;
                 }
         .box-pantalla-inicio img{
-            bottom: 20px;
+            bottom: 20%;
             cursor: pointer;
             left: 50%;
             margin-left: -50px;
